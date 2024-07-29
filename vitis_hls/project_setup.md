@@ -1,8 +1,14 @@
-# HLS 24.1
+# Project Setup
+Author: FK, 29.7.24
+
+---
+## Overview
+* In the following the setup of a Xilinx Vitis HLS project is described.
+* The flow has been tested with Xilinx Vitis 2024.1
 
 ---
 ## Starting Vitis
-* You can launch this tool by using the following command:
+* You can launch Vitis by using the following command:
 
 ```
 source <Vitis_Installation_Directory>/settings64.sh
@@ -13,7 +19,7 @@ vitis  -w <workspace>
 
 ---
 ## Workspaces and components
-* A workspace can contain more than one component. If you want to generate several variants of an IP core, in order to compare them, you must generate for each variant a component (this was called solutions in the old Vitis version).
+* A workspace can contain more than one component. If you want to generate several variants of an IP core, in order to compare them, you must generate for each variant a component (this was called _solutions_ in the old Vitis version).
 * In each component folder there must be a configuration file which contains commands and directives for HLS and a work directory, which holds the various outputs of HLS.
 * All components can refer to the same source files (in a folder `src`), so a directory structure for a workspace holding several variants of the same IP core should look like the following:
 ```
@@ -59,9 +65,27 @@ workspace_dir
 ---
 ## Creating components from the command line
 * If you want to generate components from the command line, e.g. for comparing variants you can run Vitis HLS from the command line. Switch to the component folder (directory structure as described above) and execute the commands: 
+  
 ```
-source <vitis installation patj>/Vitis/<Version>/settings64.sh
+source <vitis installation path>/Vitis/<Version>/settings64.sh
 v++ -c --mode hls --config ./component1_config.cfg --work_dir component_work
-
 ```
-* Tip: Put the commands in a bash shell script and execute the script.
+
+* _Tip_: Put the commands in a bash shell script and execute the script.
+* The command or script should be executed in the component subdirectory of a workspace, see [Workspaces and components](#workspaces-and-components).
+* Below you can see the content of a sample configuration file. Refer to the [Vitis HLS documentation](https://docs.amd.com/r/en-US/ug1399-vitis-hls/HLS-Config-File-Commands) for the meaning of the entries in the file.
+```
+part=xc7a35tcpg236-1
+
+[hls]
+flow_target=vivado
+package.output.format=ip_catalog
+package.output.syn=false
+syn.top=fir
+syn.file=../src/fir.c
+tb.file=../src/fir_test.c
+tb.file=../src/out.gold.dat
+clock=10ns
+clock_uncertainty=10%
+csim.code_analyzer=1
+```
