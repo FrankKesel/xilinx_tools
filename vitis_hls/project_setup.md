@@ -3,19 +3,13 @@ Author: FK, 29.7.24
 
 ---
 ## Overview
-* In the following the setup of a Xilinx Vitis HLS project is described.
-* The flow has been tested with Xilinx Vitis 2024.1
+* In the following the setup of Xilinx Vitis HLS component projects is described.
+* The project setup can be done from the Vitis GUI, this is described in [Creating a HLS component](#creating-a-hls-component). 
+* You can setup a project also on the command line, this is described in [Creating components from the command line](#creating-components-from-the-command-line). You can then open the Vitis GUI and open the project workspace and continue working with the project. We recommend to setup a project on the command line and then continue in the GUI.
+* It is essential that you understand the concept of workspaces and components before you start with a component project. This is described in [Workspaces and components](#workspaces-and-components).
+* All setup data of a component is stored in a configuration file. If you setup a component project on the command line you need such a configuration file. You can find the content of a sample file in [Creating components from the command line](#creating-components-from-the-command-line). If you make changes later on in the Vitis GUI all changes will be stored in the same configuration file which you used for setting up the project.
+* Xilinx SW version: Vitis 2024.1
 
----
-## Starting Vitis
-* You can launch Vitis by using the following command:
-
-```
-source <Vitis_Installation_Directory>/settings64.sh
-vitis  -w <workspace>
-```
-* Where `<workspace>` indicates a folder to hold the elements of your HLS component (HLS doc), or other design projects. The workspace is used to group together the source and data files that make up a design, or multiple designs, and stores the configuration of the tool for that workspace.
-* Or open Vitis without workspace and select a workspace.
 
 ---
 ## Workspaces and components
@@ -35,7 +29,19 @@ workspace_dir
 ```
 
 ---
+## Starting Vitis
+* You can launch Vitis in a terminal on the command line by using the following command:
+
+```
+source <Vitis_Installation_Directory>/settings64.sh
+vitis  -w <workspace>
+```
+* Where `<workspace>` indicates a folder to hold the elements of your HLS component (HLS doc), or other design projects. The workspace is used to group together the source and data files that make up a design, or multiple designs, and stores the configuration of the tool for that workspace (see [Workspaces and components](#workspaces-and-components)).
+* Or open Vitis without a workspace and select a workspace in the Vitis GUI.
+
+---
 ## Creating a HLS component
+
 * With the Vitis IDE opened, from the main menu select `File > New Component > HLS` 
 	* You can also select `New Component` on the Welcome page, or from the right-click menu in the Explorer view.
 * This opens the Choose Name and Location page of the Create HLS Component wizard. Enter component name and location (i.e. the workspace) and then `Next`.
