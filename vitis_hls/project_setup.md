@@ -70,7 +70,7 @@ vitis  -w <workspace>
 
 ---
 ## Creating components from the command line
-* If you want to generate components from the command line, e.g. for comparing variants you can run Vitis HLS from the command line. Switch to the component folder (directory structure as described above) and execute the commands: 
+* If you want to generate components from the command line, e.g. for comparing variants you can run Vitis HLS from the command line. Switch to the component folder (directory structure as described above) and execute the following commands. This will setup a component project and start a HLS synthesis run, according to the settings given in the configuration file  `component1_config.cfg`. All output data will be stored in the work directory `component_work`.
   
 ```
 source <vitis installation path>/Vitis/<Version>/settings64.sh
