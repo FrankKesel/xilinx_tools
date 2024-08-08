@@ -37,7 +37,10 @@
   * Make sure you download the same version as the Vitis version (2024.1)
 * Unpack the zip file. The library needed for OpenCV is in the directory `/vision/L1`. You can just keep this directory or the whole Xilinx library.
 
-## 
+## Vitis HLS using OpenCV L1 functions
+* Add the following to the `.cfg` file (`<path_to_vitis_library>` is the path to the Vitis library): 
+  * `syn.cflags=-I<path_to_vitis_library>/vision/L1/include`
+  * `tb.cflags=-I<path_to_vitis_library>/vision/L1/include`
 
 
 Links:
