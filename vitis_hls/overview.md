@@ -1,5 +1,6 @@
 # Vitis HLS Overview
-Author: FK, 31.7.24
+
+
 
 ---
 ## Documentation

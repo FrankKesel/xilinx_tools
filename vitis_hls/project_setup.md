@@ -1,5 +1,5 @@
 # Project Setup
-Author: FK, 29.7.24
+
 
 ---
 ## Overview
