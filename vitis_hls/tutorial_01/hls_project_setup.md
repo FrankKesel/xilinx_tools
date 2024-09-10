@@ -52,27 +52,44 @@ vitis  -w <workspace>
 
 
 * This opens the Configuration File page of the wizard as shown below. The HLS component configuration file contains commands and directives used for the synthesis, simulation, and export of the component.
-* The Configuration File page of the Create HLS Component wizard provides three ways to add a configuration file to your component:
-	* Empty File: Specifies the creation of a new empty configuration file to be populated after component creation . Selecting this option lets you specify a name in the New configuration file name field.
-	- Existing File: Specifies the use of an existing configuration file. Selecting this option lets you enter the path and name in the File field, or select Browse to locate the file.
-	- Generate from Vitis HLS Project: This option generates a new config file from an existing Vitis HLS project hls.app file. The tool lets you identify the hls.app file inside the project, and enter a New configuration file name for the config file generated from the hls.app file.
-	- Choose the method of adding the config file to your HLS component, and specify a name or files as needed. Select `Next` to proceed to the Source Files.
-- The Source Files page of the wizard opens:
-	- Under Design Files you can select the `Add files` symbol to select the primary source file for the design, or add multiple files as needed. After adding one or more source files, you can identify the Top Function which is the function to be synthesized as the top-level function for the HLS component. Any functions called by the top-function will also be synthesized into RTL.
-	- Under Test Bench Files you can select `Add files` symbol or select `Add folders` to add files containing test bench and associated files for the HLS component.
-	- For both design files and test bench files you can add CFLAGS and CSIMFLAGS to specify directives to be used during compilation and simulation. You can specify directives to be applied to all files or to specific files from each category. After adding files and folders and directives, select Next to proceed.
-- The Select Part page of the wizard is opened. Select the Part or select the Platform for the HLS component and select `Next` to proceed. 
-	- If you select Platform when creating the HLS component, the Vitis unfied IDE extracts the part from the specified platform and adds `part=` to your configuration file.
-- This displays the Settings page of the wizard. 
-	- The Settings page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%
-	- The Settings page also lets you specify the flow_target for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw). The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default flow_target is the Vivado IP flow.
-		- Note: Selecting the Vitis flow_target does not automatically change the output format to Vitis kernel. The default is still Vivado IP, but you can manually change the output format if needed.
-	- Below the flow_target you can also specify the package.output.format for the tool to generate when packaging the design. The default output format is the Vivado IP, which generates a .zip file to be added to your IP catalog, letting you use the HLS generated RTL design in other designs.
-	- Select `Next` to proceed to the Summary page.
-- The Summary page reflects the choices you have made on the prior pages. Review the summary and select Finish to create the HLS component, or select Back to return to earlier pages and change your selections.
-	- When the HLS component is created the vitis-comp.json file for the component is opened in the central editor window, and the HLS component becomes active in the Flow Navigator as shown below.
-	- When multiple HLS components are opened, the component name appears in the tab alongside the vitis-comp.json file name to help you identify the different components.
-- After creation, the HLS component becomes the active component in the Flow Navigator, or you can select the Component to make it the active component in the tool. When the HLS component is the active component, the Flow Navigator enables running C Simulation, C Synthesis, C/RTL Co-simulation, Package, and Implementation.
+
+![Configuration page](images/hls_03.png)
+
+
+* The _Configuration File_ page of the Create HLS Component wizard provides three ways to add a configuration file to your component:
+	* `Empty File`: Specifies the creation of a new empty configuration file to be populated after component creation . Selecting this option lets you specify a name in the New configuration file name field.
+	* `Existing File`: Specifies the use of an existing configuration file. Selecting this option lets you enter the path and name in the File field, or select _Browse_ to locate the file.
+	* `Generate from Vitis HLS Project`: This option generates a new config file from an existing Vitis HLS project _hls.app_ file. 
+	* Choose `Empty File` as the method of adding the config file to your HLS component, you can keep the name `hls_config` as file name. Select `Next` to proceed to the Source Files.
+* The _Source Files_ page of the wizard opens:
+	* Under _Design Files_ you can select the `Add files` symbol (marked in red in the image below) to select the primary source file for the design, or add multiple files as needed. Copy the `src` folder from the folder `reference_files` to your workspace and the select the source file `fir.c`.
+	* After adding one or more source files, you can identify the _Top Function_ which is the function to be synthesized as the top-level function for the HLS component. Push `Browse` and select the function `fir`.
+	* Under _Test Bench Files_ you can select `Add files` symbol or select `Add folders` to add files containing test bench and associated files for the HLS component. With `Add files` select the testbench source code `fir_test.c` and a data file `out.gold.dat` which is needed by the testbench.
+ 	- For both design files and test bench files you can add CFLAGS and CSIMFLAGS to specify directives to be used during compilation and simulation. You can specify directives to be applied to all files or to specific files from each category. Adding these flags can also be done later on, so leave the fields empty. After adding files and folders and directives, select `Next` to proceed.
+
+![Source page](images/hls_04.png)
+
+
+* The _Select Part_ page of the wizard is opened. Normally it is mandatory to select the FPGA part for which the component should be used later on. For this tutorial we use the Artix-7 part as shown in the next image. 
+
+![Select part page](images/hls_05.png)
+
+
+* This displays the _Settings_ page of the wizard. 
+	* The Settings page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%. In this case enter a the default clock frequency but change the uncertainty to 2 ns as shown in the image below.
+	* The Settings page also lets you specify the _flow_target_ for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw). The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default flow_target is the Vivado IP flow. Keep these default settings for this tutorial.
+	* Below the flow_target you can also specify the _package.output.format_ for the tool to generate when packaging the design. The default output format is the Vivado IP, which generates a .zip file to be added to your IP catalog, letting you use the HLS generated RTL design in other designs.
+	* Select `Next` to proceed to the Summary page.
+
+
+![Settings page](images/hls_06.png)
+
+* The Summary page reflects the choices you have made on the prior pages. Review the summary and select `Finish` to create the HLS component, or select Back to return to earlier pages and change your selections.
+	* When the HLS component is created the `vitis-comp.json` file for the component is opened in the central editor window, and the HLS component becomes active in the Flow Navigator as shown below.
+	* When multiple HLS components are opened, the component name appears in the tab alongside the vitis-comp.json file name to help you identify the different components.
+* After creation, the HLS component becomes the active component in the Flow Navigator, or you can select the Component to make it the active component in the tool. When the HLS component is the active component, the Flow Navigator enables running C Simulation, C Synthesis, C/RTL Co-simulation, Package, and Implementation.
+
+![Vitis GUI with component](images/hls_07.png)
 
 ---
 ## Creating components from the command line
