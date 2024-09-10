@@ -1,0 +1,3 @@
+XILINX_HLS=/opt/xilinx/Vitis_HLS/2024.1
+XILINX_VITIS=/opt/xilinx/Vitis/2024.1
+cmdline: /opt/xilinx/Vitis/2024.1/bin/xcd -p 39981 -t 2b750f0a-4dad-11ef-99bc-1f8666caf226

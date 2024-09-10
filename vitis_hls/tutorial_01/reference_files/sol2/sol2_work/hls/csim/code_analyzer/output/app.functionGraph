@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<callgraph:CallGraph xmlns:callgraph="http://www.xilinx.com/act/callgraph">
+  <DirectCall count="0" file="../src/fir_test.c" id="42" line="26">
+    <caller function="_f200"/>
+    <callee function="_f205"/>
+  </DirectCall>
+  <Function file="../src/fir_test.c" id="_f200" line="7" name="main"/>
+  <Function file="../src/fir.c" id="_f205" line="3" name="fir"/>
+</callgraph:CallGraph>

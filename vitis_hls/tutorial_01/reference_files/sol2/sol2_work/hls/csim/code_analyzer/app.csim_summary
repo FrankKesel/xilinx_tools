@@ -1,0 +1,80 @@
+<ENTRY>
+{
+ "thisFile": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/csim/code_analyzer/app.csim_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "Mon Jul 29 15:19:24 2024",
+ "timestampMillis": "1722259164060",
+ "buildSummary": {
+  "hardwarePlatform": "",
+  "hardwareDsa": "",
+  "platformDirectory": "",
+  "runtime": "",
+  "systemConfig": "",
+  "flow": "BF_RUN",
+  "target": "TT_HLS_C_SIM",
+  "kernels": [],
+  "toolVersion": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Mon Jul 29 15:19:24 2024",
+ "timestampMillis": "1722259164061",
+ "buildStep": {
+  "cmdId": "2c5ad5da-4dad-11ef-99bc-1f8666caf226",
+  "name": "vitis_c++",
+  "logFile": "",
+  "commandLine": "vitis_c++ code_analyzer",
+  "args": [
+   "code_analyzer"
+  ],
+  "iniFiles": [],
+  "cwd": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Mon Jul 29 15:19:24 2024",
+ "timestampMillis": "1722259164061",
+ "status": {
+  "cmdId": "2c5ad5da-4dad-11ef-99bc-1f8666caf226",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Mon Jul 29 15:19:25 2024",
+ "timestampMillis": "1722259165239",
+ "status": {
+  "cmdId": "2c5ad5da-4dad-11ef-99bc-1f8666caf226",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Mon Jul 29 15:19:25 2024",
+ "timestampMillis": "1722259165240",
+ "report": {
+  "path": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2",
+  "name": "",
+  "fileType": "DIR",
+  "reportType": "VCXX_CODE_ANALYZER",
+  "cmdId": "2c5ad5da-4dad-11ef-99bc-1f8666caf226"
+ }
+}
+</ENTRY>

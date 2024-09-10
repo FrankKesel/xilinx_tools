@@ -1,0 +1,101 @@
+INFO: [v++ 60-1548] Creating build summary session with primary output /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/sol2_work.hlscompile_summary, at Thu Aug  1 15:43:55 2024
+INFO: [v++ 82-31] Launching vitis_hls: vitis_hls -nolog -run csynth -work_dir /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work -config /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg -cmdlineconfig /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/config.cmdline
+
+****** Vitis HLS - High-Level Synthesis from C, C++ and OpenCL v2024.1.1 (64-bit)
+  **** SW Build 5090947 on Jun 13 2024
+  **** IP Build 5091682 on Fri Jun 14 16:55:04 MDT 2024
+  **** SharedData Build 5094118 on Fri Jun 14 01:09:43 MDT 2024
+  **** Start of session at: Thu Aug  1 15:43:56 2024
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source /opt/xilinx/Vitis_HLS/2024.1/scripts/vitis_hls/hls.tcl -notrace
+INFO: [HLS 200-10] For user 'kesel' on host 'frank-ThinkPad-P14s-Gen-2a' (Linux_x86_64 version 6.5.0-45-generic) on Thu Aug 01 15:43:58 CEST 2024
+INFO: [HLS 200-10] On os Ubuntu 22.04.4 LTS
+INFO: [HLS 200-10] In directory '/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2'
+INFO: [HLS 200-2005] Using work_dir /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work 
+INFO: [HLS 200-1505] Using default flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying ini 'syn.file=../src/fir.c' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(8)
+INFO: [HLS 200-10] Adding design file '/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c' to the project
+INFO: [HLS 200-1465] Applying ini 'tb.file=../src/fir_test.c' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(9)
+INFO: [HLS 200-10] Adding test bench file '/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir_test.c' to the project
+INFO: [HLS 200-1465] Applying ini 'tb.file=../src/out.gold.dat' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(10)
+INFO: [HLS 200-10] Adding test bench file '/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/out.gold.dat' to the project
+INFO: [HLS 200-1465] Applying ini 'syn.top=fir' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(7)
+INFO: [HLS 200-1465] Applying ini 'flow_target=vivado' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(4)
+INFO: [HLS 200-1505] Using flow_target 'vivado'
+Resolution: For help on HLS 200-1505 see docs.xilinx.com/access/sources/dita/topic?Doc_Version=2024.1%20English&url=ug1448-hls-guidance&resourceid=200-1505.html
+INFO: [HLS 200-1465] Applying ini 'part=xc7a35tcpg236-1' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(1)
+INFO: [HLS 200-1611] Setting target device to 'xc7a35t-cpg236-1'
+INFO: [HLS 200-1465] Applying ini 'clock=10ns' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(11)
+INFO: [SYN 201-201] Setting up clock 'default' with a period of 10ns.
+INFO: [HLS 200-1465] Applying ini 'clock_uncertainty=10%' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(12)
+INFO: [SYN 201-201] Setting up clock 'default' with an uncertainty of 1ns.
+INFO: [HLS 200-1465] Applying ini 'csim.code_analyzer=1' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(13)
+INFO: [HLS 200-1465] Applying ini 'package.output.format=ip_catalog' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(5)
+INFO: [HLS 200-1465] Applying ini 'syn.compile.enable_auto_rewind=0' from /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_config.cfg(14)
+INFO: [HLS 200-111] Finished File checks and directory preparation: CPU user time: 2.6 seconds. CPU system time: 0.41 seconds. Elapsed time: 2.82 seconds; current allocated memory: 303.445 MB.
+INFO: [HLS 200-10] Analyzing design file '../src/fir.c' ... 
+INFO: [HLS 200-111] Finished Source Code Analysis and Preprocessing: CPU user time: 0.2 seconds. CPU system time: 0.53 seconds. Elapsed time: 0.74 seconds; current allocated memory: 305.094 MB.
+INFO: [HLS 200-777] Using interface defaults for 'Vivado' flow target.
+INFO: [HLS 200-1995] There were 32 instructions in the design after the 'Compile/Link' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 28 instructions in the design after the 'Unroll/Inline (step 1)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 26 instructions in the design after the 'Unroll/Inline (step 2)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Unroll/Inline (step 3)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Unroll/Inline (step 4)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Array/Struct (step 1)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Array/Struct (step 2)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Array/Struct (step 3)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Array/Struct (step 4)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 24 instructions in the design after the 'Array/Struct (step 5)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 24 instructions in the design after the 'Performance (step 1)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Performance (step 2)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Performance (step 3)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 23 instructions in the design after the 'Performance (step 4)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 29 instructions in the design after the 'HW Transforms (step 1)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 200-1995] There were 34 instructions in the design after the 'HW Transforms (step 2)' phase of compilation. See the Design Size Report for more details: /home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/sol2/sol2_work/hls/syn/report/csynth_design_size.rpt
+INFO: [HLS 214-376] automatically set the pipeline for Loop< Shift_Accum_Loop> at ../src/fir.c:11:21 
+INFO: [HLS 200-111] Finished Compiling Optimization and Transform: CPU user time: 1.98 seconds. CPU system time: 0.46 seconds. Elapsed time: 7.05 seconds; current allocated memory: 307.008 MB.
+INFO: [HLS 200-111] Finished Checking Pragmas: CPU user time: 0 seconds. CPU system time: 0 seconds. Elapsed time: 0 seconds; current allocated memory: 307.008 MB.
+INFO: [HLS 200-10] Starting code transformations ...
+INFO: [HLS 200-111] Finished Standard Transforms: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 307.129 MB.
+INFO: [HLS 200-10] Checking synthesizability ...
+INFO: [HLS 200-111] Finished Checking Synthesizability: CPU user time: 0.01 seconds. CPU system time: 0 seconds. Elapsed time: 0.01 seconds; current allocated memory: 307.129 MB.
+INFO: [HLS 200-111] Finished Loop, function and other optimizations: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.04 seconds; current allocated memory: 328.730 MB.
+INFO: [HLS 200-111] Finished Architecture Synthesis: CPU user time: 0.02 seconds. CPU system time: 0.01 seconds. Elapsed time: 0.02 seconds; current allocated memory: 319.477 MB.
+INFO: [HLS 200-10] Starting hardware synthesis ...
+INFO: [HLS 200-10] Synthesizing 'fir' ...
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-42] -- Implementing module 'fir' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [SCHED 204-11] Starting scheduling ...
+INFO: [SCHED 204-61] Pipelining loop 'Shift_Accum_Loop'.
+INFO: [HLS 200-1470] Pipelining result : Target II = NA, Final II = 1, Depth = 4, loop 'Shift_Accum_Loop'
+INFO: [SCHED 204-11] Finished scheduling.
+INFO: [HLS 200-111] Finished Scheduling: CPU user time: 0.04 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.06 seconds; current allocated memory: 319.949 MB.
+INFO: [BIND 205-100] Starting micro-architecture generation ...
+INFO: [BIND 205-101] Performing variable lifetime analysis.
+INFO: [BIND 205-101] Exploring resource sharing.
+INFO: [BIND 205-101] Binding ...
+INFO: [BIND 205-100] Finished micro-architecture generation.
+INFO: [HLS 200-111] Finished Binding: CPU user time: 0.02 seconds. CPU system time: 0 seconds. Elapsed time: 0.03 seconds; current allocated memory: 319.949 MB.
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [HLS 200-10] -- Generating RTL for module 'fir' 
+INFO: [HLS 200-10] ----------------------------------------------------------------
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir/y' to 'ap_vld'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir/c' to 'ap_memory'.
+INFO: [RTGEN 206-500] Setting interface mode on port 'fir/x' to 'ap_none'.
+INFO: [RTGEN 206-500] Setting interface mode on function 'fir' to 'ap_ctrl_hs'.
+INFO: [RTGEN 206-100] Generating core module 'mul_32s_32s_32_1_1': 1 instance(s).
+INFO: [RTGEN 206-100] Finished creating RTL model for 'fir'.
+INFO: [RTMG 210-278] Implementing memory 'fir_shift_reg_RAM_AUTO_1R1W' using auto RAMs.
+INFO: [HLS 200-111] Finished Creating RTL model: CPU user time: 0.04 seconds. CPU system time: 0 seconds. Elapsed time: 0.04 seconds; current allocated memory: 319.949 MB.
+INFO: [HLS 200-111] Finished Generating all RTL models: CPU user time: 0.2 seconds. CPU system time: 0.02 seconds. Elapsed time: 0.22 seconds; current allocated memory: 320.805 MB.
+INFO: [HLS 200-111] Finished Updating report files: CPU user time: 0.16 seconds. CPU system time: 0.04 seconds. Elapsed time: 0.19 seconds; current allocated memory: 323.762 MB.
+INFO: [VHDL 208-304] Generating VHDL RTL for fir.
+INFO: [VLOG 209-307] Generating Verilog RTL for fir.
+INFO: [HLS 200-790] **** Loop Constraint Status: All loop constraints were satisfied.
+INFO: [HLS 200-789] **** Estimated Fmax: 118.06 MHz
+INFO: [HLS 200-112] Total CPU user time: 5.3 seconds. Total CPU system time: 1.5 seconds. Total elapsed time: 11.24 seconds; peak allocated memory: 328.730 MB.
+INFO: [v++ 60-791] Total elapsed time: 0h 0m 14s

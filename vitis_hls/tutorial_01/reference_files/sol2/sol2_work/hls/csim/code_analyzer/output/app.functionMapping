@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<cpuFpgaMapping:cpuFpgaMapping xmlns:cpuFpgaMapping="http://www.xilinx.com/act/cpuFpgaMapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.xilinx.com/act/cpuFpgaMapping cpuFPGAMapping.xsd">
+  <Function id="_f200" name="main">
+    <MappedTo editable="true">
+      <Partition>CPU</Partition>
+    </MappedTo>
+  </Function>
+  <Function id="_f205" name="fir">
+    <MappedTo editable="true">
+      <Partition>FPGA</Partition>
+    </MappedTo>
+    <TopLevel>true</TopLevel>
+    <IsCalledByHwFn>false</IsCalledByHwFn>
+    <Interfaces>
+      <Return>
+        <Default/>
+      </Return>
+      <Argument declaration="y (int*)" id="_v11" name="y">
+        <Default/>
+      </Argument>
+      <Argument declaration="c (int*)" id="_v12" name="c">
+        <Default/>
+      </Argument>
+      <Argument declaration="x (int)" id="_v13" name="x">
+        <Default/>
+      </Argument>
+    </Interfaces>
+  </Function>
+</cpuFpgaMapping:cpuFpgaMapping>

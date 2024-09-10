@@ -1,0 +1,683 @@
+[
+    {
+        "name": "fir",
+        "df_function": "%F205",
+        "df_type": "Function",
+        "project": "SLX",
+        "processes": {
+            "1": {
+                "id": "1",
+                "name": "Artificial<Start>",
+                "src_range": {
+                    "start_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 3,
+                        "column": 1
+                    },
+                    "end_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 22,
+                        "column": 1
+                    }
+                },
+                "display_name": "<START>",
+                "kind": "start"
+            },
+            "2": {
+                "id": "2",
+                "name": "Artificial<End>",
+                "src_range": {
+                    "start_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 3,
+                        "column": 1
+                    },
+                    "end_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 22,
+                        "column": 1
+                    }
+                },
+                "display_name": "<END>",
+                "kind": "end"
+            },
+            "3": {
+                "id": "3",
+                "name": "Region<OutlineCall(R2 fir) BB 'codeRepl' [Loop] 'Outline_T3_F205_R2_Loop'>",
+                "src_range": {
+                    "start_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 11,
+                        "column": 21
+                    },
+                    "end_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 20,
+                        "column": 3
+                    }
+                },
+                "display_name": "Shift_Accum_Loop",
+                "io_signatures": {
+                    "has_unresolved_accesses": false,
+                    "accesses": [
+                        {
+                            "variable": {
+                                "location": {
+                                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                    "line": 3,
+                                    "column": 0
+                                },
+                                "id": "VId_12_[?(?,32)]dc",
+                                "name": "c[*]",
+                                "display_name": "int c[11]"
+                            },
+                            "reads": [
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 44,
+                                                "is_exact": false
+                                            }
+                                        ]
+                                    },
+                                    "instr": "load",
+                                    "exec_count": 11
+                                }
+                            ],
+                            "writes": [],
+                            "kind": "Ptr",
+                            "has_alias": false,
+                            "arg_idx": 1
+                        },
+                        {
+                            "variable": {
+                                "location": {
+                                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                    "line": 6,
+                                    "column": 0
+                                },
+                                "id": "VId_17_!c?(?,?)",
+                                "name": "acc",
+                                "display_name": "int acc"
+                            },
+                            "reads": [],
+                            "writes": [
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 4,
+                                                "is_exact": true
+                                            }
+                                        ]
+                                    },
+                                    "instr": "store",
+                                    "exec_count": 11
+                                }
+                            ],
+                            "kind": "Ptr",
+                            "has_alias": false
+                        },
+                        {
+                            "variable": {
+                                "location": {
+                                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                    "line": 3,
+                                    "column": 0
+                                },
+                                "id": "VId_13_!c?(?,?)",
+                                "name": "x",
+                                "display_name": "int x"
+                            },
+                            "reads": [
+                                {
+                                    "access_kind": "SSA",
+                                    "range": {
+                                        "is_exact": true,
+                                        "is_empty": false
+                                    },
+                                    "instr": "call",
+                                    "exec_count": 1
+                                }
+                            ],
+                            "writes": [],
+                            "kind": "SSA",
+                            "has_alias": false,
+                            "arg_idx": 2
+                        },
+                        {
+                            "variable": {
+                                "location": {
+                                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                    "line": 5,
+                                    "column": 0
+                                },
+                                "id": "VId_1_[?(?,32)]",
+                                "name": "shift_reg[*]",
+                                "display_name": "int shift_reg[11]"
+                            },
+                            "reads": [
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 40,
+                                                "is_exact": false
+                                            }
+                                        ]
+                                    },
+                                    "instr": "load",
+                                    "exec_count": 11
+                                },
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 44,
+                                                "is_exact": false
+                                            }
+                                        ]
+                                    },
+                                    "instr": "load",
+                                    "exec_count": 11
+                                }
+                            ],
+                            "writes": [
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 4,
+                                                "is_exact": false
+                                            }
+                                        ]
+                                    },
+                                    "instr": "store",
+                                    "exec_count": 11
+                                },
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 44,
+                                                "is_exact": false
+                                            }
+                                        ]
+                                    },
+                                    "instr": "store",
+                                    "exec_count": 11
+                                }
+                            ],
+                            "kind": "Ptr",
+                            "has_alias": false
+                        }
+                    ]
+                },
+                "metrics": {
+                    "initiation_interval": 46
+                },
+                "subregions": [
+                    {
+                        "id": "%F206_R2",
+                        "description": "<loop 'Shift_Accum_Loop'>",
+                        "src_range": {
+                            "start_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 11,
+                                "column": 21
+                            },
+                            "end_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 20,
+                                "column": 3
+                            }
+                        }
+                    }
+                ],
+                "subdataflow": [
+                    {
+                        "id": "%L2",
+                        "region_type": "Loop",
+                        "src_range": {
+                            "start_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 11,
+                                "column": 21
+                            },
+                            "end_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 20,
+                                "column": 3
+                            }
+                        }
+                    }
+                ],
+                "guidance": [
+                    {
+                        "type": "LoopGuidance",
+                        "ti": {
+                            "min": 44,
+                            "max": 44
+                        },
+                        "ii": {
+                            "min": 4,
+                            "max": 4
+                        },
+                        "effective_tc": {
+                            "min": 11,
+                            "max": 11
+                        },
+                        "tc": {
+                            "min": 11,
+                            "max": 11
+                        },
+                        "ureg_id": "%L2",
+                        "src_range": {
+                            "start_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 11,
+                                "column": 21
+                            },
+                            "end_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 20,
+                                "column": 3
+                            }
+                        },
+                        "details": [
+                            {
+                                "type": "MemPortContention",
+                                "available_ports": {
+                                    "min": 2,
+                                    "max": 2
+                                },
+                                "required_ports": {
+                                    "min": 2,
+                                    "max": 2
+                                },
+                                "ii_lower_bound": {
+                                    "min": 1,
+                                    "max": 1
+                                },
+                                "variable": {
+                                    "name": "shift_reg",
+                                    "display_name": "shift_reg",
+                                    "id": "1",
+                                    "location": {
+                                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                        "line": 5,
+                                        "column": 0
+                                    }
+                                }
+                            },
+                            {
+                                "type": "MemPortContention",
+                                "available_ports": {
+                                    "min": 2,
+                                    "max": 2
+                                },
+                                "required_ports": {
+                                    "min": 1,
+                                    "max": 1
+                                },
+                                "ii_lower_bound": {
+                                    "min": 1,
+                                    "max": 1
+                                },
+                                "variable": {
+                                    "name": "c",
+                                    "display_name": "c",
+                                    "id": "14",
+                                    "location": {
+                                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                        "line": 3,
+                                        "column": 0
+                                    }
+                                }
+                            },
+                            {
+                                "type": "CyclicDependence",
+                                "ii_lower_bound": {
+                                    "min": 2,
+                                    "max": 2
+                                },
+                                "variables": [
+                                    {
+                                        "name": "i6 = load arrayidx",
+                                        "display_name": "shift_reg[*]",
+                                        "id": "<unknown>",
+                                        "location": {
+                                            "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                            "line": 16,
+                                            "column": 19
+                                        }
+                                    },
+                                    {
+                                        "name": "store i6, arrayidx3",
+                                        "display_name": "shift_reg[*]",
+                                        "id": "<unknown>",
+                                        "location": {
+                                            "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                            "line": 16,
+                                            "column": 18
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "CyclicDependence",
+                                "ii_lower_bound": {
+                                    "min": 1,
+                                    "max": 1
+                                },
+                                "variables": [
+                                    {
+                                        "name": "acc.01 [phi]",
+                                        "id": "<unknown>"
+                                    },
+                                    {
+                                        "name": "add [add]",
+                                        "id": "<unknown>",
+                                        "location": {
+                                            "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                            "line": 19,
+                                            "column": 9
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "4": {
+                "id": "4",
+                "name": "Region<OutlineCall(R3 fir) BB 'codeRepl1' [Atomic] 'Outline_T4_F205_R19_Atomic'>",
+                "src_range": {
+                    "start_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 21,
+                        "column": 3
+                    },
+                    "end_loc": {
+                        "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                        "line": 21,
+                        "column": 8
+                    }
+                },
+                "display_name": "Process 2",
+                "io_signatures": {
+                    "has_unresolved_accesses": false,
+                    "accesses": [
+                        {
+                            "variable": {
+                                "location": {
+                                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                    "line": 6,
+                                    "column": 0
+                                },
+                                "id": "VId_17_!c?(?,?)",
+                                "name": "acc",
+                                "display_name": "int acc"
+                            },
+                            "reads": [
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 4,
+                                                "is_exact": true
+                                            }
+                                        ]
+                                    },
+                                    "instr": "load",
+                                    "exec_count": 1
+                                }
+                            ],
+                            "writes": [],
+                            "kind": "Ptr",
+                            "has_alias": false
+                        },
+                        {
+                            "variable": {
+                                "location": {
+                                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                    "line": 3,
+                                    "column": 0
+                                },
+                                "id": "VId_11_*0(0,32)arg",
+                                "name": "(*y)",
+                                "display_name": "int *y"
+                            },
+                            "reads": [],
+                            "writes": [
+                                {
+                                    "access_kind": "Ptr",
+                                    "range": {
+                                        "ranges": [
+                                            {
+                                                "start": 0,
+                                                "end": 4,
+                                                "is_exact": true
+                                            }
+                                        ]
+                                    },
+                                    "instr": "store",
+                                    "exec_count": 1
+                                }
+                            ],
+                            "kind": "Ptr",
+                            "has_alias": false,
+                            "arg_idx": 0
+                        }
+                    ]
+                },
+                "metrics": {
+                    "initiation_interval": 1
+                },
+                "subregions": [
+                    {
+                        "id": "%F207_R2",
+                        "description": "<atomic 'for.end_iso4'>",
+                        "src_range": {
+                            "start_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 21,
+                                "column": 3
+                            },
+                            "end_loc": {
+                                "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                                "line": 21,
+                                "column": 8
+                            }
+                        }
+                    }
+                ],
+                "subdataflow": []
+            }
+        },
+        "channels": {
+            "c[*]_RAW_1_3_#0": {
+                "name": "c[*]_RAW_1_3_#0",
+                "variable_id": "VId_12_[?(?,32)]dc",
+                "variable_name": "c[*]",
+                "declaration": "int c[11]",
+                "kind": "Ptr",
+                "dependence": "RAW",
+                "channel_width": 32,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 3,
+                    "column": 0
+                },
+                "metrics": {
+                    "volume": 352,
+                    "channel_rate": 7.6521739130434785E0
+                },
+                "source": "1",
+                "sink": "3"
+            },
+            "x_RAW_1_3_#1": {
+                "name": "x_RAW_1_3_#1",
+                "variable_id": "VId_13_!c?(?,?)",
+                "variable_name": "x",
+                "declaration": "int x",
+                "kind": "SSA",
+                "dependence": "RAW",
+                "channel_width": 32,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 3,
+                    "column": 0
+                },
+                "metrics": {
+                    "volume": 32,
+                    "channel_rate": 6.956521739130435E-1
+                },
+                "source": "1",
+                "sink": "3"
+            },
+            "shift_reg[*]_RAW_1_3_#2": {
+                "name": "shift_reg[*]_RAW_1_3_#2",
+                "variable_id": "VId_1_[?(?,32)]",
+                "variable_name": "shift_reg[*]",
+                "declaration": "int shift_reg[11]",
+                "kind": "Ptr",
+                "dependence": "RAW",
+                "channel_width": 32,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 5,
+                    "column": 0
+                },
+                "metrics": {
+                    "volume": 352,
+                    "channel_rate": 7.6521739130434785E0
+                },
+                "source": "1",
+                "sink": "3"
+            },
+            "shift_reg[*]_WAW_1_3_#3": {
+                "name": "shift_reg[*]_WAW_1_3_#3",
+                "variable_id": "VId_1_[?(?,32)]",
+                "variable_name": "shift_reg[*]",
+                "declaration": "int shift_reg[11]",
+                "kind": "Ptr",
+                "dependence": "WAW",
+                "channel_width": 0,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 5,
+                    "column": 0
+                },
+                "source": "1",
+                "sink": "3"
+            },
+            "acc_RAW_3_4_#4": {
+                "name": "acc_RAW_3_4_#4",
+                "variable_id": "VId_17_!c?(?,?)",
+                "variable_name": "acc",
+                "declaration": "int acc",
+                "kind": "Ptr",
+                "dependence": "RAW",
+                "channel_width": 32,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 6,
+                    "column": 0
+                },
+                "metrics": {
+                    "volume": 32,
+                    "channel_rate": 6.956521739130435E-1
+                },
+                "source": "3",
+                "sink": "4"
+            },
+            "(*y)_RAW_4_2_#5": {
+                "name": "(*y)_RAW_4_2_#5",
+                "variable_id": "VId_11_*0(0,32)arg",
+                "variable_name": "(*y)",
+                "declaration": "int *y",
+                "kind": "Ptr",
+                "dependence": "RAW",
+                "channel_width": 32,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 3,
+                    "column": 0
+                },
+                "metrics": {
+                    "volume": 32,
+                    "channel_rate": 6.956521739130435E-1
+                },
+                "source": "4",
+                "sink": "2"
+            },
+            "shift_reg[*]_RAW_3_2_#6": {
+                "name": "shift_reg[*]_RAW_3_2_#6",
+                "variable_id": "VId_1_[?(?,32)]",
+                "variable_name": "shift_reg[*]",
+                "declaration": "int shift_reg[11]",
+                "kind": "Ptr",
+                "dependence": "RAW",
+                "channel_width": 32,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 5,
+                    "column": 0
+                },
+                "metrics": {
+                    "volume": 704,
+                    "channel_rate": 1.5304347826086957E1
+                },
+                "source": "3",
+                "sink": "2"
+            },
+            "shift_reg[*]_RAR_3_2_#7": {
+                "name": "shift_reg[*]_RAR_3_2_#7",
+                "variable_id": "VId_1_[?(?,32)]",
+                "variable_name": "shift_reg[*]",
+                "declaration": "int shift_reg[11]",
+                "kind": "Ptr",
+                "dependence": "RAR",
+                "channel_width": 0,
+                "src_loc": {
+                    "file": "/home/Data/Design/hls/02_hls_seminar_demos_v24_1/demo01_ws/src/fir.c",
+                    "line": 5,
+                    "column": 0
+                },
+                "source": "3",
+                "sink": "2"
+            }
+        },
+        "control": [
+            {
+                "source": "3",
+                "sink": "4"
+            },
+            {
+                "source": "1",
+                "sink": "3"
+            },
+            {
+                "source": "4",
+                "sink": "2"
+            }
+        ]
+    }
+]
