@@ -7,9 +7,7 @@
 * The project setup can be done from the Vitis GUI, this is described in [Creating a HLS component](#creating-a-hls-component). 
 * You can setup a project also on the command line, this is described in [Creating components from the command line](#creating-components-from-the-command-line). You can then open the Vitis GUI and open the project workspace and continue working with the project. We recommend to setup a project on the command line and then continue in the GUI.
 * It is essential that you understand the concept of workspaces and components before you start with a component project. This is described in [Workspaces and components](#workspaces-and-components).
-* All setup data of a component is stored in a configuration file. If you setup a component project on the command line you need such a configuration file. You can find the content of a sample file in [Creating components from the command line](#creating-components-from-the-command-line). If you make changes later on in the Vitis GUI all changes will be stored in the same configuration file which you used for setting up the project.
-* Xilinx SW version: Vitis 2024.1
-
+* All setup data of a component is stored in a configuration file. If you setup a component project on the command line you need such a configuration file. You can find the content of a sample file in [Creating components from the command line](#creating-components-from-the-command-line) and in the folder `reference_files`. If you make changes later on in the Vitis GUI all changes will be stored in the same configuration file which you used for setting up the project.
 
 ---
 ## Workspaces and components
@@ -27,24 +25,32 @@ workspace_dir
 				component2_config.cfg
 			|-...
 ```
+* The directory structure for this tutorial follows this structure: In the folder `reference_files` you can find two solutions/components for the same source code. We will use them in the section [Creating components from the command line](#creating-components-from-the-command-line).
 
 ---
 ## Starting Vitis
-* You can launch Vitis in a terminal on the command line by using the following command:
+* You can launch Vitis in a terminal on the command line by using the following command (replace `<Vitis_Installation_Directory>/` with the path to your Vitis installation which should normally be `/opt/xilinx/Vitis/2024.1/`):
 
 ```
 source <Vitis_Installation_Directory>/settings64.sh
-vitis  -w <workspace>
+vitis  -w <workspace> 
 ```
 * Where `<workspace>` indicates a folder to hold the elements of your HLS component (HLS doc), or other design projects. The workspace is used to group together the source and data files that make up a design, or multiple designs, and stores the configuration of the tool for that workspace (see [Workspaces and components](#workspaces-and-components)).
-* Or open Vitis without a workspace and select a workspace in the Vitis GUI.
+* Or start the Vitis GUI without a workspace with the command `vitis` on the command line and select a workspace in the Vitis GUI.
+* For the tutorial make a folder (for example in your home directory) to be used as a workspace and start the Vitis GUI with one of the mentioned commands. You should see the Vitis GUI as shown in the following image.
+
+![Vitis GUI](images/hls_01.png)
 
 ---
 ## Creating a HLS component
 
 * With the Vitis IDE opened, from the main menu select `File > New Component > HLS` 
-	* You can also select `New Component` on the Welcome page, or from the right-click menu in the Explorer view.
-* This opens the Choose Name and Location page of the Create HLS Component wizard. Enter component name and location (i.e. the workspace) and then `Next`.
+	* You can also select `Create HLS Component` on the navigation pane on the left side or on the Welcome page in the _HLS Development_ section.
+* This opens the Choose Name and Location page of the Create HLS Component wizard. Enter component name (`fir`) and location (i.e. the workspace) and then push `Next`. The workspace should be the folder which you created as workspace.
+
+![Create HLS component](images/hls_02.png)
+
+
 * This opens the Configuration File page of the wizard as shown below. The HLS component configuration file contains commands and directives used for the synthesis, simulation, and export of the component.
 * The Configuration File page of the Create HLS Component wizard provides three ways to add a configuration file to your component:
 	* Empty File: Specifies the creation of a new empty configuration file to be populated after component creation . Selecting this option lets you specify a name in the New configuration file name field.

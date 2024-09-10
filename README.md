@@ -1,6 +1,6 @@
 # Xilinx Tools Tutorials
 
-Here you can find tutorials on Xilinx FPGA development tools, including source codes, scripts and documentation. Although Xilinx offers also tutorials (see https://github.com/Xilinx), we had the experience that often the tutorials are already to complex for a beginner. So the goal of the tutorials here is to present simple examples in order to learn the basic steps on how to work with the Xilinx tools. 
+Here you can find tutorials on Xilinx FPGA development tools, including source codes, scripts and documentation. Although Xilinx offers also tutorials (see https://github.com/Xilinx), we had the experience that often the tutorials are already to complex for a beginner. So the goal of the tutorials here is to present simple examples in order to learn the basic steps on how to work with the Xilinx tools. The tutorials have been developed and used for FPGA design education at a university.
 
 It is assumed that the Vitis Core Development Kit is installed on a Linux computer (for download and installation see https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis.html).
 
