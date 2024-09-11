@@ -29,7 +29,7 @@ workspace_dir
 
 ---
 ## Starting Vitis
-* You can launch Vitis in a terminal on the command line by using the following command (replace `<Vitis_Installation_Directory>/` with the path to your Vitis installation which should normally be `/opt/xilinx/Vitis/2024.1/`), where `<workspace>` indicates the workspace mentioned in [Workspaces and components](#workspaces-and-components).:
+* You can launch Vitis in a terminal on the command line by using the following command (replace `<Vitis_Installation_Directory>/` with the path to your Vitis installation which should normally be `/opt/xilinx/Vitis/2024.1/`), where `<workspace>` indicates the workspace mentioned in [Workspaces and components](#workspaces-and-components):
 
 ```
 source <Vitis_Installation_Directory>/settings64.sh
@@ -37,7 +37,7 @@ vitis  -w <workspace>
 ```
 
 * Or you can start the Vitis GUI without a workspace with the command `vitis` on the command line and select an existing workspace in the Vitis GUI.
-* For the tutorial make a folder (for example in your home directory) to be used as a workspace and start the Vitis GUI as described above. You should see the Vitis GUI as shown in the following image.
+* For the tutorial make a folder with the file manager (for example in your home directory) to be used as a workspace and start the Vitis GUI as described above. You should see the Vitis GUI as shown in the following image.
 
 ![Vitis GUI](images/hls_01.png)
 
@@ -46,7 +46,7 @@ vitis  -w <workspace>
 
 * With the Vitis IDE opened, from the main menu select `File > New Component > HLS` 
 	* You can also select `Create HLS Component` on the navigation pane on the left side or on the Welcome page in the _HLS Development_ section.
-* This opens the Choose Name and Location page of the Create HLS Component wizard. Enter component name (`fir`) and location (i.e. the workspace) and then push `Next`. The workspace should be the folder which you created as workspace.
+* This opens the _Choose Name and Location_ page of the _Create HLS Component_ wizard. Enter the component name (`fir`) and location (i.e. the workspace folder) and then push `Next`. The workspace should be the folder which you created as workspace.
 
 ![Create HLS component](images/hls_02.png)
 
@@ -79,18 +79,18 @@ vitis  -w <workspace>
 	* The Settings page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%. In this case enter the default clock frequency but change the uncertainty to 2 ns as shown in the image below.
 	* The Settings page also lets you specify the _flow_target_ for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw) in the Xilinx User Guide. The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default _flow_target_ is the Vivado IP flow. Keep these default settings for this tutorial.
 	* Below the flow_target you can also specify the _package.output.format_ for the tool to generate when packaging the design. The default output format is the Vivado IP, which generates a .zip file to be added to your IP catalog, letting you use the HLS generated RTL design in other designs.
+	* The data you entered here and above are all stored in the configuration file.
 	* Select `Next` to proceed to the Summary page.
 
 
 ![Settings page](images/hls_06.png)
 
 * The Summary page reflects the choices you have made on the prior pages. Review the summary and select `Finish` to create the HLS component, or select Back to return to earlier pages and change your selections.
-	* When the HLS component is created the `vitis-comp.json` file for the component is opened in the central editor window, and the HLS component becomes active in the Flow Navigator as shown below.
-* After creation, the HLS component becomes the active component in the Flow Navigator. When the HLS component is the active component, the Flow Navigator enables running C Simulation, C Synthesis, C/RTL Co-simulation, Package, and Implementation.
+* When the HLS component is created the `vitis-comp.json` file for the component is opened in the central editor window, and the HLS component becomes active in the _Flow Navigator_ (in the lower left pane) as shown below. When the HLS component is the active component, the _Flow Navigator_ enables running C Simulation, C Synthesis, C/RTL Co-simulation, Package, and Implementation.
 
 ![Vitis GUI with component](images/hls_07.png)
 
-* Please review now also the folder structure in your workspace (with the Linux file manager). You have one component named `fir`, which uses the source codes in the `src` folder. In the component folder you can see the configuration file `hls_config.cfg` and the JSON file `vitis-comp.json`, plus another JSON file. You can see the sources and settings files also in the upper left pane in the Vitis GUI as shown in the image below.
+* Please review now also the folder structure in your workspace (with the Linux file manager). You have one component named `fir`, which uses the source codes in the `src` folder. In the component folder you can see the configuration file `hls_config.cfg` and the JSON file `vitis-comp.json`, plus another JSON file. You can see the sources and settings files also in the upper left pane (which is called the _Vitis Component Explorer_) in the Vitis GUI as shown in the image below.
 
 ```
 workspace_dir
@@ -103,12 +103,29 @@ workspace_dir
 				compile_commands.json
 				hls_config.cfg
 				vitis-comp.json
-
 ```
 
 ![Source data](images/hls_08.png)
 
-* In the next sections we will run C simulation, C synthesis and C/RTL cosimulation. When you close the Vitis GUI and open it again you will see your existing workspaces on the _Welcome_ page. Select the workspace name with the mouse and it will open up again. It may be a good idea to save the complete workspace folder (e.g. by zipping the folder) in case you destroy anything.
+* In the next sections we will run C simulation, C synthesis and C/RTL cosimulation. When you close the Vitis GUI and open it again you will see your existing workspaces on the _Welcome_ page. Select the workspace name with the mouse and it will open up again. It may be a good idea to save the complete workspace folder (e.g. by zipping the folder) in case you destroy anything. The most important files are the source files in the folder `src` and the configuration file (`hls_config.cfg`).
+
+---
+## C Simulation
+* The first step in a HLS project is to verify the correct function of the C code of the component. In order to test the component a _test bench_ is needed, which generates input data for the component and compares the output data with reference data. This is the same approach as in VHDL/Verilog design, the difference is that everything is coded in C/C++. So what we basically do here is to compile the code for the testbench and component and run the compiled code as application. 
+* First open the C sources in Vitis with the _Component Explorer_ and study the code for the component (`fir.c`) and the testbench (`fir_test.c`). In the component code you can see a loop _Shift_Accum_Loop_ which codes the functionality of an FIR filter with a shift register `shift_reg[N]` where the coefficients (argument `c[N]`) are multiplied with the shifted data and accumulated in the variable `acc` and returned via the pointer `y`. It is good practice to give loops a label in order to be able to identify them during analysis of the HLS synthesis results.  
+* The testbench (`fir_test.c`) defines the coefficients for the FIR filter in the variable `taps[N]`. In line 18 the file `out.gold.dat` is opened which contains the input data and the expected output data for comparison. In the loop the input and reference data is read and the component top level function is called in line 26. Finally the output data generated by the component is compared and an error flag is set, if there are discrepancies. An HLS testbench, i.e. the main function, needs to return a value, which is 0 in case of success and 1 if the output data of the component is not correct. This is important because the C/RTL Co-Simulation uses the same testbench and also checks the output of the generated VHDL or Verilog code against the reference data. This means that an HLS testbench always must be written in such a way that it is self-checking and generates a final pass (0) or fail (1) value as return value.
+* Run the C Simulation by pushing the `Run` button in the _Flow Navigator_ under `C Simulation`. A window will pop up and ask you if you want to enable the _Code Analyzer_, you can disable this feature for this tutorial. After simulation is completed you will see the output of the simulation below the editor window in the console area.  
+* If you write yourself code you may want to use a debugger by pushing the `Debug` button instead of `Run`. Vitis now starts the debugger as shown in the image below. Here you have the standard debugger functions like _Continue_, _Step Over_, _Step Into_ etc. (marked in red). You can also watch the variables (marked in red) or set break points in the source code editor. It is very similar in functionality to Visual Studio Code and in fact the whole Vitis IDE is very similar to VS Code, so if you have worked with VS Code you should soon be familiar with Vitis. 
+* If you want to stop the debugger then push the red square button (`Stop`). In order to come back to the normal Vitis view, which you had before you started debugging, you have to push in the tool bar (most left pane) the _Vitis Components_ symbol (marked in green).
+
+![Debug code](images/hls_09.png)
+
+
+---
+## C Synthesis
+* The most important step is the _C Synthesis_ which is in fact the High Level Synthesis (HLS) of the component coded in C/C++. To start the HLS go to the _Flow Navigator_ and push the `Run` button under `C Synthesis`. It will take some seconds depending on the compute power of your machine, when it is finished you will see _Synthesis finished successfully_ in the output console.
+* 
+
 
 ---
 ## Creating components from the command line
