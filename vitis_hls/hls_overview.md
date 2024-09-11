@@ -1,13 +1,13 @@
 # Vitis HLS Tutorials Overview
 
-Here you can find tutorials for the Xilinx Vitis HLS tool which show you how to setup a Vitis HLS project with the Vitis GUI or on the command line using bash scripts. For each tutorial you will find a documentation and the source codes and scripts (in the folder `reference_files`).
+Here you can find tutorials for the Xilinx Vitis HLS tool. For each tutorial you will find a documentation and the source codes and scripts (for each tutorial in a folder `reference_files`).
 
-The Vitis HLS tool version used is 2024.1.
+The Vitis tool version used is 2024.1. We assume that you have an installation on a Linux computer running Ubuntu 22.04.
 
 ---
 ## Vitis HLS Tutorials
 
-* [Setting up a Vitis HLS project](tutorial_01/hls_project_setup.md)
+* [Setting up a Vitis HLS project and basic steps](tutorial_01/tutorial_01.md)
 
 ---
 ## Documentation
