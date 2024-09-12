@@ -37,7 +37,7 @@ vitis  -w <workspace>
 ```
 
 * Or you can start the Vitis GUI without a workspace with the command `vitis` on the command line and select an existing workspace in the Vitis GUI.
-* For the tutorial make a folder with the file manager (for example in your home directory) to be used as a workspace and start the Vitis GUI as described above. You should see the Vitis GUI as shown in the following image.
+* For the tutorial make a folder with the file manager (for example in your home directory) to be used as a workspace and start the Vitis GUI as described above. You should see the Vitis GUI as shown in the following image (There are already some recent workspaces in the image which you will not see when you open your Vitis IDE).
 
 ![Vitis GUI](images/hls_01.png)
 
@@ -46,12 +46,12 @@ vitis  -w <workspace>
 
 * With the Vitis IDE opened, from the main menu select `File > New Component > HLS` 
 	* You can also select `Create HLS Component` on the navigation pane on the left side or on the Welcome page in the _HLS Development_ section.
-* This opens the _Choose Name and Location_ page of the _Create HLS Component_ wizard. Enter the component name (`fir`) and location (i.e. the workspace folder) and then push `Next`. The workspace should be the folder which you created as workspace.
+* This opens the _Choose Name and Location_ page of the _Create HLS Component_ wizard, as shown in the image below. Enter the component name (`fir`) and location (i.e. the workspace folder) and then push `Next`. The workspace should be the folder which you created as workspace.
 
 ![Create HLS component](images/hls_02.png)
 
 
-* This opens the Configuration File page of the wizard as shown below. The HLS component configuration file contains commands and directives used for the synthesis, simulation, and export of the component.
+* This opens the _Configuration File_ page of the wizard as shown below. The HLS component configuration file contains commands and directives used for the synthesis, simulation, and export of the component and is _the_ most important file (beside the source code files).
 
 ![Configuration page](images/hls_03.png)
 
@@ -62,7 +62,7 @@ vitis  -w <workspace>
 	* `Generate from Vitis HLS Project`: This option generates a new config file from an existing Vitis HLS project _hls.app_ file. 
 	* Choose `Empty File` as the method of adding the config file to your HLS component, you can keep the name `hls_config` as file name. Select `Next` to proceed to the Source Files.
 * The _Source Files_ page of the wizard opens:
-	* Under _Design Files_ you can select the `Add files` symbol (marked in red in the image below) to select the primary source file for the design, or add multiple files as needed. Copy the `src` folder from the folder `reference_files` to your workspace (with the Linux file manager) and then select the source file `fir.c` with the  `Add files` symbol.
+	* Under _Design Files_ you can select the `Add files` symbol (marked in red in the image below) to select the primary source file for the design, or add multiple files as needed (not for this tutorial). Copy the `src` folder from the folder `reference_files` to your workspace (with the Linux file manager) and then select the source file `fir.c` with the  `Add files` symbol. There is no need to include the header file `fir.h`, Vitis will find it itself.
 	* After adding the source file, you must identify the _Top Function_ which is the function to be synthesized as the top-level function for the HLS component. Push `Browse` and select the function `fir`.
 	* Under _Test Bench Files_ you can select with `Add files` (marked in red) the testbench source code `fir_test.c` and a data file `out.gold.dat` which is needed by the testbench.
  	* For both design files and test bench files you can add CFLAGS and CSIMFLAGS to specify directives to be used during compilation and simulation. You can specify directives to be applied to all files or to specific files from each category. Adding these flags can also be done later on, for this tutorial leave the fields empty. After adding files and folders and directives, select `Next` to proceed.
@@ -75,18 +75,18 @@ vitis  -w <workspace>
 ![Select part page](images/hls_05.png)
 
 
-* This displays the _Settings_ page of the wizard. 
-	* The Settings page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%. In this case enter the default clock frequency but change the uncertainty to 2 ns as shown in the image below.
-	* The Settings page also lets you specify the _flow_target_ for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw) in the Xilinx User Guide. The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default _flow_target_ is the Vivado IP flow. Keep these default settings for this tutorial.
-	* Below the flow_target you can also specify the _package.output.format_ for the tool to generate when packaging the design. The default output format is the Vivado IP, which generates a .zip file to be added to your IP catalog, letting you use the HLS generated RTL design in other designs.
+* You will now see the _Settings_ page of the wizard. 
+	* The _Settings_ page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%. In this case enter the default clock frequency of 10 ns but change the uncertainty to 2 ns as shown in the image below.
+	* The _Settings_ page also lets you specify the _flow_target_ for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw) in the Xilinx User Guide. The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default _flow_target_ is the Vivado IP flow. Keep these default settings for this tutorial.
+	* Below the _flow_target_ you can also specify the _package.output.format_ for the tool to generate when packaging the design. The default output format is the Vivado IP, which generates a zip-file to be added to your IP catalog, letting you use the HLS generated RTL design in other designs.
 	* The data you entered here and above are all stored in the configuration file.
 	* Select `Next` to proceed to the Summary page.
 
 
 ![Settings page](images/hls_06.png)
 
-* The Summary page reflects the choices you have made on the prior pages. Review the summary and select `Finish` to create the HLS component, or select Back to return to earlier pages and change your selections.
-* When the HLS component is created the `vitis-comp.json` file for the component is opened in the central editor window, and the HLS component becomes active in the _Flow Navigator_ (in the lower left pane) as shown below. When the HLS component is the active component, the _Flow Navigator_ enables running C Simulation, C Synthesis, C/RTL Co-simulation, Package, and Implementation.
+* The _Summary_ page reflects the choices you have made on the prior pages. Review the summary and select `Finish` to create the HLS component, or select Back to return to earlier pages and change your selections.
+* When the HLS component is created you will get back to the Vitis IDE with the opened component workspace. Now it is time to explain the Vitis IDE in more detail. In the image below you can see five areas or panes in the IDE, if you are familiar with Visual Studio Code you may notice some similarities. The pane numbered with 1 is the _tool bar_ which allows you to switch between major features of the tool: the _Vitis Component Explorer_ (this is where you are at the moment), the _Search_ function, _Source Control_, the _Debug_ view, _Examples_, and the _Analysis_ view. Pane 2 is the _Vitis Component Explorer_ which can be used to view a virtual hierarchy of the workspace. The view displays the different elements of the component or project, such a sources and outputs folder. It does not show the real folder structure on the file system. In the _Flow Navigator_ in pane 3  you can select the actual component and the tools you can apply to it (C Simulation, C Synthesis C/RTL Cosimulation,  Package and Implementation). Pane 4 is the central editor window where you can edit the sources and view reports etc. Pane 5 is the console and terminal area, which may not be opened if you have not started a tool yet.  
 
 ![Vitis GUI with component](images/hls_07.png)
 
@@ -115,7 +115,7 @@ workspace_dir
 * First open the C sources in Vitis with the _Component Explorer_ and study the code for the component (`fir.c`) and the testbench (`fir_test.c`). In the component code you can see a loop _Shift_Accum_Loop_ which codes the functionality of an FIR filter with a shift register `shift_reg[N]` where the coefficients (argument `c[N]`) are multiplied with the shifted data and accumulated in the variable `acc` and returned via the pointer `y`. It is good practice to give loops a label in order to be able to identify them during analysis of the HLS synthesis results.  
 * The testbench (`fir_test.c`) defines the coefficients for the FIR filter in the variable `taps[N]`. In line 18 the file `out.gold.dat` is opened which contains the input data and the expected output data for comparison. In the loop the input and reference data is read and the component top level function is called in line 26. Finally the output data generated by the component is compared and an error flag is set, if there are discrepancies. An HLS testbench, i.e. the main function, needs to return a value, which is 0 in case of success and 1 if the output data of the component is not correct. This is important because the C/RTL Co-Simulation uses the same testbench and also checks the output of the generated VHDL or Verilog code against the reference data. This means that an HLS testbench always must be written in such a way that it is self-checking and generates a final pass (0) or fail (1) value as return value.
 * Run the C Simulation by pushing the `Run` button in the _Flow Navigator_ under `C Simulation`. A window will pop up and ask you if you want to enable the _Code Analyzer_, you can disable this feature for this tutorial. After simulation is completed you will see the output of the simulation below the editor window in the console area.  
-* If you write yourself code you may want to use a debugger by pushing the `Debug` button instead of `Run`. Vitis now starts the debugger as shown in the image below. Here you have the standard debugger functions like _Continue_, _Step Over_, _Step Into_ etc. (marked in red). You can also watch the variables (marked in red) or set break points in the source code editor. It is very similar in functionality to Visual Studio Code and in fact the whole Vitis IDE is very similar to VS Code, so if you have worked with VS Code you should soon be familiar with Vitis. 
+* If you write yourself code you may want to use a debugger by pushing the `Debug` button instead of `Run`. Vitis now starts the debugger as shown in the image below. Here you have the standard debugger functions like _Continue_, _Step Over_, _Step Into_ etc. (marked in red). You can also watch the variables (marked in red) or set break points in the source code editor. It is very similar in functionality to the debugger in Visual Studio Code. 
 * If you want to stop the debugger then push the red square button (`Stop`). In order to come back to the normal Vitis view, which you had before you started debugging, you have to push in the tool bar (most left pane) the _Vitis Components_ symbol (marked in green).
 
 ![Debug code](images/hls_09.png)
