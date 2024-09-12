@@ -123,9 +123,30 @@ workspace_dir
 
 ---
 ## C Synthesis
-* The most important step is the _C Synthesis_ which is in fact the High Level Synthesis (HLS) of the component coded in C/C++. To start the HLS go to the _Flow Navigator_ and push the `Run` button under `C Synthesis`. It will take some seconds depending on the compute power of your machine, when it is finished you will see _Synthesis finished successfully_ in the output console.
-* 
+* The most important step is the _C Synthesis_, which is in fact the High Level Synthesis (HLS) of the component coded in C/C++. To start the HLS go to the _Flow Navigator_ and push the `Run` button under `C Synthesis`. It will take some seconds depending on the compute power of your machine, when it is finished you will see _Synthesis finished successfully_ in the output console.
+* Go to the _Flow Navigator_, expand _REPORTS_ in the _C Synthesis_ section and push `Synthesis`. You should now see the synthesis report as shown in the next image. The most interesting informations are the _Timing Estimate_ and the _Performance & Resource Estimate_. As you can see in the report our constraint was a clock cycle time of 10 ns and Vitits estimates the critical path of the component to 6.86 ns, so we have a slack of 3.14 ns which is comfortable. But this is only a rough estimate since the component has not yet be implemented. In the _Performance & Resource Estimate_ you can see the latency and interval values (16 clock cycles and 11 clock cycles). The latency is the time for one operation of the component, which means one operation lasts 16 x 10 ns = 160 ns. The _Interval_ (shorthand for _Initiation Interval_) is the number of clock cycles before new inputs can be applied. Since we have 11 cycles for the _Interval_ this means that we could apply new input values before the operation of the component has finished (which takes 16 cycles). This follows from the fact that the loop has been pipelined, which you can also see in the report in the column _PIPELINED_. We will come back on pipeline topic in another tutorial.  
 
+![Synthesis report](images/hls_10.png)
+
+* There are some more reports, for example the _Function Call Graph_, which shows you the function hierarchy (not really important for this tutorial). Another important report for analysis of the generated component hardware is the _Schedule Viewer_. If you open it you should the scheduling of the hardware operation as shown in the next image. 
+* In the first column you will see some cryptic names, these refer to identifiers in the generated VHDL or Verilog code. In the upper row (marked in red) you will see numbers beginning from 0. These are the so-called _control states_ of the finite state machine (FSM), which controls the operation of the component. You can easily identify the loop _Shift_Accum_Loop_ which takes 5 cycles for one iteration (this corresponds to the value in the synthesis report). 
+* Although this view may appear cryptic at a first glance, this is the main tool if you want to understand how the component operates and what could possibly be optimized. From experience the loops and memory accesses determine mainly the performance in terms of clock cycles and with some practice the schedule viewer can be helpful in analyzing the bottlenecks of your design. 
+
+![Schedule viewer 1](images/hls_11.png)
+
+* If you push the right mouse button over one of the identifiers in the left column you get a context menu `Goto Source` which jumps to your C source code and shows you the relation to your C code. If you select for example the identifier `c_load` and go to the source you can see that this is the  access to the argument `c[i]`, which is in fact a memory access in hardware (it is assumed that a Block RAM is attached to the component which stores the coefficients). This is a so-called _multicycle resource_, since the corresponding bar spans over a clock cycle (and the bar has a center line).
+
+![Schedule viewer 2](images/hls_12.png)
+
+* There are also more informations in the reports. For example when you scroll down the synthesis report you will see informations on the hardware interfaces and SW I/O (where you can see the memory port for argument `c[N]`) and finally operator and storage information. We will come back on these issues in a later tutorial.
+
+---
+## C/RTL Cosimulation
+* You can inspect the generated VHDL or Verilog code under _Output_ in the _Vitis Components Explorer_. In the image below you can see that the toplevel VHDL code `fir.vhd` has been opened. Since it is not sensible or possible to inspect the whole generated VHDL/Verilog code, the only way to verify it is by simulation. The _C/RTL Cosimulation_ will simulate the generated VHDL or Verilog by executing the C testbench and simulating the VHDL or Verilog code with the Xilinx simulation tool. Since we use the same self-checking testbench, that we have used for C simulation, we can be sure that the generated hardware component produces the same output data than our C code, if we have a _Pass_. Therefore _C/RTL Cosimulation_ is an important step and although you could proceed without cosimulation you should not do that. If cosimulation fails there can be several reasons for it, but one reason could be in fact that the hardware works not correctly.
+
+![VHDL code](images/hls_13.png)
+
+* 
 
 ---
 ## Creating components from the command line
