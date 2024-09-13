@@ -6,7 +6,6 @@
 * The project setup will be done in the Vitis GUI, this is described in [Creating a HLS component](#creating-a-hls-component). 
 * You can setup a project also on the command line, this is described in [tutorial 1b](tutorial_01_b.md). You can then open the Vitis GUI and open the project workspace and continue working with the project. 
 * It is essential that you understand the concept of workspaces and components before you start with a component project. This is described in [Workspaces and components](#workspaces-and-components).
-* All setup data of a component is stored in a configuration file. If you setup a component project on the command line you need such a configuration file. You can find the content of a sample file in [Creating components from the command line](#creating-components-from-the-command-line) and in the folder `reference_files`. If you make changes later on in the Vitis GUI all changes will be stored in the same configuration file which you used for setting up the project.
 
 ---
 ## Workspaces and components
@@ -174,7 +173,7 @@ WARNING: [HLS 200-626] This design is unable to schedule all read ports in the f
 
 ![Vivado](images/hls_17.png)
 
-* The very last step in the _Flow Navigator_ is _IMPLEMENTATION_, which is optional. If you push `Run` then logic synthesis and implementation (place&route) is run by running the corresponding Vivado tools in the background. Although it is not necessary to run the implementation (and it can take some time) it gives you the real numbers on resource usage and the critical path of the component. In following image you see the results (report _Place and Route_) of the implementation in terms of resource usage and timing. You can see that the critical path (_CP_) is 5.692 ns and that is below that what HLS estimated (6.86 ns), so the estimate was too pessimistic. Finally things can change again with respect to the critical path when the component is embedded into a larger design in Vivado, but the target clock cycle of 10 ns should be safely achievable.
+* The very last step in the _Flow Navigator_ is _IMPLEMENTATION_, which is optional. If you push `Run` then logic synthesis and implementation (place&route) is run by running the corresponding Vivado tools in the background. Although it is not necessary to run the implementation (and it can take some time) it gives you the real numbers on resource usage and the critical path of the component. In the following image you see the results (report _Place and Route_) of the implementation in terms of resource usage and timing. You can see that the critical path (_CP_) is 5.692 ns and that is below that what HLS estimated (6.86 ns), so the estimate was too pessimistic. Finally things can change again with respect to the critical path when the component is embedded into a larger design in Vivado, but the target clock cycle of 10 ns should be safely achievable.
 
 ![Vivado](images/hls_18.png)
 
