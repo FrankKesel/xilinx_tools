@@ -7,9 +7,10 @@ The Vitis tool version used is 2024.1. We assume that you have an installation o
 ---
 ## Vitis HLS Tutorials
 
-* [Setting up a Vitis HLS project and basic steps](tutorial_01/tutorial_01.md)
+* [Tutorial 1: Setting up a Vitis HLS project and basic steps](tutorial_01/tutorial_01.md)
+* [Tutorial 1b: Creating components from the command line](tutorial_01/tutorial_01_b.md)
 
 ---
-## Documentation
+## Additional Documentation
 * Documentation on Vitis HLS can be found here: [User Guide 1399](https://docs.amd.com/r/en-US/ug1399-vitis-hls)
 
