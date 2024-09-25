@@ -8,7 +8,8 @@
 
 ---
 ## Running the bash scripts
-* First download the complete folder `reference_files` to your computer and rename the folder to `tutorial_01`. This folder will later on be your workspace which you will open in the Vitis GUI.
+* First download the complete folder `tutorial_01/reference_files` to your computer and rename the folder `reference_files` to `tutorial_01`. This folder will later on be your workspace which you will open in the Vitis GUI.
+  * You can either download this whole Github repository or only the folder `reference_files` using a browser extension like [GitZip](https://gitzip.org).
 * We will first explain the folder structure of the workspace folder `tutorial_01`. In the workspace folder you find a bash script `run_demo.sh` which basically starts the two bash scripts `sol1.sh` and `sol2.sh` in the sub-folders `sol1` and `sol2`. These sub-folders hold the two variants or solutions (which are in the Vitis terminology two _components_).
 
 ```
@@ -66,18 +67,18 @@ v++ -c --mode hls --config ./sol1_config.cfg --work_dir sol1_work
 
 * In both solutions (better said _components_) you can execute also the other steps in the _Flow Navigator_ (C Simulation, C/RTL Cosimulation etc.), as we have shown in [tutorial 1](tutorial_01.md). Whenever you change options or settings it will be stored in the configuration file. For the following tutorials we will always provide the folder structure, source files and scripts to setup the project on the command line and then work subsequently in the Vitis GUI.
 
-* When you are with the solutions you can compare them side by side in a report. Open `View > HLS Compare Reports` as shown in the next image and select both solutions/components. A compare report will open up where you can see the results of synthesis, cosimulation and implementation (if you have executed this step) for the selected components.
+* When you are done with the solutions you can compare them side by side in a report. Open `View > HLS Compare Reports` as shown in the next image and select both solutions/components. A compare report will open up where you can see the results of synthesis, cosimulation and implementation (if you have executed this step) for the selected components.
 
 ![Vitis GUI compare](images/hls_36.png)
 
 
 ---
 ## Adding components to an existing workspace in the Vitis GUI
-* If you have setup a project/workspace with scripts, as described above, you can add additional solutions (or components) from the Vitis GUI. This follows basically the steps in [tutorial 1](tutorial_01.md#creating-a-hls-component) where the component location is the workspace setup with the scripts. In the following we will add an additional solution `sol3` to our workspace `tutorial_01`.
+* If you have setup a project/workspace with scripts, as described above, you can add additional solutions (or components) from the Vitis GUI. This follows basically the steps in [tutorial 1](tutorial_01.md#creating-a-hls-component) where the component location is the workspace which has been setup with the scripts. In the following we will add an additional solution `sol3` to our workspace `tutorial_01`.
 * From the main menu select `File > New Component > HLS`.  This will open up the dialog as shown in the next image. Enter the component name `sol3`, the component location is the workspace. This will create the component in the sub-folder `sol3`. For the next steps you can follow the steps described in [tutorial 1](tutorial_01.md#creating-a-hls-component), but name the configuration file `sol3_config`.
 
 ![Vitis GUI additional component](images/hls_37.png)
 
-* When you have setup the project you can again run the steps in the _Flow Navigator_ and finally compare all 3 solutions, as shown in the next image. As you can see in the comparison the solution `sol3` uses the optimizations _loop pipelining_ and _auto rewind_ as discussed above. When you compare `sol2` and `sol3` you can see that `sol3` needs considerably more flipflops and LUTs for the _auto rewind_ optimization, as we have already mentioned above. 
+* When you have setup the project you can again run the steps in the _Flow Navigator_ and finally compare all 3 solutions, as shown in the next image. Solution `sol3` uses the default optimizations _loop pipelining_ and _auto rewind_ as discussed above. When you compare `sol2` and `sol3` you can see that `sol3` needs considerably more flipflops and LUTs for the _auto rewind_ optimization, as we have already mentioned above. 
 
 ![Solution comparison](images/hls_38.png)
