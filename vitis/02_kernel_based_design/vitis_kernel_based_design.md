@@ -14,7 +14,7 @@
 
 ---
 ## Introduction
-* In this tutorial the kernel based design using an extensible platform is described. It is assumed that an extensible platform is available (for a detailed description how to create such a platform and the sysroot-directory see document [`vitis_extensible_streaming_platform_design.md`](../vitis_tutorials/vitis_extensible_streaming_platform_design.md)). The location of the platform-directory can be anywhere on your computer. It is further assumed that we have a Kria KV260 target with Ubuntu Linux (Version 22.04).
+* In this tutorial the kernel based design using an extensible platform is described. It is assumed that an extensible platform is available (for a detailed description how to create such a platform and the sysroot-directory see document [`vitis_extensible_streaming_platform_design.md`](../01_extensible_platform/vitis_extensible_streaming_platform_design.md)). The location of the platform-directory can be anywhere on your computer. It is further assumed that we have a Kria KV260 target with Ubuntu Linux (Version 22.04).
 
 * The design steps are:
   * Develop the IP kernels with Vitis HLS and export them as .xo-files.
