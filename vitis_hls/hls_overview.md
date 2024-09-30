@@ -10,6 +10,8 @@ The Vitis tool version used is 2024.1. We assume that you have an installation o
 * [Tutorial 1: Setting up a Vitis HLS project and basic steps](tutorial_01/tutorial_01.md)
 * [Tutorial 1b: Creating components from the command line](tutorial_01/tutorial_01_b.md)
 * [Tutorial 2: Using Directives and Pragmas](tutorial_02/tutorial_02.md)
+* [Tutorial 3: Design Optimization](tutorial_03/tutorial_03.md)
+
 
 ---
 ## Additional Documentation

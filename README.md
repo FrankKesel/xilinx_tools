@@ -9,4 +9,4 @@ The Linux machine should run Ubuntu 22.04. The Vitis version used in the tutoria
 
 [Vitis HLS Tutorials](vitis_hls/hls_overview.md)
 
-
+[Vitis Tutorials](vitis/vitis_overview.md)
