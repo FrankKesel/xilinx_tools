@@ -5,8 +5,7 @@
 #include <stdint.h>
 
 typedef int16_t din_t;
-typedef int32_t dout_t;
-typedef int32_t dacc_t;
+typedef int16_t dout_t;
 
 #define CHANNELS 8
 #define SAMPLES  4
