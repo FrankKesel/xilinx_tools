@@ -11,7 +11,7 @@ The Vitis tool version used is 2024.1. We assume that you have an installation o
 * [Tutorial 1b: Creating components from the command line](tutorial_01/tutorial_01_b.md)
 * [Tutorial 2: Using Directives and Pragmas](tutorial_02/tutorial_02.md)
 * [Tutorial 3: Design Optimization](tutorial_03/tutorial_03.md)
-* [Tutorial 4: Interface Synthesis]()
+* [Tutorial 4: Interface Synthesis](tutorial_04/tutorial_04.md)
 
 
 ---
