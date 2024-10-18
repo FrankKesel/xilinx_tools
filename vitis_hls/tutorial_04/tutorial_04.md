@@ -73,7 +73,14 @@ syn.directive.pipeline=accumulator/L1
 
 ![Interface directive](images/hls_110.png)
 
-* Finally select the port `d_i` and add an interface directive. In this case select in the _mode_ field _m_axi_. This will add an AXI master interface for the port. This means that the component will act as an AXI master and can access for example the main memory of the processor sytem via DMA. In order to accomplish this the AXI master needs to be programmed with the start address for a DMA transfer. This will be done by a slave register in the AXI slave interface of this component. Therefore add the entry _slave_ in the field _offset_.
+* Finally select the port `d_i` and add an interface directive. In this case select in the _mode_ field _m_axi_. This will add an AXI master interface for the port. This means that the component will act as an AXI master and can access for example the main memory of the processor sytem via DMA. In order to accomplish this the AXI master needs to be programmed with the start address for a DMA transfer. This will be done by a slave register in the AXI slave interface of this component. Therefore add the entry _slave_ in the field _offset_. When you open the config file you should have the directives as shown below: 
+
+```
+syn.directive.interface=accumulator d_o mode=s_axilite
+syn.directive.interface=accumulator return mode=s_axilite
+syn.directive.interface=accumulator d_i mode=m_axi offset=slave
+syn.interface.m_axi_addr64=0
+```
 
 ![Interface directive](images/hls_111.png)
 
@@ -84,4 +91,8 @@ syn.directive.pipeline=accumulator/L1
 * When you scroll further down in the synthesis report you can see the section _SW I/O Information_ as shown in the next image. Here you can see for example that the output `d_o` is implemented as memory in the slave interface. In the section _M_AXI Burst Information_ it is visible that there seems to be a problem with the burst transfers on the AXI master interface. When you click in the field _RESOLUTION_ on the number a web page will open with further information on this problem: Burst transfers are only possible if the memory accesses are sequential. As we already have seen the function `accumulate` does not access the input data `d_i` in a sequential manner and therefore burst transfers are not possible. This not a functional problem, as the cosimulation runs without error, but a performance issue.
 
 ![AXI Interface](images/hls_113.png)
+
+* The interface synthesis for AXI bus interfaces produces also C driver code for SW development. Package the component by pushing `Run` in the section _PACKAGE_ of the flow navigator. Then go to the _Vitis Components_ navigator and in the _Output_ section of `sol3` navigate to `impl > ip > drivers > accumulator_v1_0 > src` and open the file `xaccumulator_hw.h`. In the following image you can see the upper part of this file which shows the offset addresses of the registers and memory in the slave interface, for example the control register, the DMA start address for `d_i` and the memory space for `d_o`. In the other C code files you will also find driver functions for programming the slave interface. You can find more information in the [Xilinx HLS User Guide](https://docs.amd.com/r/en-US/ug1399-vitis-hls/C-Driver-Files).
+
+![AXI Drivers](images/hls_114.png)
 
