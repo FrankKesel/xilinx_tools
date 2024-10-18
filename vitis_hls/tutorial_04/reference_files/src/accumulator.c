@@ -1,6 +1,6 @@
 #include "accumulator.h"
 
-void accumulator(dout_t d_o[N], din_t d_i[N]) {
+void accumulator(dout_t d_o[CHANNELS], din_t d_i[N]) {
 
 	int i, j;
 	

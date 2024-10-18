@@ -14,7 +14,7 @@ int main () {
 	int in;
     int k;
 
-	//Fill input array and golden output
+	//Fill input array 
 	for (i=0; i<N; i++) {
 	    d_i[i] = i; 
 	}
