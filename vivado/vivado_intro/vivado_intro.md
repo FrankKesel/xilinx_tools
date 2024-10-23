@@ -1,506 +1,153 @@
-Vorbemerkungen
-==============
+# Vivado Tutorial
 
-Diese Anleitung dient als Selbstlernkurs zur Einführung in die Xilinx
-Vivado Entwicklungsumgebung. Die Anleitung beschreibt anhand eines
-einfachen VHDL-Beispiels die notwendigen Schritte in Vivado, um von der
-Eingabe der VHDL-Quellcodes bis zur Erzeugung eines Bit-Files für die
-Programmierung eines FPGAs zu kommen. Die Anleitung bezieht sich auf die
-Vivado Version 2021.1 (oder identisch 2020.1 - 2020.3), mit der die
-einzelnen Schritte getestet wurden. Die Vivado-Software kann von der
-Xilinx-Homepage als kostenfreie Version heruntergeladen und installiert
-werden: "http://www.xilinx.com/support/download.html". Wählen Sie
-"Vivado" und "2021.1" (oder ältere Version) aus und dann " Xilinx
-Unified Installer 2021.1: Windows Self Extracting Web Installer" (oder
-ggf. den Linux Web Installer). Sie müssen am Ende der Installation eine
-Lizenz anfordern, hierzu müssen Sie sich bei Xilinx registrieren.
+---
+## Overview
 
-Wenn Sie das entstandene Design auch auf einer FPGA-Hardware testen
-möchten, dann wäre beispielsweise das "Basys 3"-FPGA-Board von Digilent
-empfehlenswert, welches man in Deutschland z.B. von
-"trenz-electronic.de" bekommen kann. Diese Anleitung behandelt jedoch
-nicht die Spezifikation des Boards und eventuell notwendige
-Debug-Arbeiten. Wir verwenden allerdings den entsprechenden
-Artix-7-FPGA-Baustein für das hier beschriebene Vivado-Projekt als
-Ziel-Hardware. Sie benötigen das Board nicht, um diese Anleitung mit
-Hilfe der Vivado-Software durchzuarbeiten. Für weitere und tiefergehende
-Informationen seien die Xilinx Dokumentationen empfohlen.
+* This tutorial is a self-study course to introduce the Xilinx Vivado development environment. Using a simple VHDL example, the tutorial describes the necessary steps in Vivado to go from entering the VHDL source code to generating a bit file for programming an FPGA. The tutorial refers to Vivado version 2024.1, with which the individual steps were tested. The Vivado software can be downloaded and installed as a free version from the [Xilinx homepage](http://www.xilinx.com/support/download.html). Select "Vivado" and "2024.1" and then " Xilinx Unified Installer 2024.1: Windows Self Extracting Web Installer" (or the Linux Web Installer if necessary). You must request a license at the end of the installation. To do this, you must register with Xilinx.
 
-Erstellen eines Projekts
-========================
+* If you would like to test the resulting design on FPGA hardware, then the "Basys 3" FPGA board from Digilent would be recommended, which can be obtained in Germany from "trenz-electronic.de". However, this tutorial does not cover the specification of the board and any debugging work that may be necessary. However, we use the corresponding Artix-7 FPGA component for the Vivado project described here as the target hardware. You do not need the board to work through this tutorial using the Vivado software. For further and more in-depth indialogation, the Xilinx documentation is recommended for example the [UltraFast Design Methodology Guide for FPGAs and SoCs ](https://docs.amd.com/r/en-US/ug949-vivado-design-methodology).
 
-In diesem Abschnitt werden wir ein Vivado-Projekt für den entsprechenden
-Ziel-FPGA-Baustein erstellen.
+---
+## Creating a project
 
+* In this section, we will create a Vivado project for the corresponding target FPGA device.
 
--   Erstellen Sie auf Ihrem Entwicklungsrechner ein Stammverzeichnis für
-    die Vivado-Projekte, z.B. in Ihrem Benutzer-Verzeichnis oder an
-    einer anderen Stelle, wo Sie als Benutzer Schreib- und Leserechte
-    haben
+* Create a work directory for the Vivado projects on your development computer, e.g. in your user directory or somewhere else where you as a user have write and read permissions
 
--   Starten Sie Vivado 2021.1 Über das Windows-Startmenü (üblicherweise
-    unter "Xilinx Design Tools" zu finden).
+* Start Vivado 2024.1 from the Windows (or Linux) Start menu (usually found under _Xilinx Design Tools_).
 
--   Legen Sie unter "Quick Start" mit "Create Project" ein neues Projekt
-    an.
-    Es öffnet sich ein "Wizard": Tragen Sie in die Masken die
-    entsprechenden Einträge ein, wie sie nachfolgend beschrieben sind,
-    und gehen Sie jeweils mit "Next" zur nächsten Maske.
+* Under `Quick Start` create a new project by pushing `Create Project`. A _Wizard_ opens as shown in the next image. Enter the relevant entries in the dialogs as described below and go to the next dialog by clicking `Next`.
 
--   Geben Sie
-    Ihrem Projekt einen nachvollziehbaren Namen (z.B. intro1). Wählen
-    Sie als "Project location" das zuvor erstellte Stammverzeichnis für
-    die Vivado-Projektdateien und aktivieren Sie die Option "Create
-    project subdirectory". Achtung: Verwenden Sie in Pfad- oder
-    Dateinamen keine Leer- und Sonderzeichen oder Umlaute!
+![Vivado GUI](images/viv_001.png)
 
+* Give your project a name (e.g. _intro1_). Select the previously created work directory for the Vivado project files as the `Project location` and activate the `Create project subdirectory` option. Important: Do not use spaces, special characters or umlauts in path or file names! The subdirectory will be named with the project name. Push `Next`.
+* Select `RTL Project` as the project type and select `Do not specify sources at this time`. We will create the VHDL sources later. Push `Next`.
+* In the next dialog the FPGA target component must be specified. The quickest way to select the FPGA component that is installed on the BASYS3 board is to use the following settings: `Family: Artix-7`, `Package: cpg236`, `Speed: -1`. Select the component `xc7a35tcpg236-1` from the list and complete the project creation by clicking `Next` and then `Finish` in the following dialog. You will be returned to the Vivado GUI as shown in the following image.
 
+![Vivado GUI](images/viv_002.png)
 
--   Wählen Sie
-    "RTL Project" als Projekttyp und wählen Sie "Do not specify sources
-    at this time". Wir werden die VHDL-Quellen erst sp�ter anlegen.
+* The correct specification of the FPGA component is particularly important for the implementation and the correct assignment of the pins. If the wrong component is selected, the FPGA will not be able to be configured correctly later. The creation of the Vivado project is now complete.
 
+---
+## Adding the VHDL source files
 
--   Die Auswahl
-    des FPGA-Bausteins, der auf dem BASYS3-Board verbaut ist, erfolgt am
-    schnellsten durch das Setzen der folgenden Einstellungen: "Family:
-    Artix-7" "Package: cpg236" "Speed grade: -1" Wählen Sie aus der
-    Liste den Baustein "xc7a35tcpg236-1" und schliessen Sie die
-    Projekterstellung mit "Next", bzw. "Finish" im folgenden Dialog ab.
-    Die korrekte Angabe des FPGA-Bausteins ist insbesondere wichtig für
-    die Implementierung und die korrekte Zuweisung der Pins. Wird der
-    falsche Baustein ausgewählt, so wird man das FPGA später nicht
-    korrekt konfigurieren können. Die Erstellung des Vivado-Projektes
-    ist damit abgeschlossen.
+* In this section we will create the VHDL source file for our design and a corresponding VHDL testbench for the simulation. The design will be a 4-bit counter that increments with each rising edge of an input. This input can be connected to a button on the Basys board. The four counter outputs can be connected to the board's LEDs. The source code for the counter can be found in the folder `reference_files`.
 
-Hinzufügen der VHDL-Quelldateien
-================================
+    In the "Flow Navigator" (left column in the Vivado window), under "Project Manager", click "Add Sources".
 
-In diesem Abschnitt werden wir die VHDL-Quelldatei für unser Design
-erstellen und eine entsprechende VHDL-Testbench für die Simulation. Bei
-dem Design soll es sich um einen 4-Bit Zähler handeln, der mit jeder
-steigenden Flanke eines Eingangs inkrementiert. Dieser Eingang kann auf
-einen Taster des Basys-Boards gelegt werden. Die vier Zählerausgänge
-können auf die LEDs des Boards geschaltet werden. Den Quellcode für den
-Zähler finden Sie im Anhang.
+    In the "Wizard" that opens, select "Add or Create Design Sources". Click "Next" to go to the next screen and select "Create File". Select "VHDL" as the "File type" and enter "counter.vhd" as the name. Press "OK" and then "Finish" to finish.
 
--   Klicken Sie im "Flow Navigator" (linke Spalte im
-    Vivado-Fenster) unter "Project Manager" auf "Add Sources".
+    In the following mask you can define the ports of your design. Enter the ports as shown in the figure: "count" is the input with the rising edge of which the counter should increment and "ctr_out" is the output of the counter, which is created as a 4-bit bus. After completion, a VHDL code is generated, which should now appear in the "Project Manager" window of Vivado under "Sources"$\rightarrow$"'Design Sources"'. Open the file in the editor by double-clicking. You now have a VHDL "framework" with a finished entity and an architecture. Now add the missing lines with the code from the appendix. When you save the file ("Save file" button at the top of the editor or "Ctrl-S") a rough syntax check is carried out. If there are errors in the code, they are displayed in color in the editor. Correct the errors.
 
+    Now the testbench is missing: Click on "Add Sources" in the "Flow Navigator" again. But now select "Add or Create Simulation Sources". This is important so that Vivado knows that the testbench is only there for simulation and should not be implemented in hardware. As in the previous procedure, enter "VHDL" as the type and the name "counter_tb.vhd". Do not enter any ports in the port mask - it is a testbench after all. Answer the following question when completing the mask with "Yes". If you now open the "Simulation Sources" in the "Project Manager" in Vivado, you will see the design and the testbench listed.
 
--   Im aufstartenden "Wizard" wählen Sie "Add or Create Design Sources".
-    Mit "Next" gehen Sie in die nächste Maske und wählen "Create File"
-    . Wählen
-    Sie "VHDL" als "File type" aus und tragen Sie "counter.vhd" als Name
-    ein. Dr�cken Sie "OK" und dann "Finish" zum Abschluss.
-
-
-
--   In der folgenden Maske können Sie die Ports Ihres Designs definieren.
-    Geben Sie die Ports wie in der Abbildung gezeigt ein: "count" ist
-    der Eingang, mit dessen steigender Flanke der Zähler inkrementieren
-    soll und "ctr\_out" ist der Ausgang des Zählers, dieser wird als
-    4-Bit Bus angelegt. Nach Abschluss wird ein VHDL-Code generiert,
-    dieser sollte nun im "Project Manager"-Fenster von Vivado unter
-    "Sources"$\rightarrow$\"'Design Sources\"' erscheinen. Öffnen Sie
-    die Datei im Editor durch Doppelklick. Sie haben nun ein
-    VHDL-\"'Ger�st\"' mit fertiger Entity und einer Architecture
-    vorliegen. Erg�nzen Sie nun die noch fehlenden Zeilen mit dem Code
-    aus dem Anhang. Wenn Sie die Datei abspeichern ("Save file"-Knopf
-    oben im Editor oder "Strg-S") wird eine grobe Syntaxpr�fung gemacht.
-    Falls Fehler im Code sind, so werden diese im Editor farbig
-    angezeigt. Korrigieren Sie die Fehler.
-
-
--   Nun fehlt noch die Testbench: Klicken Sie wieder auf "Add Sources"
-    im "Flow Navigator". Wählen Sie nun aber "Add or Create
-    **Simulation** Sources". Dies ist wichtig, damit Vivado wei�, dass
-    die Testbench nur für die Simulation da ist und nicht in Hardware
-    umgesetzt werden soll. Tragen Sie analog zur vorherigen
-    Vorgehensweise wieder "VHDL" als Typ ein und den Namen
-    "counter\_tb.vhd". In der Port-Maske tragen Sie keine Ports ein - es
-    ist ja eine Testbench. Beantworten Sie die nachfolgende Frage beim
-    Abschluss der Maske mit "Yes". Wenn Sie nun in Vivado im "Project
-    Manager" die "Simulation Sources" aufklappen, dann sehen Sie das
-    Design und die Testbench aufgelistet.
-
--   Editieren Sie nun die Testbench und fügen Sie den Code aus dem
-    Anhang hinzu. Wenn Sie alles richtig eingegeben haben, dann sollte
-    auch die Hierarchie wie in Abbildung angezeigt werden. Wenn dies nicht der Fall ist, dann
-    stimmen ggf. die Bezeichnungen von Komponenten-Deklaration und
-    -Instanzierung nicht mit der Entity �berein.
-
+    Now edit the test bench and add the code from the appendix. If you have entered everything correctly, the hierarchy should be displayed as shown in the figure. If this is not the case, then the names of the component declaration and instantiation may not match the entity.
 
 Simulation
-==========
 
-In diesem Abschnitt werden wir das erstellte Design mit Hilfe der
-Testbench simulieren.
+In this section we will simulate the created design using the testbench.
 
--   Klicken Sie zum Starten des Simulators im "Flow Navigator" unter
-    "Simulation" auf "Run Simulation"$\rightarrow$ "Run Behavioral
-    Simulation". Hierbei wird nochmals eine Syntaxpr�fung des VHDL-Codes
-    vorgenommen und auch beim Start des Simulators weitere Pr�fungen.
-    Wenn hier noch Fehler auftreten, dann finden Sie in Vivado unten in
-    den Fenstern "Tcl Console" oder "Messages" Hinweise dazu. Die
-    Fehlermeldungen des Simulators werden in einer Log-Datei
-    eingetragen: `intro1\intro1.sim\sim_1\behav\xsim\xvhdl.log`
+    To start the simulator, click on "Run Simulation"$\rightarrow$ "Run Behavioral Simulation" in the "Flow Navigator" under "Simulation". This will perdialog another syntax check of the VHDL code and further checks when the simulator starts. If errors still occur here, you will find indialogation about them in Vivado in the "Tcl Console" or "Messages" windows at the bottom. The simulator's error messages are entered in a log file:intro1\intro1.sim\sim_1\behav\xsim\xvhdl.log
 
-    Öffnen Sie diese Datei mit einem Texteditor und versuchen Sie zu
-    verstehen, wo Ihr Fehler liegt. Korrigieren Sie die Fehler im
-    Quellcode und starten Sie den Simulator erneut. Wenn die Simulation
-    korrekt gestartet ist, dann sollte in Vivado das Simulatorfenster
-    geöffnet sein, wie in Abbildung  zu sehen ist.
+    Open this file with a text editor and try to understand where your error is. Correct the errors in the source code and start the simulator again. If the simulation started correctly, the simulator window should be open in Vivado, as shown in the figure.
 
+    Under "Scope" you can see the hierarchical structure of your design. The test bench "counter_tb" is at the top level, and below that is the counter "counter" (instance name "dut", see Instancing in the Test Bench). The ports, signals and constants defined for the module currently selected under "Scope" are listed in the "Objects" window; these can in turn be transferred to the display of the signal curves on the right edge of the window using "drag & drop". By default, the signal curves of all objects at the top hierarchy level are displayed, in this case the test bench.
 
+    To the right of "Scope" and "Objects", the signal curves of the selected signals are displayed in a "Wave Window". By default, 1000 ns are simulated, but this default setting can be changed in the "Flow Navigator" under "Settings"$\rightarrow$"'Simulation"' before the next start of the simulator. In the "Wavedialog Display" you will find a bar at the top with buttons for zooming and other functions. To see the complete signal curve, for example, use the "Zoom Fit" button.
 
--   Unter "Scope" sehen Sie den hierarchischen Aufbau Ihres Entwurfs.
-    Auf der obersten Ebene liegt die Testbench "counter\_tb", darunter
-    der Zähler "counter" (Instanzname "dut", siehe Instanzierung in der
-    Testbench). Für das aktuell unter "Scope" ausgewählte Modul werden
-    im Fenster "Objects" die jeweils definierten Ports, Signale und
-    Konstanten aufgelistet; diese wiederum können per "Drag & Drop" in
-    die Darstellung der Signalverläufe am rechten Fensterrand übernommen
-    werden. Standardmässig werden die Signalverläufe aller Objekte der
-    obersten Hierarchieebene dargestellt, in diesem Fall also der
-    Testbench.
+    If you want to see signals from the "counter", then select the instance name "dut" under "Scope" and then you can select the corresponding signals under "Objects" using the right mouse button: In the context menu that appears, you can then add the signal using "Add To Wave Window", as shown in the figure. However, you will not yet see any signal curves for the new signals. To do this, you must restart the simulator: The Vivado toolbar was expanded above the simulator window when the simulator was started. There you will find several blue buttons; if you move the mouse over them, the function is shown.
 
--   Rechts von "Scope" und "Objects" werden die Signalverläufe der
-    ausgewählten Signale in einem "Wave Window" dargestellt.
-    Standardmässig werden 1000 ns simuliert, diese Voreinstellung kann
-    aber im "Flow Navigator" unter
-    "Settings"$\rightarrow$\"'Simulation\"' vor dem nächsten Start des
-    Simulators ge�ndert werden. Im "Waveform Display" finden Sie oben
-    eine Leiste mit Kn�pfen zum Zoom und zu weiteren Funktionen. Um z.B.
-    den kompletten Signalverlauf sehen zu können, nutzen Sie den "Zoom
-    Fit"-Knopf.
+    You can use the "Restart" button to reset the simulator to time 0. You can now enter a new simulation time in the toolbar (e.g. 100 ns) and simulate the corresponding time using the "Run for ..." button. You can also enter these commands directly in the Tcl console below (the commands you have entered so far are also displayed there), this is usually more practical. The commands are: "restart" and "run 100 ns". If you enter "run ..." several times, the simulation will continue accordingly; only a "restart" will reset the simulation.
 
--   Wenn Sie Signale aus dem "counter" sehen m�chten, dann Wählen Sie
-    unter "Scope" den Instanznamen "dut" aus und können dann unter
-    "Objects" entsprechende Signale mit der rechten Maustaste ausWählen:
-    Im erscheinenden Kontext-Men� können Sie mit "Add To Wave Window"
-    das Signal dann hinzufügen, wie in Abbildung
-     zu sehen ist. Nun
-    sehen Sie aber noch keine Signalverläufe für die neuen Signale.
-    Hierzu müssen Sie den Simulator neu starten: Oberhalb des
-    Simulatorfensters wurde die Vivado-Werkzeugleiste beim Start des
-    Simulators erweitert. Dort finden Sie mehrere blaue Knöpfe, wenn Sie
-    mit der Maus darüber fahren, wird die Funktion gezeigt.
+    If you select a signal in the "Wave Window" with the right mouse button, you can change the value representation under "Radix" in the context menu. For example, "unsigned decimal" might be useful for a counter.
 
+    You can save the settings in the "Wave Window" using the disk symbol: "Save Wavedialog Configuration". This file will then be added to your project if desired (as prompted in the dialog), and when you start the simulator again, the added signals and all settings will be there.
 
-    Mit dem "Restart"-Knopf können Sie den Simulator auf den Zeitpunkt 0
-    zurücksetzen. Nun können Sie in der Werkzeugleiste eine neue
-    Simulationszeit eingeben (z.B. 100 ns) und mit dem "Run for
-    \..."-Knopf die entsprechende Zeit simulieren. Diese Kommandos
-    können Sie auch unten in der Tcl-Konsole direkt eingeben (die bisher
-    abgesetzten Kommandos werden auch dort angezeigt), dies ist meistens
-    praktischer. Die Kommandos lauten: "restart" und "run 100 ns". Wenn
-    Sie mehrfach "run \..." eingeben, wird entsprechend weiter
-    simuliert, erst durch einen "restart" wird die Simulation wieder
-    zur�ckgesetzt.
+    If you need to change a VHDL file, you do not need to close the simulator window. Select the relevant file in the relevant tab in the simulator window and make the changes. Don't forget to save the file afterwards. The "Relaunch" button re-compiles the code and restarts the simulation. Important: If you change the VHDL code and only do a "Restart", the old code will be simulated! Therefore, a "Relaunch" must be perdialoged after every code change.
 
--   Wenn Sie im "Wave Window" mit der rechten Maustaste ein Signal
-    ausWählen, dann können Sie im Kontextmenü unter "Radix" die
-    Wertedarstellung ändern. Bei einem Zähler ist z.B. "unsigned
-    decimal" vielleicht sinnvoll.
+    When you are finished and want to close the simulation, click on the 'X' on the right in the blue title bar of the simulator window. You can also do this later with the other tools such as synthesis or implementation. Vivado is an integrated development environment that starts various tools such as project management, simulator, synthesis or implementation via the "Flow Navigator" and displays them in an integrated window.
 
--   Die Einstellungen im "Wave Window" können Sie mit dem
-    Diskettensymbol abspeichern: "Save Waveform Configuration". Diese
-    Datei wird auf Wunsch (Abfrage im Dialog) dann zu Ihrem Projekt
-    hinzugefügt und wenn Sie den Simulator wieder starten, sind die
-    hinzugefügten Signale und alle Einstellungen gleich vorhanden.
+RTL analysis
 
--   Wenn Sie eine VHDL-Datei ändern müssen, brauchen Sie das
-    Simulatorfenster nicht zu schliessen. Wählen Sie die betreffende
-    Datei im jeweiligen Reiter im Simulatorfenster aus und f�hren Sie
-    die �nderungen durch. Vergessen Sie nicht, anschlie�end die Datei zu
-    speichern. Mit dem "Relaunch"-Knopf wird der Code erneut �bersetzt
-    und die Simulation neu gestartet. Wichtig: Wenn Sie den VHDL-Code
-    ändern und nur ein "Restart" machen, dann wird der alte Code
-    simuliert! Daher muss nach jeder Code-�nderung ein "Relaunch"
-    durchgeführt werden.
+With the help of the so-called RTL analysis, you can get an impression of the implementation of the VHDL code in hardware. This is not yet the actual logic synthesis step, ie there is no mapping to the target technology. The representation here is done using macroblocks. However, this representation is much clearer than the actual logic synthesis, so that it allows a quick assessment of the VHDL code.
 
--   Wenn Sie fertig sind und die Simulation schliessen möchten, dann
-    klicken Sie im blauen Titelbalken des Simulatorfensters ganz rechts
-    auf das 'X'. Dies können Sie auch später mit den anderen Tools wie
-    Synthese oder Implementierung so machen. Vivado ist eine integrierte
-    Entwicklungsumgebung, welche verschiedene Tools wie
-    Projektverwaltung, Simulator, Synthese oder Implementierung über den
-    "Flow Navigator" startet und diese in einem integrierten Fenster
-    anzeigt.
+[[F11]]{#F11 label="F11"}Vivado: Elaborated Design{#F11}
 
-RTL-Analyse
-===========
+In the "Flow Navigator" under "RTL Analysis" click on "Open Elaborated Design" and confirm the message with "OK". Vivado now starts the "Elaborated Design" window and a schematic drawing of the elaborated code should now be visible in the "Schematic" tab. What Vivado is doing here is basically a semantic analysis of your VHDL code and shows you how the code is implemented in hardware by Vivado. In Figure 11 {reference-type="ref" reference="F11"} you can see the counter register "counter_reg[3:0]" and the incrementer. You can also see the two flip-flops "detect_reg[1:0]" and the AND gate for edge detection. This allows you to check whether your code is implemented in hardware by Vivado as you imagined. Close the "Elaborated Design" window by clicking on the 'X' in the blue title bar.
+synthesis
 
-Mit Hilfe der so genannten RTL-Analyse können Sie sich einen Eindruck
-von der Umsetzung des VHDL-Codes in Hardware machen. Dies ist noch nicht
-der eigentliche Logiksynthese-Schritt, d.h. es findet noch keine
-Abbildung auf die Zieltechnologie statt. Die Darstellung erfolgt hier
-durch Makroblöcke. Allerdings ist diese Darstellung deutlich
-�bersichtlicher im Vergleich zur eigentlichen Logik-Synthese, so dass
-sie eine schnelle Beurteilung des VHDL-Codes erlaubt.
+In this section, logic synthesis takes place: it maps the VHDL design onto the components available in the FPGA (flip-flops, look-up tables, multiplexers, RAM). The synthesis can also reveal design errors that may not be visible in the simulation (e.g. incomplete sensitivity lists or incompletely coded IF conditions). It is therefore highly recommended to examine the messages (warnings) of the synthesis closely.
 
-![[\[F11\]]{#F11 label="F11"}Vivado: Elaborated
-Design](Bilder/viv11.eps){#F11}
+    In the "Flow Navigator" under "Synthesis" click on "Run Synthesis". Do not change anything in the dialog window and confirm with "OK". The synthesis run will take some time; you can see how far the synthesis has progressed in the Vivado window at the very bottom under "Design Runs".
 
-Dr�cken Sie im "Flow Navigator" unter "RTL Analysis" auf "Open
-Elaborated Design", bestätigen Sie den Hinweis mit "OK". Vivado startet
-nun das Fenster "Elaborated Design" und im Reiter "Schematic" sollte nun
-eine Schema-Zeichnung des elaborierten Codes zu sehen sein. Was Vivado
-hier macht, ist im Grunde eine semantische Analyse Ihres VHDL-Codes und
-zeigt Ihnen, wie der Code durch Vivado in Hardware umgesetzt wird. Sie
-können in Abbildung [11](#F11){reference-type="ref" reference="F11"} das
-Zählerregister "counter\_reg\[3:0\]" und den Inkrementer erkennen.
-Ferner können Sie auch die beiden Flipflops "detect\_reg\[1:0\]" und das
-UND-Gatter zur Flankenerkennung sehen. Damit können Sie �berpr�fen, ob
-Ihr Code von Vivado so in Hardware umgesetzt wird, wie Sie sich das
-vorgestellt haben. Schlie�en Sie das Fenster "Elaborated Design" wieder
-durch Klick auf das 'X' im blauen Titelbalken.
+    Any warnings or errors will be displayed in the "Messages" tab. Please check that there are no incomplete sensitivity lists or latches caused by incomplete signal assignments. These are not errors, just warnings, ie your code will be implemented in hardware, but you may end up with hardware that does not work correctly.
 
-Synthese
-========
+    If the design still contains errors (e.g. syntax errors), the synthesis is aborted. In this case, correct the error, run a simulation again and then start the synthesis again.
 
-In diesem Abschnitt erfolgt die Logik-Synthese: Sie bildet den
-VHDL-Entwurf auf die Bauelemente ab, die im FPGA zur Verf�gung stehen
-(Flip-Flops, Look-Up-Tabellen, Multiplexer, RAM). Nebenbei kann die
-Synthese auch Designfehler aufdecken, die in der Simulation evtl. nicht
-sichtbar sind (z.B. unvollst�ndige Sensitivit�tslisten oder
-unvollst�ndig auskodierte IF-Bedingungen). Es empfiehlt sich also
-dringend, die Meldungen (Warnungen) der Synthese genau zu untersuchen.
+    When the synthesis run is finished, a window opens. Select "View Reports". The "Reports" tab is now highlighted at the bottom of the Vivado window. Double-clicking on the reports opens them in an editor window. Figure 12 {reference-type="ref" reference="F12"} shows an excerpt from the "Utilization Report", in which you can see that 4 slice LUTs and 6 flip-flops are required to implement the design.
 
--   Klicken Sie im "Flow Navigator" unter "Synthesis" auf "Run
-    Synthesis". Im Dialog-Fenster ändern Sie nichts und quittieren mit
-    "OK". Der Syntheselauf wird etwas Zeit ben�tigen, Sie können im
-    Vivado-Fenster ganz unten unter "Design Runs" sehen, wie weit die
-    Synthese ist.
+    [[F12]]{#F12 label="F12"}Utilization Report {#F12}
 
--   Entsprechende Warnungen oder Fehler werden wieder im Reiter
-    "Messages" angezeigt. �berpr�fen Sie bitte, dass keine
-    unvollst�ndigen Sensitivit�tslisten oder Latches durch
-    unvollst�ndige Signalzuweisungen vorliegen. Dies sind keine Fehler
-    sondern nur Warnungen, d.h. Ihr Code wird in Hardware umgesetzt,
-    aber m�glicherweise können Sie hierdurch eine Hardware erhalten, die
-    nicht korrekt funktioniert.
+    In the "Flow Navigator" under "Synthesis" click on "Open Synthesized Design". If you now click on "Schematic", a window will appear with a schematic drawing of the implementation of your code in the target technology, as shown in Figure 13 {reference-type="ref" reference="F13"}.
 
--   Sofern der Entwurf noch Fehler (z.B. Syntaxfehler) enth�lt, wird die
-    Synthese abgebrochen. Korrigieren Sie in diesem Fall den Fehler,
-    f�hren Sie erst wieder eine Simulation durch und starten Sie dann
-    wieder die Synthese.
+    [[F13]]{#F13 label="F13"} Synthesis Schematic {#F13}
 
--   Wenn der Syntheselauf fertig ist, dann �ffnet sich ein Fenster.
-    Wählen Sie dort "View Reports" aus. Im Vivado-Fenster wird unten nun
-    der Reiter "Reports" hervorgehoben. Mit einem Doppelklick auf die
-    Reports werden diese in einem Editor-Fenster geöffnet. Abbildung
-    [12](#F12){reference-type="ref" reference="F12"} zeigt einen
-    Ausschnitt aus dem "Utilization Report", in welchem zu erkennen ist,
-    dass 4 Slice-LUTs und 6 Flipflops für die Implementierung des
-    Designs ben�tigt wird.
+    Close the "Synthesized Design" window by clicking on the 'X' in the blue title bar.
 
-    ![[\[F12\]]{#F12 label="F12"}Utilization Report
-    ](Bilder/viv12.eps){#F12}
+definition of the boundary conditions
 
--   Klicken Sie im "Flow Navigator" unter "Synthesis" auf "Open
-    Synthesized Design". Wenn Sie nun auf "Schematic" klicken, dann wird
-    ein Fenster mit einer Schema-Zeichnung der Umsetzung Ihres Codes in
-    die Zieltechnologie angezeigt, wie Abbildung
-    [13](#F13){reference-type="ref" reference="F13"} zeigt.
+In this section, the "constraints" for the design are to be defined. The constraints are necessary for the implementation. What is definitely needed is the assignment of the ports of the VHDL code to the pins of the FPGA. Furthermore, you can (and should) also specify temporal constraints. In the simplest case, this is the specification of the maximum clock frequency that the design should be able to achieve.
 
-    ![[\[F13\]]{#F13 label="F13"} Synthesis Schematic
-    ](Bilder/viv13.eps){#F13}
+    If the synthesized design is not open, click "Open Synthesized Design" under "Synthesis" in the "Flow Navigator".
 
--   Schlie�en Sie das Fenster "Synthesized Design" wieder durch Klick
-    auf das 'X' im blauen Titelbalken.
+    In the toolbar, select the "I/O Planning" layout for Vivado instead of the "Default Layout". You should then get a view like in Figure 14 {reference-type="ref" reference="F14"}.
 
-Definition der Randbedingungen
-==============================
+    [[F14]]{#F14 label="F14"} Vivado: I/O-Planning View{#F14}
 
-In diesem Abschnitt sollen die "Constraints" (dt.: Randbedingungen) für
-das Design definiert werden. Die Randbedingungen sind für die
-Implementierung notwendig. Was auf jeden Fall ben�tigt wird, sind die
-Zuordnung der Ports des VHDL-Codes zu den Pins des FPGA. Ferner kann man
-auch (und sollte man auch) zeitliche Randbedingungen angeben. Im
-einfachsten Fall ist dies die Angabe der maximalen Taktfrequenz, die das
-Design erreichen können soll.
+    [[F15]]{#F15 label="F15"} I/O Planning: I/O Ports {#F15}
 
--   Sofern das synthetisierte Design ("Synthesized Design") nicht
-    geöffnet ist, klicken Sie im "Flow Navigator" unter "Synthesis" auf
-    "Open Synthesized Design".
+    The properties of the I/O ports can be defined under the "I/O Ports" tab at the bottom, as shown in Figure 15 {reference-type="ref" reference="F15"}. This is where the ports are assigned to the FPGA pins ("Site"), the I/O standards are set, and other features such as driver strength or the "Slew Rate" are defined. Expand the "ctr_out" and "Scalar ports" entries by clicking on the arrow symbol. Now enter the "Sites" or FPGA pins for the corresponding ports as shown in Figure 15 {reference-type="ref" reference="F15"}. This corresponds to an assignment for the Basys3 board, so that the counter output is on the first four LEDs, two of the buttons are used, and the clock oscillator is connected. You can find more indialogation about this in the "Reference Manual" for the board if you want to use the board. It is also important to set the "LVCMOS33" standard under "I/O Std", as LEDs, buttons and the clock oscillator on the board work with 3.3 V. You can leave the remaining settings at their default values.
 
--   Wählen Sie in der Werkzeugleiste statt dem "Default Layout" für
-    Vivado das Layout "I/O Planning". Sie m�ssten dann eine Ansicht wie
-    in Abbildung [14](#F14){reference-type="ref" reference="F14"}
-    bekommen.
+    [[F16]]{#F16 label="F16"} Timing Constraints: Clock frequency{#F16}
 
-    ![[\[F14\]]{#F14 label="F14"} Vivado: I/O-Planning Ansicht
-    ](Bilder/viv14.eps){#F14}
+    Save the boundary conditions with "File" → "Constraints" → "Save". Confirm the message that the synthesis results may subsequently be out of date with OK. In the following dialog, give the file the name "constr.xdc".
 
-    ![[\[F15\]]{#F15 label="F15"} I/O Planning: I/O Ports
-    ](Bilder/viv15.eps){#F15}
+    To define the boundary condition for the system clock, click on "Constraints Wizard" under "Synthesis" in the "Flow Navigator". In the start window of the "Timing Constraints Wizard" click once on "Next". In the following dialog you can enter the frequency of the clock signal "clk" (Figure 16 {reference-type="ref" reference="F16"}). Under "Recommended Constraints" enter → Enter the value 100 in "Frequency (MHz)" (the frequency of the clock oscillator on the BASYS3 board is 100 MHz).
 
--   Unter dem Reiter "I/O Ports" ganz unten können die Eigenschaften der
-    I/O-Ports definiert werden, wie in Abbildung
-    [15](#F15){reference-type="ref" reference="F15"} gezeigt. Hier
-    erfolgt die Zuordnung der Ports zu den FPGA-Pins ("Site"), die
-    Einstellung der I/O-Standards und weitere Merkmale, wie
-    Treiberst�rke oder die "Slew Rate". Erweitern Sie die Eintr�ge
-    "ctr\_out" und "Scalar ports" durch Klicken auf das Pfeil-Zeichen.
-    Geben Sie nun die "Sites" oder FPGA-Pins wie in Abbildung
-    [15](#F15){reference-type="ref" reference="F15"} gezeigt für die
-    entsprechenden Ports ein. Dies entspricht einer Zuordnung für das
-    Basys3-Board, so dass die Ausgabe des Zähler auf den ersten vier
-    LEDs erfolgt, zwei der Taster benutzt werden und der Taktoszillator
-    angeschlossen wird. Weitere Informationen dazu können Sie dem
-    "Reference Manual" für das Board entnehmen, sofern Sie das Board
-    verwenden m�chten. Wichtig ist noch unter "I/O Std" den
-    "LVCMOS33"-Standard einzustellen, da LEDs, Taster und der
-    Clock-Oszillator auf dem Board mit 3,3 V arbeiten. Die restlichen
-    Einstellungen können Sie auf ihren Default-Werten belassen.
+    Skip all other dialog windows with "Skip to Finish" and close the last dialog with Finish.
 
-    ![[\[F16\]]{#F16 label="F16"} Timing Constraints: Taktfrequenz
-    ](Bilder/viv16.eps){#F16}
+    Finish defining constraints by clicking on the cross in the top right corner of the blue title bar of "Synthesized Design".
 
--   Speichern Sie die Randbedingungen mit "File" $\rightarrow$
-    "Constraints" $\rightarrow$ "Save". Best�tigen Sie die Meldung, dass
-    die Syntheseergebnisse anschlie�end m�glicherweise veraltet sein
-    werden, mit OK. Geben Sie der Datei im folgenden Dialog den Namen
-    "constr.xdc".
+    In the "Project Manager" window you will see under "Sources" → "Constraints" the file "constr.xdc". Open the file by double-clicking it. The file contains commands for creating the constraints defined above. Such a file could also be created manually and added to the project using "Add Sources". You can also make changes directly here in the file if, for example, the pin assignment is not correct.
 
--   Zur Definition der Randbedingung für den Systemtakt klicken Sie im
-    "Flow Navigator" unter "Synthesis" auf "Constraints Wizard". Klicken
-    Sie im Startfenster des "Timing Constraints Wizard" einmal auf
-    "Next". Im folgenden Dialog können Sie die Frequenz des Taktsignals
-    "clk" eingeben (Abbildung [16](#F16){reference-type="ref"
-    reference="F16"}). Tragen Sie unter "Recommended Constraints"
-    $\rightarrow$ "Frequency (MHz)" den Wert 100 ein (die Frequenz des
-    Taktoszillators betr�gt auf dem BASYS3-Board 100 MHz).
+    Note: Following this procedure, a synthesis run is first carried out without timing constraints having been defined beforehand. Global optimization goals are then specified during the synthesis (see synthesis settings). If a timing analysis is carried out after the synthesis (analogous to the procedure after implementation described below), it is reported that no constraints are present (entry "Check Timing"). However, after entering the timing constraints, a synthesis run can then be carried out again, in which case the timing constraints are then taken into account (and in all further synthesis runs). However, it should be noted that the delay times in particular are only estimated by the wiring ("net delay") (see [@Kesel09]).
 
--   �berspringen Sie alle weiteren Dialogfenster mit "Skip to Finish"
-    und schlie�en Sie auch den letzten Dialog mit Finish.
+implementation
 
--   Beenden Sie das Definieren von Constraints durch einen Klick auf das
-    Kreuz rechts oben im blauen Titelbalken von "Synthesized Design".
+In this section, the "implementation" is used to place the components on the FPGA and then wire them up. This process is also called "Place&Route".
 
--   Im "Project Manager"-Fenster sehen Sie unter "Sources" $\rightarrow$
-    "Constraints" die Datei "constr.xdc". Öffnen Sie die Datei mit einem
-    Doppelklick. Die Datei enth�lt Kommandos zum Erzeugen der oben
-    definierten Constraints. Eine solche Datei k�nnte also auch von Hand
-    erstellt und mit "Add Sources" zum Projekt hinzugef�gt werden. Sie
-    können auch �nderungen direkt hier in der Datei vornehmen, falls
-    z.B. die Pinzuordnung nicht korrekt ist.
+    In the "Flow Navigator" under "Implementation" click on "Run Implementation". If you get a message saying that the synthesis is "out of date", click on "Yes". This will run the synthesis again. Basically, Vivado checks the time stamps of the source files (VHDL codes, constraints, etc.) and restarts the relevant tools that are affected and also runs all the previous steps again. Basically, if you have changed sources later, it is sufficient to simply click on the last step "Generate Bitstream" again, so that all the necessary previous steps, such as synthesis and implementation, are then run again.
 
--   Hinweis: Nach dieser Vorgehensweise wird zun�chst ein Syntheselauf
-    durchgef�hrt, ohne dass Timing-Constraints vorher definiert wurden.
-    Dabei werden bei der Synthese dann globale Optimierungsziele
-    vorgegeben (siehe Einstellungen der Synthese). Nimmt man nach der
-    Synthese eine Timing-Analyse vor (analog zur weiter unten
-    beschriebenen Vorgehensweise nach der Implementierung), so wird
-    gemeldet, dass keine Constraints vorliegen (Eintrag "Check Timing").
-    Man kann dann allerdings nach Eingeben der Timing-Constraints
-    nochmals einen Syntheselauf durchf�hren, wobei dann die
-    Timing-Constraints ber�cksichtigt werden (und bei allen weiteren
-    Synthesel�ufen). Dabei ist allerdings zu beachten, dass insbesondere
-    die Verz�gerungszeiten durch die Verdrahtung ("net delay") nur
-    gesch�tzt werden (siehe [@Kesel09]).
+    After completing the implementation, click on "View Reports" and check the messages in the "Messages" tab. To check whether the "timing constraints" you specified were met, you can search for "Route Design" in the "Reports" tab and open the "Timing Summary Report" there. You can also get a quick overview further up in the "Project Summary" window.
 
-Implementierung
-===============
+    Now open the implemented design by clicking on "Open Implemented Design". A further tab "Timing" opens below, in which you can find detailed indialogation about the timing (Figure 17 {reference-type="ref" reference="F17"}). If you select "Intra Clock Paths" in the navigation window on the left in Figure 17 {reference-type="ref" reference="F17"}, you can see the "Intra Clock Paths" tab. → clk" you can get more detailed indialogation about the critical paths. Under "Setup" you will find indialogation about the paths that go from register to register (or from input to register if constraints were specified for the inputs). A positive "slack" means that the constraints were met (see also [@Kesel09]). Further indialogation can then be found in the respective line: start and end point of the path, total delay and the proportions of the routing and components. Under "Requirement" you should see the constraints you specified. If you select a line with the mouse, you can call up a context menu with the right mouse button: There you can, for example, use "Schematic" to display the path in the schema editor or use "View Path Report" to display detailed indialogation about this path.
 
-In diesem Abschnitt wird durch die "Implementation" (dt.:
-Implementierung) das Platzieren der Bauelemente auf dem FPGA vorgenommen
-und diese anschlie�end verdrahtet. Diesen Vorgang nennt man auch
-"Place&Route".
+    [[F17]]{#F17 label="F17"} Timing Report {#F17}
 
--   Klicken Sie im "Flow Navigator" unter "Implementation" auf "Run
-    Implementation". Wenn der Hinweis kommt, dass die Synthese
-    "out-of-date" ist, dann klicken Sie auf "Yes". Damit wird der
-    Syntheselauf nochmals ausgef�hrt. Grunds�tzlich ist es so, dass
-    Vivado die Zeitstempel der Quelldateien (VHDL-Codes, Constraints,
-    etc.) �berpr�ft und die entsprechenden Tools, die davon betroffen
-    sind, wieder startet und auch alle Schritte vorher wieder ausf�hrt.
-    Im Grunde reicht es daher aus, wenn Sie sp�ter Quellen ver�ndert
-    haben, dass Sie einfach wieder auf den letzten Schritt "Generate
-    Bitstream" klicken, so dass damit dann auch alle notwendigen
-    vorherigen Schritte, wie Synthese und Implementierung, wieder
-    ausgef�hrt werden.
+Creating the bit file and configuring the FPGA
 
--   Klicken Sie nach dem Abschluss der Implementierung auf "View
-    Reports" und �berpr�fen Sie die Meldungen im Reiter "Messages". Um
-    zu �berpr�fen, ob die von Ihnen vorgegebenen "Timing Constraints"
-    eingehalten werden konnten, können Sie im Reiter "Reports" nach
-    "Route Design" suchen und dort den "Timing Summary Report" Öffnen.
-    Eine schnelle �bersicht bekommen Sie auch weiter oben im Fenster
-    "Project Summary".
+Before the FPGA can be configured, the results of the implementation run must be converted into a "bitstream" (a configuration file for the FPGA). The following steps only make sense if you have an FPGA board available.
 
--   Öffnen Sie nun das implementierte Design, indem Sie auf "Open
-    Implemented Design" klicken. Es �ffnet sich unten ein weiterer
-    Reiter "Timing" in welchem Sie detaillierte Informationen zum Timing
-    erhalten (Abbildung [17](#F17){reference-type="ref"
-    reference="F17"}). Wenn Sie in Abbildung
-    [17](#F17){reference-type="ref" reference="F17"} im
-    Navigationsfenster links den Punkt "Intra Clock Paths $\rightarrow$
-    clk" aufklappen, können Sie detailliertere Informationen zu den
-    kritischen Pfaden erhalten. Unter "Setup" finden Sie die
-    Informationen zu den Pfaden, die von Register zu Register (oder ggf.
-    vom Eingang zum Register, falls Constraints für die Eing�nge
-    spezifiziert wurden) gehen. Ein positiver "Slack" bedeutet dabei,
-    dass die Constraints eingehalten wurden (siehe auch [@Kesel09]).
-    Weitere Informationen sind in der jeweiligen Zeile dann zu finden:
-    Start- und Endpunkt des Pfades, Gesamtverz�gerung und die Anteile
-    des Routings und der Komponenten. Unter "Requirement" sollten Sie
-    die von Ihnen vorgegebenen Constraints sehen. Wenn Sie mit der Maus
-    eine Zeile ausWählen, dann können Sie mit der rechten Maustaste ein
-    Kontextmen� aufrufen: Dort können Sie z.B. mit "Schematic" sich den
-    Pfad im Schema-Editor anzeigen lassen oder mit "View Path Report"
-    detaillierte Informationen zu diesem Pfad anzeigen lassen.
+    In the "Flow Navigator" under "Program and Debug" click on "Generate Bitstream" and wait until the bitstream generation is finished.
 
-    ![[\[F17\]]{#F17 label="F17"} Timing Report
-    ](Bilder/viv17.eps){#F17}
+    If you have a Basys3 board (or another one) available, connect it to the development computer with a USB cable.
 
-Erstellen des Bit-Files und Konfiguration des FPGAs
-===================================================
+    [[F18]]{#F18 label="F18"} Hardware Manager {#F18}
 
-Bevor das FPGA konfiguriert werden kann, m�ssen die Ergebnisse des
-Implementierungslaufs in einen "Bitstream" (eine Konfigurationsdatei für
-das FPGA) umgewandelt werden. Die nachfolgenden Schritte sind nur
-sinnvoll, wenn Sie ein FPGA-Board zur Verf�gung haben.
+    When the bitstream generation is finished, you can click "Open Hardware Manager". In the upper left corner of the "Hardware Manager" window (see Figure 18 {reference-type="ref" reference="F18"}), click "Open Target" → "Auto Connect". Make sure the board is turned on first!
 
--   Klicken Sie im "Flow Navigator" unter "Program and Debug" auf
-    "Generate Bitstream" und warten Sie, bis die Bitstream-Generierung
-    beendet ist.
+    You should now see the view shown in Figure 19 {reference-type="ref" reference="F19"}. If you now click on "Program Device", you will be given the FPGA device to select and then the preset selection of the bitstream file. Click on "Program device". The FPGA will now be programmed. When this process is finished, your design should be ready for testing on the board!
 
--   Wenn Sie nun ein Basys3-Board (oder ein anderes) zur Verf�gung
-    haben, dann verbinden Sie es mit einem USB-Kabel mit dem
-    Entwicklungsrechner.
+    [[F19]]{#F19 label="F19"} Hardware Manager: Programming the target{#F19}
 
-    ![[\[F18\]]{#F18 label="F18"} Hardware Manager
-    ](Bilder/viv18.eps){#F18}
-
--   Wenn die Generierung des Bitstream fertig ist, können Sie auf "Open
-    Hardware Manager" klicken. In der linken oberen Ecke des Fensters
-    "Hardware Manager" (siehe Abbildung [18](#F18){reference-type="ref"
-    reference="F18"}) klicken Sie auf "Open Target" $\rightarrow$ "Auto
-    Connect". Stellen Sie vorher sicher, dass das Board eingeschaltet
-    ist!
-
--   Nun m�ssten Sie die Ansicht wie in Abbildung
-    [19](#F19){reference-type="ref" reference="F19"} sehen. Wenn Sie nun
-    auf "Program Device" klicken, erhalten Sie den FPGA-Baustein zur
-    Auswahl und danach die voreingestellte Auswahl des Bitstream-Files.
-    Klicken Sie hier auf "Program device". Das FPGA wird nun
-    programmiert. Wenn dieser Vorgang beendet ist, m�sste Ihr Design zum
-    Test auf dem Board bereit sein!
-
-    ![[\[F19\]]{#F19 label="F19"} Hardware Manager: Programmierung des
-    Targets ](Bilder/viv19.eps){#F19}
-
--   Hinweis: Wenn bei "Program Device" kein Bit-File erscheint, dann ist
-    es in der Regel so, dass Sie m�glicherweise beim Erstellen des
-    Vivado-Projekts den falschen FPGA-Typ ausgew�hlt haben. Bei der
-    Verbindung des Hardware Managers zum FPGA wird die Typbezeichnung
-    ausgelesen (Fenster "Hardware Device Properties"). Wenn diese nicht
-    mit der Typbezeichnung im Bit-File �bereinstimmt, wird das Bit-File
-    nicht zum Download automatisch eingetragen. Sollte dies passiert
-    sein, dann m�ssen Sie im Project Manager auf "Settings" gehen und
-    dort den FPGA-Typ korrigieren ("xc7a35tcpg236-1") und dann alle
-    Schritte nochmals durchlaufen, indem Sie einfach auf "Generate
-    Bitstream" klicken.
+    Note: If no bit file appears under "Program Device", it is usually because you may have selected the wrong FPGA type when creating the Vivado project. When the Hardware Manager connects to the FPGA, the type designation is read out (window "Hardware Device Properties"). If this does not match the type designation in the bit file, the bit file is not automatically entered for download. If this has happened, you must go to "Settings" in the Project Manager and correct the FPGA type ("xc7a35tcpg236-1") and then go through all the steps again by simply clicking on "Generate Bitstream".
