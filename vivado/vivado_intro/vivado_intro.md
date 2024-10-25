@@ -52,72 +52,63 @@
 ## Simulation
 
 * In this section we will simulate the design using the testbench.
-* To start the simulator, click on `Run Simulation > Run Behavioral Simulation` in the _Flow Navigator_ under _Simulation_. 
+* To start the simulator, click on `Run Simulation > Run Behavioral Simulation` in the _Flow Navigator_ under _Simulation_. The simulator window should open up as shown in the next image.
+  * _Note_: Vivado is an integrated development environment that starts various tools such as project management, simulator, synthesis or implementation via the _Flow Navigator_ and displays them in an integrated window. Whenever you start a tool a new window will open up in the central area of Vivado and gets stacked on top of the previous tool. You can close a tool by pushing the symbol `X` in the blue title area of the tool (last symbol to the right) and you will be back to the previous tool window. On the bottom of this window stack you should always have the _Project Manager_ window, which you should not close because that would close the complete project.
 
-    Open this file with a text editor and try to understand where your error is. Correct the errors in the source code and start the simulator again. If the simulation started correctly, the simulator window should be open in Vivado, as shown in the figure.
+![Simulation](images/viv_006.png)
 
-    Under _Scope_ you can see the hierarchical structure of your design. The test bench _counter_tb_ is at the top level, and below that is the counter _counter_ (instance name _dut_, see Instancing in the Test Bench). The ports, signals and constants defined for the module currently selected under _Scope_ are listed in the _Objects_ window; these can in turn be transferred to the display of the signal curves on the right edge of the window using _drag & drop_. By default, the signal curves of all objects at the top hierarchy level are displayed, in this case the test bench.
+* Under the _Scope_ tab (on the left side of the simulator window) you can see the hierarchical structure of your design. The test bench _counter_tb_ is at the top level, and below that is the counter _counter_ (instance name _dut_, see testbench). The ports, signals and constants defined for the module currently selected under _Scope_ are listed in the _Objects_ window; these can in turn be transferred to the waveform window on the right side using _drag & drop_. By default, the signal curves of all objects at the top hierarchy level are displayed, in this case the test bench.
+* To the right of _Scope_ and _Objects_, the signal curves of the selected signals are displayed in a _Waveform Window_. By default, 1000 ns are simulated, but this default setting can be changed in the _Flow Navigator_ under `Settings > Simulation` before the next start of the simulator. In the _Waveform Window_ you will find a bar at the top with buttons for zooming and other functions. To see the complete signal curve, for example, use the `Zoom Fit` button.
+  * _Note_: Hover with the mouse over the symbols in the _Waveform Window_ and you will see the function of the symbols. 
+* If you want to see internal signals from the _counter_, then select the instance name _dut_ under _Scope_ and then you can select the corresponding signals under _Objects_ using the right mouse button: In the context menu that appears, you can then add the signal using `Add To Wave Window`. 
+* However, you will not yet see any signal curves for the new signals. To see them, you must restart the simulator: The Vivado toolbar was expanded above the simulator window when the simulator was started (marked in red in the previous image). There you will find several blue buttons; if you hover the mouse over them, the function is shown. You can use the `Restart` button to reset the simulator to time 0. You can now enter a new simulation time in the toolbar field (e.g. 100 ns) and simulate the corresponding time using the `Run for ...` button (showing the time you entered in the field). 
+* You can also enter these commands directly in the _Tcl Console_ which you can find in the lower area of the Vivado GUI as shown in the next image (the commands you have entered so far are also displayed there), this can be more practical. The commands are for example: _restart_ and _run 100 ns_. If you enter _run \<time\>_ several times, the simulation will continue accordingly with the time you entered. Only a _restart_ will reset the simulation.
 
-    To the right of _Scope_ and _Objects_, the signal curves of the selected signals are displayed in a _Wave Window_. By default, 1000 ns are simulated, but this default setting can be changed in the _Flow Navigator_ under _Settings_$\rightarrow$_'Simulation_' before the next start of the simulator. In the _Wavedialog Display_ you will find a bar at the top with buttons for zooming and other functions. To see the complete signal curve, for example, use the _Zoom Fit_ button.
+![Simulation](images/viv_007.png)
 
-    If you want to see signals from the _counter_, then select the instance name _dut_ under _Scope_ and then you can select the corresponding signals under _Objects_ using the right mouse button: In the context menu that appears, you can then add the signal using _Add To Wave Window_, as shown in the figure. However, you will not yet see any signal curves for the new signals. To do this, you must restart the simulator: The Vivado toolbar was expanded above the simulator window when the simulator was started. There you will find several blue buttons; if you move the mouse over them, the function is shown.
-
-    You can use the _Restart_ button to reset the simulator to time 0. You can now enter a new simulation time in the toolbar (e.g. 100 ns) and simulate the corresponding time using the _Run for ..._ button. You can also enter these commands directly in the Tcl console below (the commands you have entered so far are also displayed there), this is usually more practical. The commands are: _restart_ and _run 100 ns_. If you enter _run ..._ several times, the simulation will continue accordingly; only a _restart_ will reset the simulation.
-
-    If you select a signal in the _Wave Window_ with the right mouse button, you can change the value representation under _Radix_ in the context menu. For example, _unsigned decimal_ might be useful for a counter.
-
-    You can save the settings in the _Wave Window_ using the disk symbol: _Save Wavedialog Configuration_. This file will then be added to your project if desired (as prompted in the dialog), and when you start the simulator again, the added signals and all settings will be there.
-
-    If you need to change a VHDL file, you do not need to close the simulator window. Select the relevant file in the relevant tab in the simulator window and make the changes. Don't forget to save the file afterwards. The _Relaunch_ button re-compiles the code and restarts the simulation. Important: If you change the VHDL code and only do a _Restart_, the old code will be simulated! Therefore, a _Relaunch_ must be perdialoged after every code change.
-
-    When you are finished and want to close the simulation, click on the 'X' on the right in the blue title bar of the simulator window. You can also do this later with the other tools such as synthesis or implementation. Vivado is an integrated development environment that starts various tools such as project management, simulator, synthesis or implementation via the _Flow Navigator_ and displays them in an integrated window.
+* If you select a signal in the _Wave Window_ with the right mouse button, you can change the value representation under `Default Radix` in the context menu. For example, `unsigned decimal` might be useful for a counter.
+* You can save the changes and settings in the _Wave Window_ using the disk symbol: `Save Wavedialog Configuration`. This file will then be added to your project if desired (as prompted in the dialog), and when you start the simulator again, the added signals and all settings will be there.
+* If you need to change a VHDL file, you do not need to close the simulator window. Select the source code file in the _Sources_ tab in the simulator window (next to the _Scope_ tab), open it and make the changes. Don't forget to save the file afterwards. The `Relaunch` button (in the Vivado toolbar) re-compiles the code and restarts the simulation. Important: If you change the VHDL code and only do a `Restart`, the old code will be simulated! Therefore, a _Relaunch_ must be done after every code change.
+* When you are finished and want to close the simulation, click on the `X` on the right in the blue title bar of the simulator window.  
 
 ---
 ## RTL analysis
 
-With the help of the so-called RTL analysis, you can get an impression of the implementation of the VHDL code in hardware. This is not yet the actual logic synthesis step, ie there is no mapping to the target technology. The representation here is done using macroblocks. However, this representation is much clearer than the actual logic synthesis, so that it allows a quick assessment of the VHDL code.
+* With the help of the so-called _RTL Analysis_, you can get an impression of the implementation of the VHDL code in hardware. This is not yet the actual logic synthesis step, i.e. there is no mapping to the target technology. The representation here is done using macroblocks. However, this representation is much clearer than the actual logic synthesis, so that it allows a quick assessment of the VHDL code.
+* In the _Flow Navigator_ under _RTL Analysis_ click on `Open Elaborated Design` and confirm the message with `OK`. Vivado now starts the _Elaborated Design_ window and a schematic drawing of the elaborated code should now be visible in the _Schematic_ tab as shown in the next image.
+* What Vivado is doing here is basically a semantic analysis of your VHDL code and shows you how the code is implemented in hardware by Vivado. In the following image you can see the counter register `counter_reg[3:0]` and the incrementer. You can also see the two flip-flops `detect_reg[1:0]` and the _AND_ gate for edge detection. This allows you to check whether your code is implemented in hardware by Vivado as you imagined. Close the _Elaborated Design_ window by clicking on the `X` in the blue title bar.
 
-[[F11]]{#F11 label=_F11_}Vivado: Elaborated Design{#F11}
+![Elaboration](images/viv_008.png)
 
-In the _Flow Navigator_ under _RTL Analysis_ click on _Open Elaborated Design_ and confirm the message with _OK_. Vivado now starts the _Elaborated Design_ window and a schematic drawing of the elaborated code should now be visible in the _Schematic_ tab. What Vivado is doing here is basically a semantic analysis of your VHDL code and shows you how the code is implemented in hardware by Vivado. In Figure 11 {reference-type=_ref_ reference=_F11_} you can see the counter register _counter_reg[3:0]_ and the incrementer. You can also see the two flip-flops _detect_reg[1:0]_ and the AND gate for edge detection. This allows you to check whether your code is implemented in hardware by Vivado as you imagined. Close the _Elaborated Design_ window by clicking on the 'X' in the blue title bar.
-synthesis
+---
+## Synthesis
+* The next step is _Synthesis_: It maps the VHDL design onto the components available in the FPGA (flip-flops, look-up tables, multiplexers, RAM). The synthesis can also reveal design errors that may not be visible in the simulation (e.g. incomplete sensitivity lists or incompletely coded IF conditions). It is therefore highly recommended to examine the messages (warnings) of the synthesis closely.
+* In the _Flow Navigator_ under _Synthesis_ click on `Run Synthesis`. Do not change anything in the dialog window and confirm with `OK`. The synthesis run will take some time; you can see how far the synthesis has progressed in the Vivado window at the bottom in the tab `Design Runs`.
+* When the synthesis run is finished, a window opens. Select `View Reports`. The `Reports` tab is now highlighted at the bottom of the Vivado window. Double-clicking on the reports opens them in an editor window. The next image shows an excerpt from the _Utilization Report_, in which you can see that 4 slice LUTs and 6 flip-flops are required to implement the design.
 
-In this section, logic synthesis takes place: it maps the VHDL design onto the components available in the FPGA (flip-flops, look-up tables, multiplexers, RAM). The synthesis can also reveal design errors that may not be visible in the simulation (e.g. incomplete sensitivity lists or incompletely coded IF conditions). It is therefore highly recommended to examine the messages (warnings) of the synthesis closely.
+![Synthesis](images/viv_009.png)
 
-    In the _Flow Navigator_ under _Synthesis_ click on _Run Synthesis_. Do not change anything in the dialog window and confirm with _OK_. The synthesis run will take some time; you can see how far the synthesis has progressed in the Vivado window at the very bottom under _Design Runs_.
+* Any warnings or errors will be displayed in the `Messages` tab. When you switch off the `Info` you will get a better overview over the warnings. There are warnings for every tool and when you select `Synthesis` you should see only one warning `[Synth 8-7080] Parallel synthesis criteria is not met
+`, which means that the design is to small for a parallel synthesis. 
+* When you later on write your own code then please check in the `Messages` tab that there are no incomplete sensitivity lists or latches caused by incomplete signal assignments. These are not errors, just warnings, i.e. your code will be implemented in hardware, but you may end up with hardware that does not work correctly.
+* In the _Flow Navigator_ under _Synthesis_ click on `Open Synthesized Design`. If you now click on `Schematic` in the _Flow Navigator_ under _Synthesis_, a window will appear with a schematic drawing of the implementation of your code in the target technology, as shown in the next image.
 
-    Any warnings or errors will be displayed in the _Messages_ tab. Please check that there are no incomplete sensitivity lists or latches caused by incomplete signal assignments. These are not errors, just warnings, ie your code will be implemented in hardware, but you may end up with hardware that does not work correctly.
-
-    If the design still contains errors (e.g. syntax errors), the synthesis is aborted. In this case, correct the error, run a simulation again and then start the synthesis again.
-
-    When the synthesis run is finished, a window opens. Select _View Reports_. The _Reports_ tab is now highlighted at the bottom of the Vivado window. Double-clicking on the reports opens them in an editor window. Figure 12 {reference-type=_ref_ reference=_F12_} shows an excerpt from the _Utilization Report_, in which you can see that 4 slice LUTs and 6 flip-flops are required to implement the design.
-
-    [[F12]]{#F12 label=_F12_}Utilization Report {#F12}
-
-    In the _Flow Navigator_ under _Synthesis_ click on _Open Synthesized Design_. If you now click on _Schematic_, a window will appear with a schematic drawing of the implementation of your code in the target technology, as shown in Figure 13 {reference-type=_ref_ reference=_F13_}.
-
-    [[F13]]{#F13 label=_F13_} Synthesis Schematic {#F13}
-
-    Close the _Synthesized Design_ window by clicking on the 'X' in the blue title bar.
-
+![Synthesis](images/viv_010.png)
+    
 ---
 ## Definition of constraints
 
-In this section, the _constraints_ for the design are to be defined. The constraints are necessary for the implementation. What is definitely needed is the assignment of the ports of the VHDL code to the pins of the FPGA. Furthermore, you can (and should) also specify temporal constraints. In the simplest case, this is the specification of the maximum clock frequency that the design should be able to achieve.
+* In this section, the _constraints_ for the design are to be defined. The constraints are necessary for the implementation. What is definitely needed is the assignment of the ports of the VHDL code to the pins of the FPGA. Furthermore, you can (and should) also specify timing constraints. In the simplest case, this is the specification of the maximum clock frequency that the design should be able to achieve.
+* If the synthesized design is not open, click `Open Synthesized Design` under _Synthesis_ in the _Flow Navigator_.
+* In the Vivado toolbar, click _Layout_ and select the _I/O Planning_ layout for Vivado instead of the _Default Layout_. You should then get a view like the following image. The properties of the I/O ports can be defined under the _I/O Ports_ tab at the bottom. This is where the ports are assigned to the FPGA pins (_Site_), the I/O standards are set, and other features such as driver strength or the _Slew Rate_ are defined. 
 
-    If the synthesized design is not open, click _Open Synthesized Design_ under _Synthesis_ in the _Flow Navigator_.
+ ![Constraints](images/viv_011.png)
 
-    In the toolbar, select the _I/O Planning_ layout for Vivado instead of the _Default Layout_. You should then get a view like in Figure 14 {reference-type=_ref_ reference=_F14_}.
+* Expand the `ctr_out` and `Scalar ports` entries by clicking on the arrow symbol. In the column `Package Pin` the ports of the VHDL code can be assigned to the package pins. Enter the informations as shown in the next image. This corresponds to an assignment for the Basys3 board, so that the counter output is on the first four LEDs, two of the buttons are used, and the clock oscillator is connected. It is also important to set the _LVCMOS33_ standard under _I/O Std_, as LEDs, buttons and the clock oscillator on the board work with 3.3 V. You can leave the remaining settings at their default values.
 
-    [[F14]]{#F14 label=_F14_} Vivado: I/O-Planning View{#F14}
+ ![Constraints](images/viv_012.png)
 
-    [[F15]]{#F15 label=_F15_} I/O Planning: I/O Ports {#F15}
-
-    The properties of the I/O ports can be defined under the _I/O Ports_ tab at the bottom, as shown in Figure 15 {reference-type=_ref_ reference=_F15_}. This is where the ports are assigned to the FPGA pins (_Site_), the I/O standards are set, and other features such as driver strength or the _Slew Rate_ are defined. Expand the _ctr_out_ and _Scalar ports_ entries by clicking on the arrow symbol. Now enter the _Sites_ or FPGA pins for the corresponding ports as shown in Figure 15 {reference-type=_ref_ reference=_F15_}. This corresponds to an assignment for the Basys3 board, so that the counter output is on the first four LEDs, two of the buttons are used, and the clock oscillator is connected. You can find more indialogation about this in the _Reference Manual_ for the board if you want to use the board. It is also important to set the _LVCMOS33_ standard under _I/O Std_, as LEDs, buttons and the clock oscillator on the board work with 3.3 V. You can leave the remaining settings at their default values.
-
-    [[F16]]{#F16 label=_F16_} Timing Constraints: Clock frequency{#F16}
-
-    Save the boundary conditions with _File_ → _Constraints_ → _Save_. Confirm the message that the synthesis results may subsequently be out of date with OK. In the following dialog, give the file the name _constr.xdc_.
+* Save the constraints by selecting `File > Constraints > Save` in the Vivado toolbar. Confirm the message that the synthesis results may subsequently be out of date with OK. In the following dialog, give the file the name `constr.xdc`.
 
     To define the boundary condition for the system clock, click on _Constraints Wizard_ under _Synthesis_ in the _Flow Navigator_. In the start window of the _Timing Constraints Wizard_ click once on _Next_. In the following dialog you can enter the frequency of the clock signal _clk_ (Figure 16 {reference-type=_ref_ reference=_F16_}). Under _Recommended Constraints_ enter → Enter the value 100 in _Frequency (MHz)_ (the frequency of the clock oscillator on the BASYS3 board is 100 MHz).
 
