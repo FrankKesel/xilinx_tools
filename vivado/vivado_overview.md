@@ -12,4 +12,6 @@ The Vivado/Vitis tool version used is 2024.1. We assume that you have an install
 
 ---
 ## Additional Documentation
-* Documentation on Vivado can be found for example here: [UltraFast Design Methodology Guide for FPGAs and SoCs ](https://docs.amd.com/r/en-US/ug949-vivado-design-methodology).
+* Documentation on Vivado can be found for example here: 
+  * [UltraFast Design Methodology Guide for FPGAs and SoCs ](https://docs.amd.com/r/en-US/ug949-vivado-design-methodology) 
+  * [Vivado Design Suite User Guide: Getting Started](https://docs.amd.com/r/en-US/ug910-vivado-getting-started/Vivado-Design-Suite-Overview)
