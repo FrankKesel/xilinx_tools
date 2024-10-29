@@ -1,30 +1,18 @@
 # Vitis Kernel Based Design Tutorial
 
 ---
+## Overview
+* In this tutorial the kernel based design using an extensible platform is described. You can find a pre-built extensible platform [here](../resources/extensible_platform/). Download the zip-file and unpack it on your computer. The location of the platform-directory can be anywhere on your computer. It is further assumed that you have a Kria KV260 Starter Kit board with Ubuntu Linux (Version 22.04).
 
-- [Vitis Kernel Based Design Tutorial](#vitis-kernel-based-design-tutorial)
-  - [Introduction](#introduction)
-  - [IP development in Vitis HLS](#ip-development-in-vitis-hls)
-  - [Generate the Programmable Logic Binary](#generate-the-programmable-logic-binary)
-  - [Generate a device tree overlay file](#generate-a-device-tree-overlay-file)
-  - [File transfer and directories on the target](#file-transfer-and-directories-on-the-target)
-  - [SW development in Python with Jupyter notebooks and Pynq](#sw-development-in-python-with-jupyter-notebooks-and-pynq)
-  - [SW development in C++ on the Kria target](#sw-development-in-c-on-the-kria-target)
-  - [References](#references)
-
----
-## Introduction
-* In this tutorial the kernel based design using an extensible platform is described. It is assumed that an extensible platform is available (for a detailed description how to create such a platform and the sysroot-directory see document [`vitis_extensible_streaming_platform_design.md`](../01_extensible_platform/vitis_extensible_streaming_platform_design.md)). The location of the platform-directory can be anywhere on your computer. It is further assumed that we have a Kria KV260 target with Ubuntu Linux (Version 22.04).
-
-* The design steps are:
+* The tutorial will take the following steps:
   * Develop the IP kernels with Vitis HLS and export them as .xo-files.
   * Build the "hardware" with Vitis v++ compiler (using a bash script), i.e. the bitfile for the programmable logic.
   * Transfer the hardware binary to the Kria target for SW development with Pynq or C/C++ development with Vitis. 
-  * Import the "hardware" in Pynq as overlay and write Python SW with Jupyter Notebook running on Kria board.
+  * Import the "hardware" in Pynq as overlay and write Python SW with Jupyter Notebook running on the Kria board.
   * Develop a C/C++ software application in Vitis. 
-* The necessary source codes for this tutorial can be found in the repository in the folder `demos > vadd`. Just copy the complete folder and keep the directory structure for this demo project:
-  * `dtbo`: Generate the device tree overly here.
-  * `hls`: Directory for IP core generation with Vitis HLS.
+* The necessary source codes for this tutorial can be found [here](../kernel_based_design/reference_files/). Just copy the complete folder and keep the directory structure for this tutorial. You can either download this whole Github repository or only the folder `reference_files` using a browser extension like [GitZip](https://gitzip.org). Rename the folder to `vadd`. The sub-folders contain the following:
+  * `dtbo`: Folder for generation of device tree data.
+  * `hls`: Folder for IP core generation with Vitis HLS.
   * `kria/jupyter_zynq`: Here you can find the Jupyter notebook code which must be transferred to the Kria target.
   * `kria/vadd_sw`: Here you can find a C++ SW project using CMake as build system. The SW will be compiled on the Kria target directly.
   * `system`: This directory will be used for building the PL binary.
