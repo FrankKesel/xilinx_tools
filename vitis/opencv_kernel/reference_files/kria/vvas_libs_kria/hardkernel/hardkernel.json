@@ -1,0 +1,14 @@
+{
+  "xclbin-location": "/lib/firmware/xilinx/convolution/binary_container_1.bin",
+  "vvas-library-repo": "/home/ubuntu/projects/convolution/vvas_libs_kria/hardkernel",
+  "element-mode":"transform",
+  "kernels": [
+    {
+      "kernel-name": "conv_top:{conv_top_1}",
+      "library-name": "libhardkernel.so",
+      "config": {
+      	"timing_enable" : true
+      }
+    }
+  ]
+}

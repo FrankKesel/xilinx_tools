@@ -1,0 +1,12 @@
+{
+  "vvas-library-repo": "/home/ubuntu/projects/convolution/vvas_libs_kria/softkernel",
+  "element-mode":"transform",
+  "kernels": [
+    {
+      "library-name": "libsoftkernel.so",
+      "config": {
+      	"timing_enable" : true
+      }
+    }
+  ]
+}

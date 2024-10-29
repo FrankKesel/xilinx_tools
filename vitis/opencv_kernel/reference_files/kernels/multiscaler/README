@@ -1,0 +1,9 @@
+Updated Version of Xilinx VVAS v2.0 multiscaler IP (https://github.com/Xilinx/VVAS/tree/vvas-rel-v2.0/vvas-accel-hw/multiscaler): 
+- Problem with original version: 
+  - Device tree generation with platforms containing the kernel fails, most likely due to name confusion with different Xilinx IP (LogiCORE™ IP Video Multi Scaler)   
+   
+- Changes made to original: 
+  - Makefile v++ flag '--kernel' from v_multi_scaler to multi_scaler
+  - Makefile target changed from v_multi_scaler to multi_scaler
+  - HLS top-level-function name in v_multi_scaler.h and v_multi_scaler.cpp changed from v_multi_scaler(...) to multi_scaler(...)
+	
