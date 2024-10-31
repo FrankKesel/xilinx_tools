@@ -2,39 +2,44 @@
 
 ---
 ## Overview
-* In this tutorial the kernel based design using an extensible platform is described. You can find a pre-built extensible platform [here](../resources/extensible_platform/). Download the zip-file and unpack it on your computer. The location of the platform-directory can be anywhere on your computer. It is further assumed that you have a Kria KV260 Starter Kit board with Ubuntu Linux (Version 22.04).
+* In this tutorial the kernel based design using an extensible platform is described. You can find a pre-built extensible platform [here](../resources/extensible_platform/). Download the zip-file and unpack it on your computer. The location of the platform-directory can be anywhere on your computer. 
+* It is assumed that you have a Kria KV260 Starter Kit board with Ubuntu Linux (Version 22.04) and the _Pynq_ framework for running Jupyter notebooks on the Kria target. Further information can be found here: 
+  * [Ubuntu Linux for the Kria KV260](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/2363129857/Getting+Started+with+Certified+Ubuntu+22.04+LTS+for+Xilinx+Devices)
+  * [Pynq](http://www.pynq.io/)
 
 * The tutorial will take the following steps:
   * Develop the IP kernels with Vitis HLS and export them as .xo-files.
   * Build the "hardware" with Vitis v++ compiler (using a bash script), i.e. the bitfile for the programmable logic.
-  * Transfer the hardware binary to the Kria target for SW development with Pynq or C/C++ development with Vitis. 
+  * Transfer the hardware binary to the Kria target for SW development with Pynq or C/C++ development. 
   * Import the "hardware" in Pynq as overlay and write Python SW with Jupyter Notebook running on the Kria board.
-  * Develop a C/C++ software application in Vitis. 
+  * Develop a C/C++ software application. 
 * The necessary source codes for this tutorial can be found [here](../kernel_based_design/reference_files/). Just copy the complete folder and keep the directory structure for this tutorial. You can either download this whole Github repository or only the folder `reference_files` using a browser extension like [GitZip](https://gitzip.org). Rename the folder to `vadd`. The sub-folders contain the following:
   * `dtbo`: Folder for generation of device tree data.
   * `hls`: Folder for IP core generation with Vitis HLS.
   * `kria/jupyter_zynq`: Here you can find the Jupyter notebook code which must be transferred to the Kria target.
   * `kria/vadd_sw`: Here you can find a C++ SW project using CMake as build system. The SW will be compiled on the Kria target directly.
   * `system`: This directory will be used for building the PL binary.
+* The IP kernel development is done with Vitis HLS. You should have some knowledge on Vitis HLS and we recommend to do the [Vitis HLS tutorials](../../vitis_hls/hls_overview.md) beforehand. You will get all source codes and scripts in the folder `reference_files/hls`. Project setup will be done based on a shell script as described in the HLS tutorials. We will not cover the details of project setup and the work with the Vitis GUI for a HLS project here. Please refer to the HLS tutorials for details.
 * The development described here has been tested with Vivado/Vitis Version 2024.1. Depending on your installation you may have to adapt paths (e.g. paths to the Xilinx installation on your computer) in the scripts etc.
 
 ---
 ## IP development in Vitis HLS
-* In this step the IP core is developed with Vitis HLS. The complete source code for the HLS project can be found in the folder `demos > vadd > hls > src`. There is also a bash script `run_hls.sh` in the folder `demos > vadd > hls > project ` which runs the HLS. Execute this script on the command line. Refer also to the tutorial on HLS for explanations to the methodology and the workspace and project setup.
+* In this step the IP core is developed with Vitis HLS. The complete source code for the HLS project can be found in the folder `demos > vadd > hls > src`. There is also a bash script `run_hls.sh` in the folder `demos > vadd > hls > project ` which runs the HLS. 
   * The HLS project setup is defined in the file `project.cfg`.
-  * The address width of the IP core is be set to 32 Bit in order to be usable with the Pynq Jupyter notebooks. This can be set in the tcl-script with: `config_interface -m_axi_addr64=0`
+  * The address width of the IP core is be set to 32 Bit in order to be usable with the Pynq Jupyter notebooks. This is set in the tcl-script with: `config_interface -m_axi_addr64=0`
+  * Open the file `run_hls.sh` and check that the path `/opt/xilinx/Vitis/2024.1/settings64.sh` matches your installation of Vitis. Execute this script on the command line. 
 * Start Vitis and open the directory `vadd/hls` as a workspace. You will  find now the completed synthesis and you can study the results. You may also run `C Simulation` and `C/RTL Cosimulation`, although the code has already been verified. 
 * Then run the `Package` step in the flow. The IP Core is exported as .xo-file for the kernel based flow.
   * Note the location of the .xo-file for subsequent steps. It should be in the directory `hls/project/project_work` and is named `krnl_vadd.xo`. 
 
 ---
 ## Generate the Programmable Logic Binary
-* In this step the programmable logic part of the project will be generated by using an "extensible platform" and the IP core generated above. Since we only need the PL binary for the Kria target we will do this with a bash script `link_vadd.sh` which you can find in the directory `system`. In the script the v++ compiler is used to link the HLS generated kernel with the extensible platform and generate the PL binary. 
-* You can find an extensible platform for all projects under `demos/extensible_platform/kv260_platform.zip`. Unpack the file and store the platform directory on your computer. In the bash script `link_vadd.sh` you may have to adapt the path to the platform file where the extensible platform is stored on your computer.  
-* Start the bash script `link_vadd.sh` in a terminal. This may take a while, since a complete Vivado implementation run is performed. When the script has finished you should find two files in the `system` directory:
+* In this step the programmable logic part of the project will be generated by using an _extensible platform_ and the IP core generated above. We will do this with a bash script `link_vadd.sh` which you can find in the directory `system`. In the script the v++ compiler is used to link the HLS generated kernel with the extensible platform and generate the PL binary. 
+* As already mentioned you can find an extensible platform for all projects [here](../resources/extensible_platform/). Unpack the file and store the platform directory on your computer. In the bash script `link_vadd.sh` you may have to adapt the path to the platform file where the extensible platform is stored on your computer. If you store it in the same folder as the projects then the path should fit. 
+* Start the bash script `link_vadd.sh` in a terminal. This may take a while (depending on the performance of your computer), since a complete Vivado implementation run is performed. When the script has finished you should find two files in the `system` directory:
   * `vadd_hw.xclbin`: This is the PL binary and must be transferred to the Kria target.
   * `vadd_hw.xsa`: This file is needed for the next step.
-* The file `vadd_hw.xclbin.info` can be opened with a text editor and gives you some information on the generated hardware, e.g. base addresses and register offsets.
+* The file `vadd_hw.xclbin.info` can be opened with a text editor and gives you some information on the generated hardware, e.g. base addresses and register offsets. You can also open Vitis for an analysis of the results with `vitis --analyze vadd_hw.xclbin.link_summary`.
 
 
 ---
