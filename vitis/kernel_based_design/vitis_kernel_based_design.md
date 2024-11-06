@@ -6,7 +6,7 @@
 * It is assumed that you have a Kria KV260 Starter Kit board with Ubuntu Linux (Version 22.04) and the _Pynq_ framework for running Jupyter notebooks on the Kria target. Further information can be found here: 
   * [Ubuntu Linux for the Kria KV260](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/2363129857/Getting+Started+with+Certified+Ubuntu+22.04+LTS+for+Xilinx+Devices)
   * [Pynq](http://www.pynq.io/)
-
+* We also further assume that you have installed Vitis Version 24.1 on a Linux computer running Ubuntu 22.04.
 * The tutorial will go through the following steps:
   * Develop the IP kernel with Vitis HLS and export them as .xo-files.
   * Build the FPGA hardware, i.e. the bitfile for the programmable logic, with Vitis v++ compiler (using a bash script).
@@ -27,9 +27,10 @@
 ---
 ## IP development in Vitis HLS
 * In this step the IP core is developed with Vitis HLS. The complete source code for the HLS project can be found in the folder `demos > vadd > hls > src`. 
-* There is a bash script `run_hls.sh` in the folder `demos > vadd > hls > project ` which does the HLS project setup and runs synthesis. Open the file `run_hls.sh` and check that the path `/opt/xilinx/Vitis/2024.1/settings64.sh` matches your installation of Vitis. Execute this script on the command line. 
+* There is a bash script `run_hls.sh` in the folder `demos > vadd > hls > project ` which does the HLS project setup and runs synthesis. Open the file `run_hls.sh` and check that the path `/opt/xilinx/Vitis/2024.1/settings64.sh` matches your installation of Vitis. Execute this script on the command line of a terminal program on you Linux computer. 
   * The HLS project setup is defined in the file `project.cfg`. You must not change anything here.
   * The address width of the IP core is be set to 32 Bit in order to be usable with the Pynq Jupyter notebooks. This is set in the config file with: `syn.interface.m_axi_addr64=0`
+  * _Note_: When you want to start a shell script in a directory on the command line of a terminal program you must precede the script name with `./`, so in the case of the HLS script you must start it with `./run_hls.sh`. This will hold also for the following steps and also on the Kria target.
   
 * Start Vitis and open the directory `vadd/hls` as a workspace. You will  find now the completed synthesis and you can study the results. You may also run `C Simulation` and `C/RTL Cosimulation`, although the code has already been verified. 
 * Then run the `Package` step in the flow. The IP Core is exported as _.xo-file_ for the kernel based flow.
@@ -87,16 +88,53 @@
 
 ---
 ## SW development in C++ on the Kria target
-* In this step the application SW which is needed in order to test the IP core will be developed in C++. Normally SW is developed in Vitis and cross-compiled for the Kria target. Another possibility is to compile the SW directly on the target. As an advantage you do not need things like a _sysroot_, if you cross-compile for a Linux target and you do have less problems with incompatible libraries. As a disadvantage compilation times are normally longer on the Kria target, compared to a laptop computer. We use _VS Code_ (with _CMake_) on your laptop computer and do a remote development via _SSH_ on the Kria target. 
+* In this step the application SW, which is needed in order to test the IP core, will be developed in C++. Normally SW is developed in Vitis and cross-compiled for the Kria target. Another possibility is to compile the SW directly on the target. As an advantage you do not need things like a _sysroot_, if you cross-compile for a Linux target and you do have less problems with incompatible libraries. As a disadvantage compilation times are normally longer on the Kria target, compared to a laptop computer. 
+* We use _VS Code_ (with _CMake_) on the development computer and do a remote development via _SSH_ on the Kria target. You can find informations on VS Code under https://code.visualstudio.com There is also a download section. The following extensions are needed for VS Code on the development computer:
+	* `C/C++`
+	* `CMake tools`
+	* `Remote SSH`, `Remote Explorer`
+	* Some of the extensions will be automatically installed on the target system, when connecting to it.
+* We will use _CMake_ for building the C++ SW application. CMake is a build system where you can describe all dependencies of a SW project in a simple text file (always named `CMakeLists.txt`). CMake stands for _cross-platform make_ and is basically a generator which creates platform specific build scripts. When used under Linux it generates scripts for the `make` build system.
+* If you are not familiar with CMake you can find a tutorial on VS Code with CMake here (for Linux): https://code.visualstudio.com/docs/cpp/cmake-linux 
+* We will develop remote on the Kria host running Ubuntu Linux and therefore the necessary tools like _cmake_, _make_ and the _gcc-toolchain_ should have been installed.
+* Each CMake based SW project has the same directory structure as shown below:
+  * For all header files there is a folder `include`  and for all .cpp files there is the folder `src`. In the root directory of the project there is the  `CMakeLists.txt` file for CMake. During the CMake processing in VS Code an additional folder `build` will be generated. 
+  * Our example project `vadd_sw` has exactly this structure.
+
+```
+├── CMakeLists.txt
+├── include
+│   └── project.h
+└── src
+    └── main.cpp
+
+```
 * We will use a small library for the project (which you can use also for other C++ projects), which first needs to be installed:
-  * Copy the folder `kria/cpp_libs` to the Kria target in the folder `/home/ubuntu/projects`.
-  * Go to the folder `cpp_libs/helper_libs_src` and execute the script `make_and_install.sh`.  This will compile the sources and install the library in the folder `cpp_libs/helper_libs`. The compilation is also based on _CMake_, which we will explain in more detail below. 
-* In the directory `kria/vadd_sw` you can find the source code and the `CMakeLists.txt` file, which is needed for VS Code. Copy the directory `vadd_sw` to the project folder () on the Kria target.
-* Before we can start SW development you have to load the FPGA binary (firmware) with the script `load_app.sh` (in your project folder). When you execute the script you should see something similar to the next image (you may not have the _convolution_ accelerator). In the last line you can see that the `vadd` _accelerator_ was loaded in the active _slot_ (marked with 0, all inactive slots are -1).
+  * Copy the folder `kria/cpp_libs` to the Kria target folder `/home/ubuntu/projects`.
+  * Go to the folder `cpp_libs/helper_libs_src` and execute the script `make_and_install.sh`.  This will compile the sources and install the library in the folder `cpp_libs/helper_libs`. The compilation is also based on _CMake_. 
+* In the directory `kria/vadd_sw` you can find the source code and the `CMakeLists.txt` file, which is needed for VS Code. Copy the directory `vadd_sw` to the project folder (`/home/ubuntu/projects/hw/vadd`) on the Kria target.
+* Before we can start SW development you have to load the FPGA binary (firmware) with the script `load_app.sh` (should be in your project folder). When you execute the script you should see something similar to the next image (you may not have the _convolution_ accelerator). In the last line you can see that the `vadd` _accelerator_ was loaded in the active _slot_ (marked with 0, all inactive slots are -1).
 
 ![Terminal 1](images/vitis_001.png)
 
+* In the next step we will start VS Code and connect to the Kria target.
+  * Start VS Code on your computer. 
+  * Open the command palette (`Ctrl-Shift-P` or `F1`) and type `remote-ssh`. Select the entry `Connect to host ...`. You must enter the same SSH credentials (`<user>@<host-ip>`) as shown above for the SSH connection.
+  	* When VS Code connects to the target it will download VS Code plus some extensions on the target, this may take some time.
+  	* After the first connection you should find the SSH connection in the `Remote Explorer` for re-connecting. Select the IP address and push the arrow symbol to re-connect. 
+* Open the (remote) folder `/home/ubuntu/projects/hw/vadd/vadd_sw/` in VS Code, this is the project workspace. You should see now your project as shown in the image below. In red you can see the _Explorer_, where the source code and the `CMakeLists.txt` file are shown. 
 
+![Code 1](images/vitis_002.png)
+
+* Open the `CMakeLists.txt` file: It defines the paths to the libraries, namely the XRT libraries and the helpers library, which you found in the folder `helper_libs_src`. Depending on where you copied and installed this library you may have to change the library path (if you followed the instructions above, it should fit). When you scroll further down the `CMakeLists.txt` file you will see project include and source directory and the specification of the executable and its dependencies. The nice thing here is that you do not have to change anything here as long as you stick to the directory structure described above: All header files in the folder `include` and all .cpp files in the folder `src`. The last two entries in the `CMakeLists.txt` file specify the compiler options and how the executable must be linked to the libraries. For new projects you can just copy the `CMakeLists.txt` file and change the project name in the second line of the file - the rest should work, if you use the same libraries.
+* For building the project select the CMake symbol in the side bar of VS Code (last symbol). You should see the CMake view as shown in the image below:
+
+![Code 2](images/vitis_003.png)
+
+* You first have to configure the tool chain ("kit") to be used: Move the mouse over `Konfigurieren > [Kein Kit ausgewählt]` and select the stylus symbol. Select one of the kits, e.g. `gcc 11.4.0 aarch64-linux-gnu`, which should be shown then instead of `[Kein Kit ausgewählt]`.
+* Move the mouse over `Build` and select the build symbol. Your code should be built and you can see the output in the OUTPUT view below the editor. Since you copied an existing project there should be no errors during the build process, provided that the library paths are correct.
+* You can now run the application if you move the mouse to `Starten` and select the symbol. The application can also be run on the command line in the `build` directory with .
+* Above the  `Starten` entry there is also a `Debugggen` entry which can be used to debug the code. Make sure that you have set at least one break point in the source code by clicking left to the line number in the editor. The debugger is based on `gdb` and VS Code will jump to the debugger view with the standard debugging features. 
 
 ---
 ## References
