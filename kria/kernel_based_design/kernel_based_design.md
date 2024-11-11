@@ -31,7 +31,6 @@
   * The HLS project setup is defined in the file `project.cfg`. You must not change anything here.
   * The address width of the IP core is be set to 32 Bit in order to be usable with the Pynq Jupyter notebooks. This is set in the config file with: `syn.interface.m_axi_addr64=0`
   * _Note_: When you want to start a shell script in a directory on the command line of a terminal program you must precede the script name with `./`, so in the case of the HLS script you must start it with `./run_hls.sh`. This will hold also for the following steps and also on the Kria target.
-  
 * Start Vitis and open the directory `vadd/hls` as a workspace. You will  find now the completed synthesis and you can study the results. You may also run `C Simulation` and `C/RTL Cosimulation`, although the code has already been verified. 
 * Then run the `Package` step in the flow. The IP Core is exported as _.xo-file_ for the kernel based flow.
   * Note the location of the _.xo-file_ for subsequent steps. It should be in the directory `hls/project/project_work` and is named `krnl_vadd.xo`. 
@@ -137,6 +136,9 @@
 
 * You first have to configure the tool chain ("kit") to be used: Move the mouse over `Konfigurieren > [Kein Kit ausgewählt]` and select the stylus symbol. Select one of the kits, e.g. `gcc 11.4.0 aarch64-linux-gnu`, which should be shown then instead of `[Kein Kit ausgewählt]`.
 * Move the mouse over `Build` and select the build symbol. Your code should be built and you can see the output in the OUTPUT view below the editor. Since you copied an existing project there should be no errors during the build process, provided that the library paths are correct.
+
+
+-- Ergänzen unten: Angabe von Parametern 
 * You can now run the application if you move the mouse to `Starten` and select the symbol. The application can also be run on the command line in the `build` directory with .
 * Above the  `Starten` entry there is also a `Debugggen` entry which can be used to debug the code. Make sure that you have set at least one break point in the source code by clicking left to the line number in the editor. The debugger is based on `gdb` and VS Code will jump to the debugger view with the standard debugging features. 
 
