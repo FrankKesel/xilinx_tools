@@ -23,7 +23,9 @@ using namespace std;
 
 int main( int argc, char *argv[] )
 {
-    // Check the command line args
+    //Check the command line args: 
+    //1st arg: path to the FPGA binary file
+    //2nd arg: data size, i.e. number of samples to process
 	if (argc < 3) {
 	    std::cerr << "usage: vadd <xclbin-file> <data-size>\n";
 	    return EXIT_FAILURE;
