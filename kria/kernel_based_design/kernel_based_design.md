@@ -64,7 +64,7 @@
 * The file transfer from your development computer to the Kria target must be done with _SFTP_. For the execution of the bash scripts you must use an _SSH_ connection in a terminal. 
   * First you need to find out the IP address of the Kria board in your network. 
   * On the Kria board there is the user `ubuntu` (password should be `ubuntu`, if not set otherwise) with the home directory `/home/ubuntu`.
-  * Open a terminal program and connect to the Kria target via SSH, for example with `ssh ubuntu@192.168.178.64` (assuming an IP address `192.168.178.64`). If you do not want to type always the password for login to the target, you can install the `sshpass` utility on your computer. Then the command is: `sshpass -p <password> ssh ubuntu@192.168.178.64`, where `password` is the password of the user `ubuntu`. 
+  * Open a terminal program and connect to the Kria target via SSH, for example with `ssh ubuntu@192.168.178.64` (assuming an IP address `192.168.178.64`, which may be different in your local network). If you do not want to type always the password for login to the target, you can install the `sshpass` utility on your computer. Then the command is: `sshpass -p <password> ssh ubuntu@192.168.178.64`, where `password` is the password of the user `ubuntu`. 
   * For _SFTP_ file transfer you can normally use the file manager of your Ubuntu distro and enter the network connection, for example `sftp://ubuntu@192.168.178.64/home/ubuntu`. You can also install an app like _FileZilla_ on your computer and use it for the file transfer.
 * In the SSH terminal first make a project folder on the Kria target: 
   * In the `/home/ubuntu` home directory make a folder `projects` with `mkdir projects`.
