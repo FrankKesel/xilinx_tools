@@ -3,7 +3,7 @@
 ---
 ## Overview
 * In this tutorial the kernel based design using an extensible platform is described. We will use a pre-built extensible platform which you can find [here](../resources/extensible_platform/). 
-* It is assumed that you have a Kria KV260 Starter Kit board with Ubuntu Linux (Version 22.04) and the _Pynq_ framework for running Jupyter notebooks on the Kria target. Further information can be found here: 
+* It is assumed that you have a _Kria KV260 Starter Kit_ board with Ubuntu Linux (Version 22.04) and the _Pynq_ framework for running Jupyter notebooks on the Kria target. Further information can be found here: 
   * [Ubuntu Linux for the Kria KV260](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/2363129857/Getting+Started+with+Certified+Ubuntu+22.04+LTS+for+Xilinx+Devices)
   * [Pynq](http://www.pynq.io/)
 * We also further assume that you have installed Vitis Version 24.1 on a Linux computer running Ubuntu 22.04.
