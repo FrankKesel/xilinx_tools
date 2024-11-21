@@ -1,8 +1,8 @@
 /**
  * @file conv_top.h
  * @author Frank Kesel
- * @date 27 Mar 2023
- * @version 1.1
+ * @date 19 Nov 2024
+ * @version 1.2
  * @brief Convolution HLS IP Core
  * @details
  */
@@ -25,7 +25,7 @@
  * @param height: height of actual image
  * @param width: width of actual image
 */
-void conv_top(ap_uint<DATA_WIDTH>* in_image, ap_uint<DATA_WIDTH>* out_image,
+void conv_top(ap_uint<AXI_DATA_WIDTH>* in_image, ap_uint<AXI_DATA_WIDTH>* out_image,
 		short int filter[FSIZE * FSIZE], uint32_t height, uint32_t width);
 
 #endif /* CONV_H_ */

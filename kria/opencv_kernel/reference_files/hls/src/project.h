@@ -1,8 +1,8 @@
 /**
  * @file project.h
  * @author Frank Kesel
- * @date 27 Mar 2023
- * @version 1.1
+ * @date 19 Nov 2024
+ * @version 1.2
  * @brief Project definitions
  * @details
  */
@@ -22,6 +22,7 @@
 #include <iomanip>
 using namespace std;
 
+
 //Include HLS and XF headers
 #include "hls_stream.h"
 #include "ap_int.h"
@@ -31,62 +32,71 @@ using namespace std;
 #include "imgproc/xf_box_filter.hpp"
 
 //----------------------Define parameters and file paths-----------------
-//Generate debug data, i.e. text output files for image and reference
-//Comment out if not needed
-#define DEBUG
+//Parallel processing: If used (=1) 8 pixels will be processed in parallel,
+#define PARALLEL 1
 
-//Image size: Set height and width of the image, MUST correspond
-//to the size of the test image, for parallel execution of the core
-//(8 pixels parallel) the width of the image must be a multiple of 8!
+// IMG_SEL: 0: 64x64 image, 1: 600x800 image, 2: 1080x1920 image
+#define IMG_SEL 2
+
+// Define filter coefficients (effectively a 3x3 matrix)
+// Identity
+//#define COEFFS 0, 0, 0, 0, 1, 0, 0, 0, 0
+// Sobel filter (edge detection)
+#define COEFFS 1, 0, -1, 2, 0, -2, 1, 0, -1
+// Laplace filter (edge detection)
+//#define COEFFS 0, 1, 0, 1, -4, 1, 0, 1, 0
+
+//Define compare values for testbench
+#define MAXDIFF 1 //Absolute difference per pixel
+
+//Input images with different sizes (selected with IMG_SEL)
+//Make sure the folder "images" is defined in project.cfg!
+#if IMG_SEL == 0
+#define SRC_IMG "images/image_64x64.bmp"
 static constexpr auto  IMG_HEIGHT = 64;
 static constexpr auto  IMG_WIDTH = 64;
-//static constexpr auto IMG_HEIGHT = 656;
-//static constexpr auto  IMG_WIDTH = 880;
-//static constexpr auto IMG_HEIGHT = 1080;
-//static constexpr auto  IMG_WIDTH = 1920;
+#elif IMG_SEL == 1
+#define SRC_IMG "images/image_880x656.bmp"
+static constexpr auto IMG_HEIGHT = 656;
+static constexpr auto  IMG_WIDTH = 880;
+#elif IMG_SEL == 2
+#define SRC_IMG "images/image_1920x1080.bmp"
+static constexpr auto IMG_HEIGHT = 1080;
+static constexpr auto  IMG_WIDTH = 1920;
+#endif
+
+// Output image files (to be found in the folder Output/csim/build)
+#define OPENCV_REF "opencv_ref_image.bmp"
+#define HLS_RESULT "hls_result_image.bmp"
+#define DIFF_IMAGE "diff_image.bmp"
 
 //Set the maximum resolution of the IP core
 static constexpr auto MAX_HEIGHT = 1080;
 static constexpr auto  MAX_WIDTH = 1920;
 
-//Parallel processing: If used 8 pixels will be processed in parallel,
-//the bus interface will be 64 bit wide (8 x 8 Bit), if commented
-//out there will be no parallel processing. If parallel processing is used
-//then the width of the image MUST be a multiple of 8, otherwise the result
-//may be incorrect.
-#define PARALLEL
-
-//Define paths to the data files
-// Define path to image data (add the path to the testbench, see .tcl script)
-#define PATH "/home/Data/Design/sopc/kria/05_rs_lab_projects/convolution_opencv/data/"
-#define IMAGE PATH "input_image.bin"
-#define REF_IMAGE PATH "ref_image.bin"
-#define RESULT_IMAGE_TXT PATH "result.txt"
-#define RESULT_IMAGE_BIN PATH "result.bin"
-#define REF_IMAGE_TXT PATH "ref_image.txt"
-
-//Filter size and filter radius. MUST match the filter in Jupyter notebook!
+//Filter size and filter radius. 
 static constexpr auto  FSIZE = 3;
 static constexpr auto  FRADIUS = 1;
 
 //--------------No change needed below this line--------------------------
-
-//OpenCV image data types: 8 Bit greyscale pixel (0 .. 255)
-#define TYPE8 XF_8UC1 //8 Bit unsigned
+//OpenCV image data types: 8 Bit gray pixel (0 .. 255)
+#define TYPE XF_8UC1
 
 //Definition of parallel processing
-#ifdef PARALLEL
-//8 pixels are processed in parallel, data width of interface is 64 Bit
-#define PIXELS_PER_WORD 8
+#if PARALLEL
+//8 pixels are processed in parallel, data width of interface is 64 Bit (8x 8 Bit)
 #define NPC XF_NPPC8
-#define DATA_WIDTH 64
+static constexpr auto AXI_DATA_WIDTH = 64;
 #else
-//No parallel processing of pixels
-#define PIXELS_PER_WORD 1
+//No parallel processing of pixels, min data width = 8 for XF_8UC1
 #define NPC XF_NPPC1
-#define DATA_WIDTH 8
+static constexpr auto AXI_DATA_WIDTH = 8;
 #endif
 
-static constexpr int DEPTH = IMG_HEIGHT*IMG_WIDTH/PIXELS_PER_WORD;
+// Bit width of a single pixel (should always be 8 Bit for gray images)
+static constexpr auto PIXELWIDTH = XF_PIXELWIDTH(TYPE, NPC);
+
+// Co-Simulation DEPTH: Number of bytes in image / Number of bytes per AXI bus transfer
+static constexpr int COSIM_DEPTH = (IMG_HEIGHT * IMG_WIDTH * PIXELWIDTH/8) / (AXI_DATA_WIDTH/8);
 
 #endif /* SRC_PROJECT_H_ */
