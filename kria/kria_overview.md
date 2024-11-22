@@ -9,7 +9,7 @@
 ---
 ## Vitis Tutorials
 * [Design of a simple kernel based design for the KV260 Starter Kit](kernel_based_design/kernel_based_design.md)
-* [Design of a OpenCV kernel based design for the KV260 Starter Kit](opencv_kernel/pencv_design.md)
+* [Design of a OpenCV kernel based design for the KV260 Starter Kit](opencv_kernel/opencv_design.md)
 
 ---
 ## Additional Documentation

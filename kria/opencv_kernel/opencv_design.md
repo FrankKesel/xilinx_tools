@@ -86,14 +86,24 @@ tb.cflags=-I../../../vision_L1/include -I/opt/opencv/include/opencv4/ -std=c++14
 
 ---
 ## File transfer and directories on the target
-* You can also follow the steps as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#file-transfer-and-directories-on-the-target). 
+* You can also follow the steps as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#file-transfer-and-directories-on-the-target):
+  * Make a project directory `/home/ubuntu/projects/convolution`
+  * From the Github folder `reference_files/kria/bash_scripts` copy the complete content to the Kria project folder `/home/ubuntu/projects/convolution`
+  * Execute the bash script `ìnitialize_directories.sh`, it will generate the firmware and jupyter directories and copy the `shell.json` file to the firmware directory.
+  * Copy the FPGA binary `conv_hw.xclbin` from the Vitis project directory `system` to the Kria project folder `/home/ubuntu/projects/convolution`.
+  * Copy the device tree overlay `pl.dtbo` from the folder `dtbo` to the Kria project folder. 
+  * Execute the bash script `copy_xclbin.sh`, this will transfer the FPGA binary and the device tree overlay to the firmware directory.
+  * Transfer the Jupyter notebooks in the folder `reference_files/kria/pynq` to the directory `/home/root/jupyter_notebooks/projects/convolution/` by copying them first to the project folder and then to the Jupyter notebook folder (`sudo` needed).
+  * Copy the folder `reference_files/kria/cpp_sw` to the Kria project folder.
+  * Copy the folder `reference_files/images` to the Kria project folder.
 
 ---
 ## SW development with Jupyter notebooks
-* You can follow here as well the steps described in the tutorial [vitis_kernel_based_design](../02_kernel_based_design/vitis_kernel_based_design.md). We again suggest to make a separate project directory in the directory `/home/root/jupyter_notebooks`. 
-* There is a Jupyter notebook `convolution_test.ipynb` in the folder `jupyter_kria` which you can use to check the functionality of the IP kernel on the Kria board and measure the execution time of the IP core. You have to transfer the necessary image files to the project directory on the Kria target. The notebook measures also the execution time of the OpenCV software function. 
+* You can follow here as well the steps described in the tutorial [vitis_kernel_based_design](../02_kernel_based_design/vitis_kernel_based_design.md). The Jupyter notebooks should be in the directory `/home/root/jupyter_notebooks/projects/convolution` if you followed the instructions above. Open Jupyter notebook on the Kria in your browser and go to `projects/convolution`. 
+* There is a Jupyter notebook `convolution_test.ipynb` in the folder `jupyter_kria` which you can use to check the functionality of the IP kernel on the Kria board and measure the execution time of the IP core. The necessary image files should be in the project directory on the Kria target. Check that the project path is correct. The notebook measures also the execution time of the OpenCV software function. 
 * There is also a second notebook `convolution_hd.ipynb` which reads an image from an attached USB camera and applies the convolution to it.
 
+---
 ## SW development with C++
 * You can find also two C++  applications for testing the kernel.
 * ...
