@@ -1,7 +1,7 @@
 /**
  * @file host.cpp
  * @author Frank Kesel
- * @date 28 May 2024
+ * @date 25 Nov 2024
  * @version 1.0
  * @brief Host application for convolution demo
  * @details A test image is read and processed via OpenCV SW function as well
@@ -29,6 +29,18 @@ using namespace std;
 
 int main( int argc, char *argv[] )
 {
+
+    //Check the command line args: 
+    //1st arg: path to the FPGA binary file
+    //2nd arg: path to the input image file
+	if (argc < 3) {
+	    std::cerr << "usage: conv_single <xclbin-file> <input image>\n";
+	    return EXIT_FAILURE;
+	}
+
+    //Input image file
+    string inputImageFile = argv[2];
+
     // Timer for time measurements
     TimeMeasure timer1;
 
@@ -41,12 +53,13 @@ int main( int argc, char *argv[] )
     cout << "-------------------------------------------------------------------"<<endl;
 
     //Read input image as grayscale image
-    cv::Mat inImg = cv::imread(SRC_IMG, cv::IMREAD_GRAYSCALE);
+    cv::Mat inImg = cv::imread(inputImageFile, cv::IMREAD_GRAYSCALE);
     //Check that file could be opened
     if (inImg.data == NULL) {
-        fprintf(stderr, "Cannot open image at %s\n", SRC_IMG);
-        return 0;
+        std::cerr << "Cannot open image at:" << inputImageFile << "\n";
+        return EXIT_FAILURE;
     }
+    std::cout << "Load the input image: " << inputImageFile << std::endl;
     //Get size of image
     int inHeight = inImg.rows;
     int inWidth = inImg.cols;
@@ -69,7 +82,7 @@ int main( int argc, char *argv[] )
 
 //--------------------------- HW test -------------------------------------------------------------
 	//Define binary file and device index
-    std::string binaryFile = HW_PATH;
+    std::string binaryFile = argv[1];
     std::cout << "Load the xclbin: " << binaryFile << std::endl;
 
     // Initialize HW kernel, conv_top is the name of the kernel in the FPGA binary (see HLS)

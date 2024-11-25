@@ -125,7 +125,8 @@
   * Open the command palette (`Ctrl-Shift-P` or `F1`) and type `remote-ssh`. Select the entry `Connect to host ...`. You must enter the same SSH credentials (`<user>@<host-ip>`) as shown above for the SSH connection.
   	* When VS Code connects to the target it will download VS Code plus some extensions on the target, this may take some time.
   	* After the first connection you should find the SSH connection in the `Remote Explorer` for re-connecting. Select the IP address and push the arrow symbol to re-connect. 
-* Open the (remote) folder `/home/ubuntu/projects/hw/vadd/vadd_sw/` in VS Code, this is the project workspace. You should see now your project as shown in the image below. In red you can see the _Explorer_, where the source code and the `CMakeLists.txt` file are shown. Open the source file `main.c` and study the code. 
+* Open the (remote) folder `/home/ubuntu/projects/hw/vadd/vadd_sw/` in VS Code, this is the project workspace. You should see now your project as shown in the image below. In red you can see the _Explorer_, where the source code and the `CMakeLists.txt` file are shown. Open the source file `main.cpp` and study the code. 
+* The code has lots of comments which should help you in understanding it. For the handling of the IP kernels we provide a small library in the folder `reference_files/cpp_libs/helper_libs_src/` (which you should have already installed). It consists of the files `xrt_helper.cpp` and `xrt_helper.h` and defines a class `KernelDevice` and a template class `KernelBuffer`. Both classes wrap the necessary Xilinx XRT API calls for initializing the kernel and the definition of the data buffers. You can find more information on Xilinx XRT [here](https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html).
 
 ![Code 1](images/vitis_002.png)
 
@@ -143,7 +144,3 @@
 * You can now run the application if you move the mouse to `Starten` and select the symbol. 
 * Above the  `Starten` entry there is also a `Debugggen` entry which can be used to debug the code. Make sure that you have set at least one break point in the source code by clicking left to the line number in the editor. The debugger is based on `gdb` and VS Code will jump to the debugger view with the standard debugging features. 
 * You can also run the program in the terminal. For example when you are in the project folder `vadd` the command would be `vadd_sw/build/vadd vadd_hw.xclbin 10`
-
----
-## References
-* 

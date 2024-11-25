@@ -1,23 +1,18 @@
 /**
  * @file project.h
  * @author Frank Kesel
- * @date 28 May 2024
+ * @date 25 Nov 2024
  * @version 1.0
  * @brief Host application for convolution demo
  * @details
  */
 
-// Define path to FPGA binary
-#define HW_PATH "/home/ubuntu/projects/hw/convolution/conv_hw.xclbin"
 
-// Define paths to input image, reference image and output image
-#define PATH "/home/ubuntu/projects/hw/convolution/images/"
-//#define SRC_IMG PATH "image_64x64.bmp"
-//#define SRC_IMG PATH "image_880x656.bmp"
-#define SRC_IMG PATH "image_1920x1080.bmp"
-#define REF_IMG PATH "ref.bmp"
-#define RES_IMG PATH "res.bmp"
-#define DIFF_IMG PATH "diff.bmp"
+// Define paths to reference image, output image and diff image
+// (will be stored in the folder where the program executes)
+#define REF_IMG "ref.bmp"
+#define RES_IMG "res.bmp"
+#define DIFF_IMG "diff.bmp"
 
 // Define filter coefficients (effectively a 3x3 matrix)
 // Identity

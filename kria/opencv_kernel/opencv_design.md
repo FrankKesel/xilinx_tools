@@ -43,7 +43,7 @@
 * The Jupyter notebook is commented, so we will be brief here. The OpenCV function is a simple 2D filter, a.k.a. convolution. You can change the filter matrix, for example an edge filter or the simple identity. 
 
 ---
-## IP development in Vitis HLS
+## IP Kernel Development in Vitis HLS
 * In the folder `hls/project` you can find a bash script `run_hls.sh` for HLS which you can use to setup the project and run it completely. The bash script uses the HLS configuration file `project.cfg`. Open this file with a text editor. You should see the specification for the _C flags_  as shown below.
   * The `-I` flag specifies the path to the Vitis Vision L1 library as a relative path. The starting point for this path is the folder `convolution/hls/project` (assuming that your project folder is named _convolution_). This means that the library has been unpacked parallel to the project folder. If you get errors during the execution of the bash script then please check the path to the library.
   * For the `tb.cflags` there is also a second `-I` flag which specifies the path to the OpenCV software library. If you installed the OpenCV library as described [here](../resources/opencv_installation.md), then the library should be found in `/opt/opencv`. 
@@ -81,11 +81,11 @@ tb.cflags=-I../../../vision_L1/include -I/opt/opencv/include/opencv4/ -std=c++14
 * Follow the steps as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#generate-the-programmable-logic-binary). The bash script is again in the folder `system` but is called `link_convolution.sh`. You should have already the extensible platform from the previous tutorial, which will be reused here.
 
 ---
-## Generate a device tree overlay file 
+## Generate a Device Tree Overlay File 
 * Follow the steps as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#generate-a-device-tree-overlay-file). 
 
 ---
-## File transfer and directories on the target
+## File Transfer and Directories on the Target
 * You can also follow the steps as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#file-transfer-and-directories-on-the-target):
   * Make a project directory `/home/ubuntu/projects/convolution`
   * From the Github folder `reference_files/kria/bash_scripts` copy the complete content to the Kria project folder `/home/ubuntu/projects/convolution`
@@ -98,23 +98,27 @@ tb.cflags=-I../../../vision_L1/include -I/opt/opencv/include/opencv4/ -std=c++14
   * Copy the folder `reference_files/images` to the Kria project folder.
 
 ---
-## SW development with Jupyter notebooks
-* You can follow here as well the steps described in the tutorial [vitis_kernel_based_design](../02_kernel_based_design/vitis_kernel_based_design.md). The Jupyter notebooks should be in the directory `/home/root/jupyter_notebooks/projects/convolution` if you followed the instructions above. Open Jupyter notebook on the Kria in your browser and go to `projects/convolution`. 
+## SW Development with Jupyter Notebooks
+* You can follow here also the steps described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#sw-development-in-python-with-jupyter-notebooks-and-pynq). The Jupyter notebooks should be in the directory `/home/root/jupyter_notebooks/projects/convolution` if you followed the instructions above. Open Jupyter notebook on the Kria target in your browser and go to `projects/convolution`. 
 * There is a Jupyter notebook `convolution_test.ipynb` in the folder `jupyter_kria` which you can use to check the functionality of the IP kernel on the Kria board and measure the execution time of the IP core. The necessary image files should be in the project directory on the Kria target. Check that the project path is correct. The notebook measures also the execution time of the OpenCV software function. 
 * There is also a second notebook `convolution_hd.ipynb` which reads an image from an attached USB camera and applies the convolution to it.
 
 ---
-## SW development with C++
-* You can find also two C++  applications for testing the kernel.
-* ...
+## SW Development with C++
+* For SW development with C++ you can also follow the steps as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md#sw-development-in-c-on-the-kria-target). If you copied the folder `reference_files/kria/cpp_sw` to your Kria target you should find two C++ based applications `conv_single` and `conv_stream`. The first one is for verification of the OpenCV HW kernel (it does basically the same as the Jupyter notebook) and the second one is dedicated to implement a video streaming application with the OpenCV kernel, based on a Gstreamer backend. Here we will discuss the application `conv_single`. We assume that you have already installed the samll software library as mentioned in [kernel_based_design](../kernel_based_design/kernel_based_design.md#sw-development-in-c-on-the-kria-target). 
+* Before we can start SW development you have to load the FPGA binary (firmware) with the script `load_app.sh` (should be in your project folder). 
+* Start VS Code and open the remote connection to the Kria target. Select the folder `cpp_sw/conv_single` in your convolution project folder (`/home/ubuntu/projects/convolution`) as workspace. The source code again has been commented, so you should be able to understand it.
+* When you are asked to select a kit then select `gcc 11.4.0 aarch64-linux-gnu` (refer again to [kernel_based_design](../kernel_based_design/kernel_based_design.md#sw-development-in-c-on-the-kria-target)). 
+* You can then build the application by pressing the build symbol in the _CMake_ view.
+* Since the application also uses command line arguments, there is also a `settings.json` file in the folder `.vscode` where you can set the path to the FPGA binary and the test image. Run the application by pressing the `Starten` symbol.
+ 
 
 ---
-## Further experiments
-* Now that you have worked through a complete flow with the OpenCV IP core we suggest you to play around with the code: 
-  * Enable parallel processing for the HD image and compare execution times with the non-parallel implementation and compare also ressource allocations.
-  * Change the filter coefficients to try different filters.
-* Be aware that you have to go through the complete flow if you change the parallel processing. But you will notice that this can be done quite quickly: 
-  * Generate a new data set with the Juypter notebook on the laptop.
-  * Run HLS with the new image size.
-  * Import the IP core in Vitis and generate the `xclbin`-file. Transfer the file to the Kria board and also the new image data.
-  * Test the core with the Jupyter notebook. The experience of the author is that you need approx. half an hour turnaround-time for this (depending on the performance of your laptop).
+## C++ Video Streaming Application
+* In the folder `conv_stream` you can find a C++ based application for video streaming with the convolution kernel. The application uses the _Gstreamer_ framework to stream video frames over the network from the Kria target to your computer. You can find informations and tutorials on Gstreamer [here](https://gstreamer.freedesktop.org/documentation/tutorials/index.html?gi-language=c). The Gstreamer framework is already installed on the Kria target and it should also be installed on your Linux computer. If not then follow the instructions in the tutorial. 
+* We provide two bash shell scripts in order to test the connection between the Kria target and your Linux computer (in the folder `reference_files/gstreamer`):
+  * `gst_rtp_pc.sh`: Start this script on your Linux computer. Gstreamer will listen on port 50000 for video frames coming in. You can change the width and height of the video frames in the script. This script can also be used later to receive the frames from the C++ application.
+  * `gst_rtp_test.sh`: Copy this script to the Kria target. It will send test video frames to an IP address. You must find out the IP address of your Linux computer in the network and change it in the bash script.
+* Start VS Code, open the remote connection and open the folder `cpp_sw/conv_stream` as workspace.
+* Study the code in the source file `main.cpp`. Again we have commented the code, so that you should understand it. Information on the used OpenCV API can be found [here](https://docs.opencv.org/3.4/index.html).
+
