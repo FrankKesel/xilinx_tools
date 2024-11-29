@@ -134,9 +134,10 @@ int main(int argc, char** argv) {
     // Set a frame timer
     TimeMeasure timer1;
     timer1.setStartTime();
+    std::cout << "Start time: " << timer1.getTimeSecs() <<std::endl;
 
     //-------------------- Main Loop ------------------------------------------
-    // Endless loop, quit by pressing 'q' (see )
+    // Endless loop, quit by pressing 'q' (see checkForExit() thread)
     while (true) {
         // Capture a frame
         cap >> in_frame;

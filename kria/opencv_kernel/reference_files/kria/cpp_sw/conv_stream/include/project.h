@@ -19,8 +19,8 @@
 #define HW
 
 // Define filter coefficients 
-#define COEFFS 0, 1, 0, 1, -4, 1, 0, 1, 0  //Edge filter
-//#define COEFFS 0, 0, 0, 0, 1, 0, 0, 0, 0 //Identity
+//#define COEFFS 0, 1, 0, 1, -4, 1, 0, 1, 0  //Edge filter
+#define COEFFS 0, 0, 0, 0, 1, 0, 0, 0, 0 //Identity
 
 // Define filter size (can not be changed, see HLS code)
 #define FSIZE 3
