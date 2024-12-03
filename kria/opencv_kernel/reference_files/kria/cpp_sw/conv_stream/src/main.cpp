@@ -1,7 +1,7 @@
 /**
  * @file main.cpp
  * @author Frank Kesel
- * @date 25 Nov 2024
+ * @date 03 Dec 2024
  * @version 1.0
  * @brief OpenCV Gstreamer example - Read video frames with OpenCV, stream out with Gstreamer
 */
@@ -39,15 +39,13 @@ int main(int argc, char** argv) {
 
     //Check the command line args: 
     //1st arg: path to the FPGA binary file
-    //2nd arg: path to the input image file
 	if (argc < 2) {
 	    std::cerr << "usage: conv_stream <xclbin-file>\n";
 	    return EXIT_FAILURE;
 	}
-    //Get path to FPGA binary file 
+    //Store path to FPGA binary file 
     std::string binaryFile = argv[1];
-  
-  
+
     // OpenCV matrices for frames:
     // Input frames, will be initialized by reading the image frames
     cv::Mat in_frame, gray_frame;
@@ -63,7 +61,6 @@ int main(int argc, char** argv) {
     size_t filter_size_bytes = sizeof(int16_t) * HEIGHT * WIDTH;
 
     std::cout << "------------------- Convolution Video Streaming ---------------------------"<<std::endl;
-
     // Set OpenCV video writer to feed GST pipeline. The first argument defines the Gstreamer pipeline
     // (see project.h). The third argument is the fourcc code (=0). The last argument specifies that 
     // no color frames are used (the convolution can only accept grayscale images).
@@ -72,7 +69,6 @@ int main(int argc, char** argv) {
         std::cerr << "Error: Unable to open video writer" << std::endl;
         return -1;
     }
-
     // Video capture source: integrated laptop cam:
     // Should be /dev/video0 on the Kria board, using V4L2 framework (Video for Linux)
     cv::VideoCapture cap("/dev/video0", cv::CAP_V4L2);   
@@ -83,7 +79,6 @@ int main(int argc, char** argv) {
     // Set height and width of video frames
     cap.set(cv::CAP_PROP_FRAME_WIDTH, WIDTH);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, HEIGHT);
-
     // Get the camera frame rate, it should be 30 fps 
     double fps = cap.get(cv::CAP_PROP_FPS);
     if (fps == 0) {
@@ -91,8 +86,9 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     std::cout << "Camera frame rate: " << fps << " FPS" << std::endl;
+    std::cout << "Image size: " << WIDTH << " x " << HEIGHT << std::endl;
 
-  
+    //---------------- Initialize the FPGA HW ---------------------------------
  #if defined(HW)
     std::cout << "Using HW kernel." << std::endl;
     // Initialize HW kernel, conv_top is the name of the kernel in the FPGA binary (see HLS).
@@ -100,14 +96,13 @@ int main(int argc, char** argv) {
     KernelDevice convHW(0, binaryFile, "conv_top");
     // Get the device name
     std::cout << "Device name: " << convHW.device.get_info<xrt::info::device::name>() << std::endl;
-
     // Allocate buffers for the kernel arguments with master interfaces in the
     // same memory bank as the kernel interfaces group id.
     // The group_id is the argument index of the HLS function.
     // The kernel has the following arguments (see HLS):
     // void conv_top(ap_uint<AXI_DATA_WIDTH>* in_image, ap_uint<AXI_DATA_WIDTH>* out_image,
-	// short int filter[FSIZE * FSIZE], uint32_t height, uint32_t width)
-    // in_image1, inimage2 and filter out are master interfaces with memory buffers to be allocated.
+    // short int filter[FSIZE * FSIZE], uint32_t height, uint32_t width)
+    // in_image, out_image and filter are master interfaces with memory buffers to be allocated.
     // height and width are registers in the kernel (slave interface) and need no buffers.
     // The size of the image buffer is the number of pixels (1 byte per pixel). The size
     // of the filter buffer is FSIZE*FSIZE (2D filter) with 2 byte per filter value (int16_t).
@@ -115,12 +110,16 @@ int main(int argc, char** argv) {
     KernelBuffer<uint8_t> out_image(frame_size_bytes, 1, convHW); // Buffer for out_image
     KernelBuffer<int16_t> filter(filter_size_bytes, 2, convHW); // Buffer for filter
 
+    // Define a OpenCV image frame (wrapper) and link it to the XRT input buffer using
+    // the XRT buffer pointer. The OpenCV wrapper is used to store the 
+    // camera image directly in the XRT buffer when reading the cam frames.
+    cv::Mat in_image_opencv_wrapper(HEIGHT, WIDTH, CV_8UC1, in_image.ptr);
 
     // Fill filter via the user pointer of the filter buffer
     for (int i = 0; i < FSIZE*FSIZE; ++i) {
     	filter.ptr[i] = filter_kernel_hw[i];
     }
-    // Synchronize the buffer, i.e. transfer the data to physical memory
+    // Synchronize the filter buffer, i.e. transfer the data to physical memory
     filter.buffer.sync(XCL_BO_SYNC_BO_TO_DEVICE);
 #else
     std::cout << "Using SW kernel." << std::endl;
@@ -128,75 +127,112 @@ int main(int argc, char** argv) {
 
     // Start the thread to check for exit command
     std::thread exit_thread(checkForExit);
-
     std::cout << "System running, entering main loop. Stop with <q>."<<std::endl;
 
     // Set a frame timer
     TimeMeasure timer1;
+    // Set a 2nd timer for time measurements in debug mode 
+    TimeMeasure timer2;
+    // Start the frame timer
     timer1.setStartTime();
-    std::cout << "Start time: " << timer1.getTimeSecs() <<std::endl;
-
+ 
     //-------------------- Main Loop ------------------------------------------
-    // Endless loop, quit by pressing 'q' (see checkForExit() thread)
+#ifdef DEBUG
+    // During debugging we run only a certain number of frames
+    while (timer1.getNumberOfFrames() < DEBUG_FRAMES) {
+#else
+    // Streaming: Endless loop, quit by pressing 'q' (see checkForExit() thread)
     while (true) {
+#endif
+#ifdef DEBUG   
+       std::cout << "-----------------------------------------------"<<std::endl;
+       timer2.setStartTime();
+#endif
         // Capture a frame
         cap >> in_frame;
         // Check if frame is not empty
         if (in_frame.empty()) {
             break;
         }
-        // Convert frame to grayscale
-        cv::cvtColor(in_frame, gray_frame, cv::COLOR_BGR2GRAY);
-
 #if defined(HW)
-	    //Copy the OpenCV image gray_frame to the XRT buffer memory addressed 
-        //by user pointer in_image.ptr
-        std::memcpy(in_image.ptr, gray_frame.data, HEIGHT*WIDTH);
-        //Synchronize the XRT input image buffer, i.e. transfer data to kernel memory
-        in_image.buffer.sync(XCL_BO_SYNC_BO_TO_DEVICE);
+        // Convert the input frame to grayscale and store the result in the
+        // XRT input buffer (wrapped as OpenCV matrix)
+         cv::cvtColor(in_frame, in_image_opencv_wrapper, cv::COLOR_BGR2GRAY);
+#else
+        // Convert frame to grayscale frame for SW processing
+        cv::cvtColor(in_frame, gray_frame, cv::COLOR_BGR2GRAY);
+#endif
+#ifdef DEBUG   
+        timer2.setStopTime();
+        std::cout << "Frame Capture time: "<< timer2.getTimeMicroSecs() << " us" << std::endl; 
+#endif
 
+        //---------------- FPGA HW processing ---------------------------------
+#if defined(HW)
+#ifdef DEBUG   
+        timer2.setStartTime();
+#endif
+         //Synchronize the XRT input image buffer, i.e. transfer data to kernel memory
+        in_image.buffer.sync(XCL_BO_SYNC_BO_TO_DEVICE);       
         //Execute the kernel: The arguments must appear in the order as they 
         //appear in the corresponding HLS function. These are the input image,
         //the output image, the filter and height and width of the image.
         //The first three arguments are the XRT buffers and the last two are scalar arguments.
         auto run = convHW.kernel(in_image.buffer, out_image.buffer, filter.buffer, HEIGHT, WIDTH);
         run.wait(); //Wait for completion of the kernel
-
         // Synchronize the XRT output image buffer, i.e. transfer data from kernel memory
-        out_image.buffer.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
-        // Use the XRT buffer user pointer out_image.ptr to copy data to the OpenCV image 
-        // buffer out_frame via memcpy.
-        std::memcpy(out_frame.data, out_image.ptr, HEIGHT*WIDTH);
-
+        out_image.buffer.sync(XCL_BO_SYNC_BO_FROM_DEVICE); 
+        // Use the XRT buffer user pointer out_image.ptr to link the data 
+        // to the OpenCV image out_frame (needed for GStreamer backend) 
+        out_frame.data = out_image.ptr;
+#ifdef DEBUG       
+        timer2.setStopTime();
+        std::cout << "HW processing time: "<< timer2.getTimeMicroSecs() << " us" << std::endl; 
+#endif
+        //----------------- OpenCV SW processing ------------------------------
 #else
+#ifdef DEBUG   
+        timer2.setStartTime();
+#endif
         // Call the OpenCV filter function
-        cv::filter2D(gray_frame, out_frame, CV_8U, kernel);
+        //cv::filter2D(gray_frame, out_frame, CV_8U, kernel);
+        cv::filter2D(gray_frame, out_frame, -1 , kernel, cv::Point(-1, -1), 0, cv::BORDER_CONSTANT);
+#ifdef DEBUG   
+        timer2.setStopTime();
+        std::cout << "SW processing time: "<< timer2.getTimeMicroSecs() << " us" << std::endl; 
 #endif
 
+#endif
+#ifdef DEBUG   
+        timer2.setStartTime();
+#endif
         // Write the frame to the OpenCV video writer output, this
         // feeds the Gstreamer pipeline and the frame is effectively
         // send via RTP to the destination.
         out.write(out_frame);
-
         // Increment frame counter (to get the number of frames)
-        timer1.incFrameCount();
- 
+        timer1.incFrameCount(); 
         // Check if the user has requested to stop (checkForExit thread)
         if (stop_flag) {
             break;
         }
+#ifdef DEBUG   
+        timer2.setStopTime();
+        std::cout << "GStreamer backend processing: "<< timer2.getTimeMicroSecs() << " us" <<std::endl; 
+#endif
+
     }
-    //--------------- Main loop finished --------------------------------------
+    //----------------------- Final processing --------------------------------
+    // Stop the frame timer
     timer1.setStopTime();
-    std::cout << "Number of frames processed: " << timer1.getNumberOfFrames() << std::endl;
-    std::cout << "Execution time of main loop: " << timer1.getTimeSecs() << " sec" << std::endl; 
+     std::cout << "Number of frames processed: " << timer1.getNumberOfFrames() << std::endl;
+    std::cout << "Total time in main loop: " << timer1.getTimeSecs() << " sec" << std::endl; 
     std::cout << "Frame rate: " << timer1.getFrameRate() << " FPS" << std::endl;
     std::cout << "------------ Finished -----------------"<<std::endl;
 
-    // Release the capture object and close all OpenCV windows
+    // Release the capture object 
     cap.release();
- 
-    // Wait for the thread to finish
+    // Wait for the exit thread to finish
     exit_thread.join();
 
     return 0;

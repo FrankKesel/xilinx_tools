@@ -8,19 +8,23 @@
  */
 
 // Define image format for cam
-#define WIDTH 1920
-#define HEIGHT 1080
-//#define WIDTH 640
-//#define HEIGHT 480
+//#define WIDTH 1920
+//#define HEIGHT 1080
+#define WIDTH 640
+#define HEIGHT 480
 //#define WIDTH 320
 //#define HEIGHT 240
+
+// Debug mode for time measurements (comment out for no debug outputs)
+//#define DEBUG
+#define DEBUG_FRAMES 5  //Number of frames to run in debug mode
 
 // Define if SW or HW kernel is used (comment out for SW kernel)
 #define HW
 
 // Define filter coefficients 
-//#define COEFFS 0, 1, 0, 1, -4, 1, 0, 1, 0  //Edge filter
-#define COEFFS 0, 0, 0, 0, 1, 0, 0, 0, 0 //Identity
+#define COEFFS 0, 1, 0, 1, -4, 1, 0, 1, 0  //Edge filter
+//#define COEFFS 0, 0, 0, 0, 1, 0, 0, 0, 0 //Identity
 
 // Define filter size (can not be changed, see HLS code)
 #define FSIZE 3
