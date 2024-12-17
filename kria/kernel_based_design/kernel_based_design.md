@@ -1,6 +1,5 @@
 # Vitis Kernel Based Design Tutorial
 
----
 ## Overview
 * In this tutorial the kernel based design using an extensible platform is described. We will use a pre-built extensible platform which you can find [here](../resources/extensible_platform/). 
 * It is assumed that you have a _Kria KV260 Starter Kit_ board with Ubuntu Linux (Version 22.04) and the _Pynq_ framework for running Jupyter notebooks on the Kria target. Further information can be found here: 

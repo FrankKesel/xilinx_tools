@@ -12,6 +12,10 @@
 * [Design of a OpenCV kernel based design for the KV260 Starter Kit](opencv_kernel/opencv_design.md)
 
 ---
+## Development Tips
+* [Cross-Compiling C++ Software for Kria](development_tips/kria_cross_compilation.md)
+
+---
 ## Additional Documentation
 * [Kria KV260 Vision AI Starter Kit](https://www.amd.com/en/products/system-on-modules/kria/k26/kv260-vision-starter-kit.html)
 
