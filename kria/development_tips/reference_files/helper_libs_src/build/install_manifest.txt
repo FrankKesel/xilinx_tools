@@ -1,0 +1,3 @@
+/home/Data/Design/sopc/kria/06_projects/cpp_libs/helper_libs/lib/libhelper.a
+/home/Data/Design/sopc/kria/06_projects/cpp_libs/helper_libs/include/TimeMeasure.h
+/home/Data/Design/sopc/kria/06_projects/cpp_libs/helper_libs/include/xrt_helper.h

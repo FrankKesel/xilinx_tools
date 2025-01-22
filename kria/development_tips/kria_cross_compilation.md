@@ -67,6 +67,7 @@ set(XRT_LIBS xrt_coreutil)
 * When the path to the _sysroot_ is set correctly the build system should find the libraries (e.g. OpenCV and XRT) in the sysroot directories. When you see compiler or linker errors then first check the path. Also check that libraries which you generated yourself (e.g. the _helpers_ library in the example) have been also cross-compiled.
 * In the CMake tab when starting to compile you will need to configure the _kit_. Here you select the installed cross compiler toolchain, i.e. `GCC 11.4.0 aarch64-linux-gnu` (depending on the version you installed). Then build the executable as usual. 
 * After building you must transfer the binary executable to the Kria target system and execute it there.
+* You will also need to cross-compile the small helper library, which was used on the target, in order to link the executable. In the section `reference_files` you can find the library with a `CMakeLists.txt` file which is suited for cross-compilation. You must adapt the path to the sysroot directory.
 
 ---
 ## Remote debugging with gdb
