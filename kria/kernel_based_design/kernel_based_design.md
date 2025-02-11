@@ -41,8 +41,12 @@
 * Start the bash script `link_vadd.sh` in a terminal. This may take a while (depending on the performance of your computer), since a complete Vivado implementation run is performed. When the script has finished you should find two files in the `system` directory:
   * `vadd_hw.xclbin`: This is the PL binary and must be transferred to the Kria target.
   * `vadd_hw.xsa`: This file is needed for the next step.
-* The file `vadd_hw.xclbin.info` can be opened with a text editor and gives you some information on the generated hardware, e.g. base addresses and register offsets. You can also open Vitis for an analysis of the results with `vitis --analyze vadd_hw.xclbin.link_summary`.
-
+* The file `vadd_hw.xclbin.info` can be opened with a text editor and gives you some information on the generated hardware, e.g. base addresses and register offsets. You can also open Vitis for an analysis of the results with the following commands 
+  ```
+  source /opt/xilinx/Vitis/2024.1/settings64.sh
+  vitis --analyze vadd_hw.xclbin.link_summary
+  ``` 
+ 
 
 ---
 ## Generate a device tree overlay file 
