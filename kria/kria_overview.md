@@ -14,6 +14,7 @@
 ---
 ## Development Tips
 * [Cross-Compiling C++ Software for Kria](development_tips/kria_cross_compilation.md)
+* [Vitis Kernel Based Design Tips](development_tips/vitis_tips.md)
 
 ---
 ## Additional Documentation
