@@ -7,7 +7,7 @@
 
 ---
 ## Toolchain Installation
-* Install the cross compiler toolchain for ARM 64 bit systems (_aarch64_) on the Linux host: `sudo apt install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu`
+* Install the cross compiler toolchain for ARM 64 bit systems (_aarch64_) on the Linux host: `sudo apt update && sudo apt install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu`
 * Check version: `aarch64-linux-gnu-gcc --version`
   * If you installed the toolchain under Ubuntu Linux 22.04 you should have the version 11.4.0.
 
@@ -33,7 +33,7 @@
 
 ---
 ## VS Code Cross Compile with CMake
-* Setup a VS Code project with CMake as usual (see e.g. [kernel based design tutorial](../kernel_based_design/kernel_based_design.md#sw-development-in-c-on-the-kria-target)). Bear in mind that in this case the project is not remote on the Kria target but local on your development computer, so we do not have to connect to the Kria target.
+* Setup a VS Code project with CMake as usual (see e.g. [kernel based design tutorial](../kernel_based_design/kernel_based_design.md#sw-development-in-c-on-the-kria-target)). Bear in mind that in this case the project is not remote on the Kria target but local on your development computer, so we do not have to connect to the Kria target. Copy all necessary files and folders to a directory on your local computer.
 * In the `CMAkeLists.txt` file add the Sysroot path with: `set(CMAKE_SYSROOT <sysroot_path>)`
   * The `<sysroot_path>` is the directory path where you installed the _sysroot_ directory (see section [Download and Install Sysroot](kria_cross_compilation.md#download-and-install-sysroot))
 * Below you can see an excerpt from a `CMakeLists.txt` file showing the definition of the _sysroot_ path (replace the `path to sysroot` with the path on your computer). You also have to set the path to the cross-compiled library.
@@ -74,7 +74,7 @@ set(XRT_LIBS xrt_coreutil)
 * If you want to debug your code, you must do a _remote_ debug on the target system. This can also be done in VS Code with the settings given in the following. We will use a _gdbserver_ on the target which will run the executable and we will connect to the server from the _gdb client_ in VS Code.
 * Install gdbserver on target: `sudo apt install gdbserver`
 * Install gdb multiarch on host: `sudo apt install gdb-multiarch`
-* In the VSCode project folder add a debug configuration file `.vscode/launch.json` with the following content: 
+* In the VSCode project folder on the host computer add a debug configuration file `.vscode/launch.json` with the following content: 
 	* `"program"`: The executable built in the previous step
 	* `"miDebuggerServerAddress"`: This is the IP address and port of the target where you start the gdbserver
 ```

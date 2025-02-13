@@ -22,5 +22,5 @@ sudo mv shell.json ${fw_target}/shell.json
 sudo ls -al ${fw_target}
 
 # Make jupyter_dir
-sudo mkdir ${jupyter_target}
+sudo mkdir -p ${jupyter_target}
 sudo ls -al ${jupyter_dir}

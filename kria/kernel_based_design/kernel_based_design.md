@@ -85,8 +85,7 @@
 * In the next step of this tutorial we will test the IP core with a SW application written in Python and executed by a Jupyter notebook application running on the Kria target. The Jupyter notebook code can be found in the folder `reference_files/kria/pynq/vadd_extensible.ipynb`.
 * Copy the Jupyter notebook code `vadd_extensible.ipynb` (via _SFTP_) first to the home directory on the Kria board (`/home/ubuntu`). Then open a _SSH_ connection on the Kria board and move the notebook into the path `/home/root/jupyter_notebooks/projects/vadd/` on the Kria board with:
   * `sudo cp vadd_extensible.ipynb /home/root/jupyter_notebooks/projects/vadd/`. 
-* The notebook uses Python scripts as modules. Copy the directory `utils` (also in the folder `reference_files/kria/pynq/`) to the directory `/home/root/jupyter_notebooks/projects/` on the Kria target with:
-  *  `sudo cp -r utils/ /home/root/jupyter_notebooks/projects/`. 
+* The notebook uses Python scripts as modules. Copy the directory `utils` (also in the folder `reference_files/kria/pynq/`) via SFTP to the home directory on the Kria board (/home/ubuntu). Then copy the directory `utils` to the directory `/home/root/jupyter_notebooks/projects/` on the Kria target by running `sudo cp -r utils/ /home/root/jupyter_notebooks/projects/` inside an SSH terminal session on the Kria board.
 * The Jupyter notebook application is already running on the Kria board after booting the board and can be accessed via a web browser (`<ip_address>:9090/lab`, Password `xilinx`).
   * _Note_: The Jupyter notebook is running under the user _root_ and therefore we have a different password than the user _ubuntu_.
 * Open the web browser with the IP address given above. You should find the Jupyter notebook file in the project directory `projects/vadd`. Open the notebook file and execute it. The notebook code is documented, so we omit any further explanations here. You may have to adapt paths (e.g. the project path).
@@ -138,16 +137,16 @@
   * You can find more information on Xilinx XRT [here](https://xilinx.github.io/XRT/2022.1/html/xrt_native_apis.html).
 
 * Open the `CMakeLists.txt` file: It defines the paths to the libraries, namely the XRT libraries and the helpers library, which you found in the folder `helper_libs_src`. Depending on where you copied and installed this library you may have to change the library path (if you followed the instructions above, it should fit). When you scroll further down the `CMakeLists.txt` file you will see project include and source directory and the specification of the executable and its dependencies. The nice thing here is that you do not have to change anything here as long as you stick to the directory structure described above: All header files in the folder `include` and all .cpp files in the folder `src`. The last two entries in the `CMakeLists.txt` file specify the compiler options and how the executable must be linked to the libraries. For new projects you can just copy the `CMakeLists.txt` file and change the project name in the second line of the file - the rest should work, if you use the same libraries.
-* For building the project select the CMake symbol in the side bar of VS Code (last symbol). You should see the CMake view as shown in the image below:
+* For building the project select the CMake symbol in the side bar of VS Code (last symbol). You should see the CMake view as shown in the image below (it could happen that your VS Code has an english localization, so please translate):
 
 ![Code 2](images/vitis_003.png)
 
-* You first have to configure the tool chain ("kit") to be used: Move the mouse over `Konfigurieren > [Kein Kit ausgewählt]` and select the stylus symbol. Select one of the kits, e.g. `gcc 11.4.0 aarch64-linux-gnu`, which should be shown then instead of `[Kein Kit ausgewählt]`.
+* You first have to configure the tool chain ("kit") to be used: Move the mouse over `Konfigurieren > [Kein Kit ausgewählt]` (engl.: "No kit selected") and select the stylus symbol. Select one of the kits, e.g. `gcc 11.4.0 aarch64-linux-gnu`, which should be shown then instead of `[Kein Kit ausgewählt]`.
 * Move the mouse over `Build` and select the build symbol. Your code should be built and you can see the output in the OUTPUT view below the editor. Since you copied an existing project there should be no errors during the build process, provided that the library paths are correct.
 * Since the program needs two arguments (path to xclbin file and data size) an entry in a VS Code workspace settings file (located in `vadd_sw/.vscode/settings.json`) is needed to specify the arguments. Open the file in the explorer as shown in the next image. There is already an entry `cmake.debugConfig > args`  and the path to the binary should be correct (if not then change it here). You can change the second argument in order to process more samples. Note that each argument value is a string and needs double quotes.
 
 ![Code 3](images/vitis_004.png)
 
-* You can now run the application if you move the mouse to `Starten` and select the symbol. 
+* You can now run the application if you move the mouse to `Starten` (engl.: "Launch") and select the symbol. 
 * Above the  `Starten` entry there is also a `Debugggen` entry which can be used to debug the code. Make sure that you have set at least one break point in the source code by clicking left to the line number in the editor. The debugger is based on `gdb` and VS Code will jump to the debugger view with the standard debugging features. 
 * You can also run the program in the terminal. For example when you are in the project folder `vadd` the command would be `vadd_sw/build/vadd vadd_hw.xclbin 10`
