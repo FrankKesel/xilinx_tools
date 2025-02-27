@@ -9,6 +9,7 @@
 
 # Define project name
 project_name="vadd"
+xclbin_name="vadd_hw.xclbin"
 
 echo "Copy the FPGA binary to firmware directory:"
 
@@ -17,7 +18,7 @@ fw_dir="/lib/firmware/xilinx/"
 fw_target=${fw_dir}${project_name}
 
 # Copy files
-sudo cp vadd_hw.xclbin ${fw_target}/binary_container_1.bin
+sudo cp ${xclbin_name} ${fw_target}/binary_container_1.bin
 sudo cp pl.dtbo ${fw_target}/pl.dtbo
 
 # Check files
