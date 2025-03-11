@@ -1,0 +1,9 @@
+{
+    "remote_dir":"/home/ubuntu/projects/hw/convolution/",
+    "executable_name":"conv_single",
+    "target_url":"ubuntu@192.168.178.64",
+    "target_pw":"ubuntu",
+    "hw_binary":"conv_hw.xclbin",
+    "image_file":"images/image_64x64.bmp",
+    "target_command":"${config:remote_dir}${config:executable_name} ${config:remote_dir}${config:hw_binary} ${config:remote_dir}${config:image_file}"
+}

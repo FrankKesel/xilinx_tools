@@ -15,7 +15,7 @@ set(CMAKE_SYSTEM_PROCESSOR aarch64)
 set(CMAKE_C_COMPILER /usr/bin/aarch64-linux-gnu-gcc)
 set(CMAKE_CXX_COMPILER /usr/bin/aarch64-linux-gnu-g++)
 # Sysroot rootfs
-set(CMAKE_FIND_ROOT_PATH /home/Data/Daten_diverse/xilinx/sysroots/iot-limerick-kria/aarch64-xilinx-linux)
+set(CMAKE_FIND_ROOT_PATH <your-sysroot-path>/iot-limerick-kria/aarch64-xilinx-linux)
 
 
 # Specify the C++ standard
