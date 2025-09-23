@@ -53,6 +53,8 @@
 
 ![Add sources](images/viv_005.png)
 
+* If you want to generate a new source file in a project later on, instead of `Add Files` you can create a new file with `Create File`. Select file type `VHDL` and enter the name of the file. When you push `Finish` in the next dialog you can enter the name of the entity, the architecture and the definition of the I/O ports. Finally the VHDL code will be generated with entity, ports and architecture and you can then fill in the rest of the code.
+
 ---
 ## Simulation
 
