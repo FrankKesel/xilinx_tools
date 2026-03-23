@@ -5,7 +5,7 @@
 * It is assumed that you have a _Kria KV260 Starter Kit_ board with Ubuntu Linux (Version 22.04) and the _Pynq_ framework for running Jupyter notebooks on the Kria target. Further information can be found here: 
   * [Ubuntu Linux for the Kria KV260](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/2363129857/Getting+Started+with+Certified+Ubuntu+22.04+LTS+for+Xilinx+Devices)
   * [Pynq](http://www.pynq.io/)
-* We also further assume that you have installed Vitis Version 24.1 on a Linux computer running Ubuntu 22.04.
+* We also further assume that you have installed Vitis Version 25.1 on a Linux computer running Ubuntu 22.04 or 24.04.
 * The tutorial will go through the following steps:
   * Develop the IP kernel with Vitis HLS.
   * Build the FPGA hardware, i.e. the bitfile for the programmable logic, with Vitis v++ compiler (using a bash script).
@@ -26,13 +26,14 @@
 ---
 ## IP development in Vitis HLS
 * In this step the IP core is developed with Vitis HLS. The complete source code for the HLS project can be found in the folder `reference_files/hls/src`. 
-* There is a bash script `run_hls.sh` in the folder `reference_files/hls/project` which does the HLS project setup and runs synthesis. Open the file `run_hls.sh` and check that the path `/opt/xilinx/Vitis/2024.1/settings64.sh` matches your installation of Vitis. Execute this script on the command line of a terminal program on your Linux computer. 
+* There is a bash script `run_hls.sh` in the folder `reference_files/hls` which does the HLS project setup and runs synthesis. Open the file `run_hls.sh` and check that the path `/opt/xilinx/2025.1/Vitis/settings64.sh` matches your installation of Vitis. Execute this script on the command line of a terminal program on your Linux computer. 
   * The HLS project setup is defined in the file `project.cfg`. You must not change anything here.
   * The address width of the IP core is be set to 32 Bit in order to be usable with the Pynq Jupyter notebooks. This is set in the config file with: `syn.interface.m_axi_addr64=0`
   * _Note_: When you want to start a shell script in a directory on the command line of a terminal program you must precede the script name with `./`, so in the case of the HLS script you must start it with `./run_hls.sh`. This will hold also for the following steps and also on the Kria target.
-* Start Vitis and open the directory `vadd/hls` as a workspace. You will  find now the completed synthesis and you can study the results. You may also run `C Simulation` and `C/RTL Cosimulation`, although the code has already been verified. 
+* Start Vitis and open the directory `vadd/hls` as a workspace. There may be a pop-up window concerning an update of the workspace, click on `Update`.  You will  find now the completed synthesis and you can study the results. You may also run `C Simulation` and `C/RTL Cosimulation`, although the code has already been verified. 
 * Then run the `Package` step in the flow. The IP Core is exported as _.xo-file_ for the kernel based flow.
-  * Note the location of the _.xo-file_ for subsequent steps. It should be in the directory `hls/project/project_work` and is named `krnl_vadd.xo`. 
+  * In the dialog enter the name of the output file as `krnl_vadd.xo`.
+  * Note the location of the _.xo-file_ for subsequent steps. It should be in the directory `hls/project`. 
 
 ---
 ## Generate the Programmable Logic Binary
@@ -43,7 +44,7 @@
   * `vadd_hw.xsa`: This file is needed for the next step.
 * The file `vadd_hw.xclbin.info` can be opened with a text editor and gives you some information on the generated hardware, e.g. base addresses and register offsets. You can also open Vitis for an analysis of the results with the following commands 
   ```
-  source /opt/xilinx/Vitis/2024.1/settings64.sh
+  source /opt/xilinx/2025.1/Vitis/settings64.sh
   vitis --analyze vadd_hw.xclbin.link_summary
   ``` 
  
