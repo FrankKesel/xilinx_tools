@@ -3,7 +3,7 @@
 ---
 ## Overview
 * This tutorial is intended to show the complete design flow for a kernel based design using the _Xilinx Vision Library_, which basically implements _OpenCV_ kernels in hardware. This tutorial follows the kernel based design flow as described in the tutorial [kernel_based_design](../kernel_based_design/kernel_based_design.md) and thus this tutorial should have been done beforehand. We will reference to this tutorial and describe here only what is necessary and important w.r.t. the _Xilinx Vision Library_ and streaming applications with the generated hardware. 
-* The tutorial assumes you have a _Kria KV260 Starter Kit_ board with Ubuntu Linux 22.04 and a host computer running Ubuntu Linux 22.04, with the _Xilinx Vitis Core Development Kit_ (Version 2024.1). The FPGA hardware which we will design here will support also a streaming application using the _Gstreamer_ framework on the Kria target board. 
+* The tutorial assumes you have a _Kria KV260 Starter Kit_ board with Ubuntu Linux 22.04 and a host computer running Ubuntu Linux 24.04, with the _Xilinx Vitis Core Development Kit_ (Version 2025.1). The FPGA hardware which we will design here will support also a streaming application using the _Gstreamer_ framework on the Kria target board. 
 * The Xilinx OpenCV library is part of the so-called _Vitis Vision Library_ and is contained in the _L1_ (Level 1) directory structure. We will use here only the _L1_ library with the OpenCV kernels. The tutorial uses a 2D filter function (`cv::filter2D	`) which is also known as _convolution_.
 * Further information on OpenCV and the Xilinx Vision library can be found here:
   * [OpenCV Website](https://opencv.org ), The convolution function is defined [here](https://docs.opencv.org/4.4.0/d4/d86/group__imgproc__filter.html#ga27c049795ce870216ddfb366086b5a04).
@@ -44,7 +44,7 @@
 
 ---
 ## IP Kernel Development in Vitis HLS
-* In the folder `hls/project` you can find a bash script `run_hls.sh` for HLS which you can use to setup the project and run it completely. The bash script uses the HLS configuration file `project.cfg`. Open this file with a text editor. You should see the specification for the _C flags_  as shown below.
+* In the folder `hls` you can find a bash script `run_hls.sh` for HLS which you can use to setup the project and run it completely. The bash script uses the HLS configuration file `project/project.cfg`. Open this file with a text editor. You should see the specification for the _C flags_  as shown below.
   * The `-I` flag specifies the path to the Vitis Vision L1 library as a relative path. The starting point for this path is the folder `convolution/hls/project` (assuming that your project folder is named _convolution_). This means that the library has been unpacked parallel to the project folder. If you get errors during the execution of the bash script then please check the path to the library.
   * For the `tb.cflags` there is also a second `-I` flag which specifies the path to the OpenCV software library. If you installed the OpenCV library as described [here](../resources/opencv_installation.md), then the library should be found in `/opt/opencv`. 
   * To make it clear: There are **two** OpenCV libraries, the software library installed in `/opt/opencv` and the Vitis L1 library for the OpenCV hardware kernels. The software library is only used in the testbench, it can _not_ be used in the C++ code for synthesis (you will get errors). 
@@ -74,7 +74,7 @@ tb.cflags=-I../../../vision_L1/include -I/opt/opencv/include/opencv4/ -std=c++14
 * Next run _C/RTL Cosimulation_. If you use the largest image it may take some time until it completes, depending on the compute power of your computer.
 * You can repeat the steps with different image sizes and different convolution filter kernels. You can also check how the execution time increases if you switch off parallel execution (set `#define PARALLEL 0` in `project.h`).
 * The last step is the export of the IP kernel in the _Flow Navigator_ by clicking `Run` in _Package_. The IP Core is exported as _.xo-file_ for the kernel based flow.
-  * Note the location of the _.xo-file_ for subsequent steps. It should be in the directory `hls/project/project_work` and is named `conv_top.xo`. 
+  * Name the kernel `conv_top.xo`. It should be in the directory `hls/project/project`. 
 
 ---
 ## Generate the Programmable Logic Binary

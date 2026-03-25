@@ -32,10 +32,11 @@
 	mkdir opencv_build
 	cd opencv_build
 
-	cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/opt/opencv -D WITH_V4L=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_TESTS=OFF -DBUILD_ZLIB=ON -DBUILD_JPEG=ON -DWITH_JPEG=ON -DWITH_PNG=ON -DBUILD_EXAMPLES=OFF -DINSTALL_C_EXAMPLES=OFF -DINSTALL_PYTHON_EXAMPLES=OFF -DWITH_OPENEXR=OFF -DBUILD_OPENEXR=OFF -D CMAKE_CXX_COMPILER=/opt/Xilinx/Vitis_HLS/current/tps/lnx64/gcc-6.2.0/bin/g++ ../opencv
+	cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/opt/opencv -D WITH_V4L=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_TESTS=OFF -DBUILD_ZLIB=ON -DBUILD_JPEG=ON -DWITH_JPEG=ON -DWITH_PNG=ON -DBUILD_EXAMPLES=OFF -DINSTALL_C_EXAMPLES=OFF -DINSTALL_PYTHON_EXAMPLES=OFF -DWITH_OPENEXR=OFF -DBUILD_OPENEXR=OFF -D CMAKE_CXX_COMPILER=/opt/xilinx/2025.1/Vitis/tps/lnx64/gcc/bin/g++ ../opencv
 
 	make -j8
 	sudo make install
 	```	
 * Configure dynamic linker run-time bindings: `sudo echo /opt/opencv/lib > /etc/ld.so.conf.d/opencv.conf && ldconfig -v` 
 
+* NOTE: Compilation under Ubuntu 24.04 did not work!!! Which compiler version should be used?
