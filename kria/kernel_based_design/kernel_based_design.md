@@ -57,7 +57,7 @@
 
 ---
 ## File transfer and directories on the target
-* In order to use the FPGA hardware on the Kria target the FPGA binary must be transferred to the correct places in the Ubuntu file system on the target. Since we want to use the hardware with Pynq and also with application SW written in C++ we have to transfer them to three different places:
+* In order to use the FPGA hardware on the Kria target the FPGA binary must be transferred to the correct places in the Ubuntu file system on the target. Since we want to use the hardware with Pynq and also with application SW written in C++ we have to transfer them to three different places (there are bash-scripts for this task, see further below):
   * A directory for installation of the FPGA binary ("firmware"). This MUST be a directory in `/lib/firmware/xilinx/` such that the `xmutil` tool can load the binary. Since these directories are owned by `root` you have to use `sudo` for the commands. The directory should be named like the name of the project `/lib/firmware/xilinx/<name>` and has the following content:
     * `pl.dtbo`: Device tree overlay
     * `binary_container_1.bin`: FPGA binary
