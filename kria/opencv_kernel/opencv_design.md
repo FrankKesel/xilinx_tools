@@ -24,11 +24,11 @@
   * `jupyter`: Jupyter notebook for the laptop/PC.
   * `kria`: Jupyter notebooks, C++ application SW and scripts for the Kria KV260 target.
   * `system`: Workspace for the Vitis project.
-* The development described here has been tested with Vivado/Vitis Versions 2024.1. The Kria KV260 board used is running Ubuntu 22.04.
+* The development described here has been tested with Vivado/Vitis Versions 2025.1. The Kria KV260 board used is running Ubuntu 22.04.
 
 ---
 ## Installation of Libraries
-* You need an installation of the OpenCV C++ library on your development computer. If it is not already installed then we provide instructions on how to install the library on a Linux computer [here](../resources/opencv_installation.md). Further information on the installation of OpenCV for the Vitis Vision Library can be found [here](https://github.com/Xilinx/Vitis_Libraries/tree/main/vision).
+* You need an installation of the OpenCV C++ library on your development computer. Further information on the installation of OpenCV for the Vitis Vision Library can be found [here](https://github.com/Xilinx/Vitis_Libraries/tree/main/vision).
 * If you want to use the Jupyter notebook for testing the OpenCV convolution function you need an installation of Python including the OpenCV library and Jupyter Notebook on your computer. You can find information here:
   * Python: https://www.python.org
   * OpenCV: https://docs.opencv.org/4.x/da/df6/tutorial_py_table_of_contents_setup.html
