@@ -28,7 +28,7 @@
 
 ---
 ## Installation of Libraries
-* You need an installation of the OpenCV C++ library on your development computer. Further information on the installation of OpenCV for the Vitis Vision Library can be found [here](https://github.com/Xilinx/Vitis_Libraries/tree/main/vision).
+* You need an installation of the OpenCV C++ library on your development computer. Because the OpenCV library must work with the Vitis HLS tool it has to be compiled with the Vitis C++ compiler and NOT with the standard GNU toolchain on the Linux computer. We provide a shell script [here](../resources/vitis_vision_L1/opencv_compile.sh) which fetches the OpenCV library and compiles it in a Ubuntu docker environment. The script assumes that you have a Vitis installation on your Linux computer. Please check the path to your Vitis installation in line 11 of the script and change it if your path differs. Copy the script to a working directory on your computer an execute it with `sudo bash opencv_compile.sh`. After a while you should have the OpenCV directory in the path mentioned in the script. You can create a soft link in the directory `/opt` with `sudo ln -s opencv4.4.0_vitis2025.1_gcc8.3.0_docker/ opencv` such that you can refer to the library under the path `/opt/opencv` later on. 
 * If you want to use the Jupyter notebook for testing the OpenCV convolution function you need an installation of Python including the OpenCV library and Jupyter Notebook on your computer. You can find information here:
   * Python: https://www.python.org
   * OpenCV: https://docs.opencv.org/4.x/da/df6/tutorial_py_table_of_contents_setup.html
@@ -46,7 +46,7 @@
 ## IP Kernel Development in Vitis HLS
 * In the folder `hls` you can find a bash script `run_hls.sh` for HLS which you can use to setup the project and run it completely. The bash script uses the HLS configuration file `project/project.cfg`. Open this file with a text editor. You should see the specification for the _C flags_  as shown below.
   * The `-I` flag specifies the path to the Vitis Vision L1 library as a relative path. The starting point for this path is the folder `convolution/hls/project` (assuming that your project folder is named _convolution_). This means that the library has been unpacked parallel to the project folder. If you get errors during the execution of the bash script then please check the path to the library.
-  * For the `tb.cflags` there is also a second `-I` flag which specifies the path to the OpenCV software library. If you installed the OpenCV library as described [here](../resources/opencv_installation.md), then the library should be found in `/opt/opencv`. 
+  * For the `tb.cflags` there is also a second `-I` flag which specifies the path to the OpenCV software library. If you installed the OpenCV library as described above, then the library should be found in `/opt/opencv`. 
   * To make it clear: There are **two** OpenCV libraries, the software library installed in `/opt/opencv` and the Vitis L1 library for the OpenCV hardware kernels. The software library is only used in the testbench, it can _not_ be used in the C++ code for synthesis (you will get errors). 
 ```
 syn.cflags=-I../../../vision_L1/include -std=c++14
