@@ -118,7 +118,7 @@
 * We will use a small library for the project (which you can use also for other C++ projects), which first needs to be installed:
   * Copy the folder `kria/cpp_libs` to the Kria target folder `/home/ubuntu/projects`.
   * Go to the folder `cpp_libs/helper_libs_src` and execute the script `make_and_install.sh`.  This will compile the sources and install the library in the folder `cpp_libs/helper_libs`. The compilation is also based on _CMake_. 
-* In the directory `kria/vadd_sw` you can find the source code and the `CMakeLists.txt` file, which is needed for VS Code. Copy the directory `vadd_sw` to the project folder (`/home/ubuntu/projects/hw/vadd`) on the Kria target.
+* In the directory `kria/vadd_sw` you can find the source code and the `CMakeLists.txt` file, which is needed for VS Code. Copy the directory `vadd_sw` to the project folder (`/home/ubuntu/projects/vadd`) on the Kria target.
 * Before we can start SW development you have to load the FPGA binary (firmware) with the script `load_app.sh` (should be in your project folder). When you execute the script you should see something similar to the next image (you may not have the _convolution_ accelerator). In the last line you can see that the `vadd` _accelerator_ was loaded in the active _slot_ (marked with 0, all inactive slots are -1).
 
 ![Terminal 1](images/vitis_001.png)
@@ -128,7 +128,7 @@
   * Open the command palette (`Ctrl-Shift-P` or `F1`) and type `remote-ssh`. Select the entry `Connect to host ...`. You must enter the same SSH credentials (`<user>@<host-ip>`) as shown above for the SSH connection.
   	* When VS Code connects to the target it will download VS Code plus some extensions on the target, this may take some time.
   	* After the first connection you should find the SSH connection in the `Remote Explorer` for re-connecting. Select the IP address and push the arrow symbol to re-connect. 
-* Open the (remote) folder `/home/ubuntu/projects/hw/vadd/vadd_sw/` in VS Code, this is the project workspace. You should see now your project as shown in the image below. In red you can see the _Explorer_, where the source code and the `CMakeLists.txt` file are shown. Open the source file `main.cpp` and study the code. 
+* Open the (remote) folder `/home/ubuntu/projects/vadd/vadd_sw/` in VS Code, this is the project workspace. You should see now your project as shown in the image below. In red you can see the _Explorer_, where the source code and the `CMakeLists.txt` file are shown. Open the source file `main.cpp` and study the code. 
 
 ![Code 1](images/vitis_002.png)
 
