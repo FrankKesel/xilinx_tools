@@ -3,7 +3,7 @@
 ---
 ## Overview
 
-* This tutorial is a self-study course to introduce the Xilinx Vivado development environment. Using a simple VHDL example, the tutorial describes the necessary steps in Vivado to go from entering the VHDL source code to generating a bit file for programming an FPGA. The tutorial refers to _Vivado_ version 2024.1, with which the individual steps were tested. When you have installed the _Xilinx Vitis Core Development Kit_ then Vivado is included. You can also install Vivado as a standalone tool from the [Xilinx homepage](http://www.xilinx.com/support/download.html). Select `Vivado` and `2024.1` and then `Xilinx Unified Installer 2024.1: Windows Self Extracting Web Installer` (or the Linux Web Installer if necessary). You must request a license at the end of the installation. To do this, you must register with Xilinx.
+* This tutorial is a self-study course to introduce the Xilinx Vivado development environment. Using a simple VHDL example, the tutorial describes the necessary steps in Vivado to go from entering the VHDL source code to generating a bit file for programming an FPGA. The tutorial refers to _Vivado_ version 2025.1, with which the individual steps were tested. When you have installed the _Xilinx Vitis Core Development Kit_ then Vivado is included. You can also install Vivado as a standalone tool from the [Xilinx homepage](http://www.xilinx.com/support/download.html). Select `Vivado` and `2025.1` and then `Xilinx Unified Installer 2025.1: Windows Self Extracting Web Installer` (or the Linux Web Installer if necessary). You must request a license at the end of the installation. To do this, you must register with Xilinx.
 * If you would like to test the resulting design on FPGA hardware, then the [Basys 3 FPGA board](https://digilent.com/reference/programmable-logic/basys-3/start) from Digilent would be recommended. The pin assginment in this tutorial is dedicated to this board. But you do not necessarily need the board to work through this tutorial using the Vivado software. 
 * For further and more in-depth informations on the Xilinx Vivado design flow, the Xilinx documentation is recommended for example the [UltraFast Design Methodology Guide for FPGAs and SoCs ](https://docs.amd.com/r/en-US/ug949-vivado-design-methodology).
 * The source files for this tutorial can be found in the folder `reference_files`. Download the complete folder `vivado_intro/reference_files` to your computer. 
@@ -16,7 +16,7 @@
 
 * Create a work directory for the Vivado projects on your development computer, e.g. in your user directory or somewhere else where you as a user have write and read permissions.
 
-* Start Vivado 2024.1 from the Windows (or Linux) Start menu (usually found under _Xilinx Design Tools_).
+* Start Vivado 2025.1 from the Windows (or Linux) Start menu (usually found under _Xilinx Design Tools_).
 
 * Under `Quick Start` create a new project by pushing `Create Project`. A _Wizard_ opens as shown in the next image. Enter the relevant entries in the dialogs as described below and go to the next dialog by clicking `Next`.
 
