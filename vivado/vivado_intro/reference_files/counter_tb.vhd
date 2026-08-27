@@ -1,21 +1,21 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
 
 entity counter_tb is
 end counter_tb;
 
-architecture Behavioral of counter_tb is
+architecture behavioral of counter_tb is
 
 component counter is
-    Port ( clk : in STD_LOGIC;
-           reset : in STD_LOGIC;
-           count : in STD_LOGIC;
-           ctr_out : out STD_LOGIC_VECTOR (3 downto 0));
+    port ( clk : in std_logic;
+           reset : in std_logic;
+           count : in std_logic;
+           ctr_out : out std_logic_vector (3 downto 0));
 end component;
 
 signal clk, reset, count : std_logic := '0';
 signal ctr_out : std_logic_vector(3 downto 0);
-constant clk_period: time := 10 ns; -- 100 MHz
+constant clk_period: time := 10 ns; -- 100 mhz
 
 begin
 dut: counter port map (
@@ -47,4 +47,4 @@ begin
    wait;
 end process;
 
-end Behavioral;
+end behavioral;

@@ -3,11 +3,11 @@
 ---
 ## Overview
 
-* This tutorial is a self-study course to introduce the Xilinx Vivado development environment. Using a simple VHDL example, the tutorial describes the necessary steps in Vivado to go from entering the VHDL source code to generating a bit file for programming an FPGA. The tutorial refers to _Vivado_ version 2025.1, with which the individual steps were tested. When you have installed the _Xilinx Vitis Core Development Kit_ then Vivado is included. You can also install Vivado as a standalone tool from the [Xilinx homepage](http://www.xilinx.com/support/download.html). Select `Vivado` and `2025.1` and then `Xilinx Unified Installer 2025.1: Windows Self Extracting Web Installer` (or the Linux Web Installer if necessary). You must request a license at the end of the installation. To do this, you must register with Xilinx.
+* This tutorial is a self-study course to introduce the Xilinx Vivado development environment. Using a simple VHDL example, the tutorial describes the necessary steps in Vivado to go from entering the VHDL source code to generating a bit file for programming an FPGA. The tutorial refers to _Vivado_ version 2026.1, with which the individual steps were tested. When you have installed the _Xilinx Vitis Core Development Kit_ then Vivado is included. You can download the _AMD Unified Installer_ from the [Xilinx homepage](http://www.xilinx.com/support/download.html). You must request a license at the end of the installation. To do this, you must register with Xilinx.
 * If you would like to test the resulting design on FPGA hardware, then the [Basys 3 FPGA board](https://digilent.com/reference/programmable-logic/basys-3/start) from Digilent would be recommended. The pin assginment in this tutorial is dedicated to this board. But you do not necessarily need the board to work through this tutorial using the Vivado software. 
 * For further and more in-depth informations on the Xilinx Vivado design flow, the Xilinx documentation is recommended for example the [UltraFast Design Methodology Guide for FPGAs and SoCs ](https://docs.amd.com/r/en-US/ug949-vivado-design-methodology).
 * The source files for this tutorial can be found in the folder `reference_files`. Download the complete folder `vivado_intro/reference_files` to your computer. 
-  * You can either download this whole Github repository or only the folder `reference_files` using a browser extension like [GitZip](https://gitzip.org).
+* _Note_: You can either download this whole Github repository or only the folder `reference_files` using a browser extension like [GitZip](https://gitzip.org).
 
 ---
 ## Creating a project
@@ -16,15 +16,15 @@
 
 * Create a work directory for the Vivado projects on your development computer, e.g. in your user directory or somewhere else where you as a user have write and read permissions.
 
-* Start Vivado 2025.1 from the Windows (or Linux) Start menu (usually found under _Xilinx Design Tools_).
+* Start Vivado 2026.1 from the Windows (or Linux) Start menu (usually found under _Xilinx Design Tools_).
 
-* Under `Quick Start` create a new project by pushing `Create Project`. A _Wizard_ opens as shown in the next image. Enter the relevant entries in the dialogs as described below and go to the next dialog by clicking `Next`.
+* Under `Quick Start` create a new project by pushing the button `New Project`. A _Wizard_ opens as shown in the next image. Enter the relevant entries in the dialogs as described below and go to the next dialog by clicking `Next`.
 
 ![Vivado GUI](images/viv_001.png)
 
-* Give your project a name (e.g. _intro1_). Select the previously created work directory for the Vivado project files as the `Project location` and activate the `Create project subdirectory` option. Important: Do not use spaces, special characters or umlauts in path or file names! The subdirectory will be named with the project name. Push `Next`.
+* Give your project a name (e.g. _intro_proj_). Select the previously created work directory for the Vivado project files as the `Project location` and activate the `Create project subdirectory` option. Important: Do not use spaces, special characters or umlauts in path or file names! The subdirectory will be named with the project name. Push `Next`.
 * Select `RTL Project` as the project type and select `Do not specify sources at this time`. We will add the VHDL sources later. Push `Next`.
-* In the next dialog the FPGA target component must be specified. The quickest way to select the FPGA component that is installed on the BASYS3 board is to use the following settings: `Family: Artix-7`, `Package: cpg236`, `Speed: -1`. Select the component `xc7a35tcpg236-1` from the list and complete the project creation by clicking `Next` and then `Finish` in the following dialog. You will be returned to the Vivado GUI as shown in the following image.
+* In the next dialog the FPGA target part must be specified. Enter the part `xc7a35tcpg236-1` in the search field on the _Parts_ tab, select the part and complete the project creation by clicking `Next` and then `Finish` in the following dialog. You will be returned to the Vivado GUI as shown in the following image.
 
 ![Vivado GUI](images/viv_002.png)
 
@@ -34,7 +34,7 @@
   * 3: Tool window
   * 4: Console, messages, reports etc. (named tab area in the following)
 * The correct specification of the FPGA component is particularly important for the implementation and the correct assignment of the pins. If the wrong component is selected, the FPGA will not be able to be configured correctly later. The creation of the Vivado project is now complete.
-  * _Note_: The exact specification of the FPGA part is only necessary if you plan to download the bitfile at the end of this tutorial to the _Basys 3_ board. If you do not have the board, you can select any other part from the _Artix-7_ family. 
+* _Note_: The exact specification of the FPGA part is only necessary if you plan to download the bitfile at the end of this tutorial to the _Basys 3_ board. If you do not have the board, you can select any other part from the _Artix-7_ family. 
 
 ---
 ## Adding the VHDL source files
@@ -45,9 +45,11 @@
 
 ![Add sources](images/viv_003.png)
 
-* Repeat this for the testbench file: Click `Add Sources` again, but select now `Add or Create Simulation Sources`. This is important so that Vivado knows that the testbench is only there for simulation and should not be implemented in hardware. Add the testbench file `counter_tb.vhd` as shown in the next image and click `Finish`.
+* Repeat this for the testbench file: Click `Add Sources` again, but select now `Add or Create Simulation Sources`. This is important such that Vivado knows that the testbench is only there for simulation and should not be implemented in hardware. Add the testbench file `counter_tb.vhd` as shown in the next image and click `Finish`.
 
 ![Add sources](images/viv_004.png)
+
+* _Note_: You can also keep the sources in the folder `reference_files` by unchecking `Copy sources into project`.
 
 * Now check that you have all neccessary sources in the _Sources_ pane, which is in the _Project Manager_ window in the top left corner as shown in the next image. You can see two entries: _Design Sources_ and _Simulation Sources_ (push the arrow symbol to extend). The `counter.vhd` source file is listed under both entries, but the `counter_tb.vhd` source is listed only under _Simulation Sources_ since it is only needed for simulation. When you later on setup up a new project you should always check that you have all necessary source files and that the testbench is only visible under _Simulation Sources_. The sources belonging to the design itself should appear under _Design Sources_ **and** _Simulation Sources_ .
 
@@ -60,16 +62,16 @@
 
 * In this section we will simulate the design using the testbench.
 * To start the simulator, click on `Run Simulation > Run Behavioral Simulation` in the _Flow Navigator_ under _Simulation_. The simulator window should open up as shown in the next image.
-  * _Note_: Vivado is an integrated development environment that starts various tools such as project management, simulator, synthesis or implementation via the _Flow Navigator_ and displays them in an integrated window. Whenever you start a tool a new window will open up in the central tool window of Vivado and gets stacked on top of the previous tool window. You can close a tool by pushing the symbol `X` in the blue title area of the tool (last symbol to the right) and you will be back to the previous tool window. On the bottom of this window stack you should always have the _Project Manager_ window, which you should not close because that would close the complete project.
+* _Note_: Vivado is an integrated development environment that starts various tools such as project management, simulator, synthesis or implementation via the _Flow Navigator_ and displays them in an integrated window. Whenever you start a tool a new window will open up in the central tool window of Vivado and gets stacked on top of the previous tool window. You can close a tool by pushing the symbol `X` in the title area of the tool (last symbol to the right) and you will be back to the previous tool window. On the bottom of this window stack you should always have the _Project Manager_ window, which you should not close because that would close the complete project.
 
 ![Simulation](images/viv_006.png)
 
 * Under the _Scope_ tab (on the left side of the simulator window) you can see the hierarchical structure of your design. The test bench _counter_tb_ is at the top level, and below that is the counter _counter_ (instance name _dut_, see testbench). The ports, signals and constants defined for the module currently selected under _Scope_ are listed in the _Objects_ window; these can in turn be transferred to the _Waveform Window_ on the right side using _drag & drop_. By default, the signal curves (a.k.a. _waveforms_) of all objects at the top hierarchy level are displayed, in this case the test bench.
 * By default, 1000 ns are simulated, but this default setting can be changed in the _Flow Navigator_ under `Settings > Simulation` before the next start of the simulator. In the _Waveform Window_ you will find a bar at the top with buttons for zooming and other functions. To see the complete signal curve, for example, use the `Zoom Fit` button.
-  * _Note_: Hover with the mouse over the symbols in the _Waveform Window_ and you will see the function of the symbols. 
+* _Note_: Hover with the mouse over the symbols in the _Waveform Window_ and you will see the function of the symbols. 
 * If you want to see internal signals from the _counter_, then select the instance name _dut_ under _Scope_ and then you can select the corresponding signals under _Objects_ using the right mouse button: In the context menu that appears, you can then add the signal using `Add To Wave Window`. 
-* However, you will not yet see any signal curves for the new signals. To see them, you must restart the simulator: The Vivado toolbar was expanded above the simulator window when the simulator was started (marked in red in the previous image). There you will find several blue buttons; if you hover the mouse over them, the function is shown. You can use the `Restart` button to reset the simulator to time 0. You can now enter a new simulation time in the toolbar field (e.g. 100 ns) and simulate the corresponding time using the `Run for ...` button (showing the time you entered in the field). 
-  * _Note_: Do not use the `Run All` button, because then simulation will run without stopping and you must stop it manually with the `Break` button.
+* However, you will not yet see any signal curves for the new signals. To see them, you must restart the simulator: The Vivado toolbar was expanded above the simulator window when the simulator was started. There you will find several buttons; if you hover the mouse over them, the function is shown. You can use the `Restart` button to reset the simulator to time 0. You can now enter a new simulation time in the toolbar field (e.g. 100 ns) and simulate the corresponding time using the `Run for ...` button (showing the time you entered in the field). 
+* _Note_: Do not use the `Run All` button, because then simulation will run without stopping and you must stop it manually with the `Break` button.
 * You can also enter these commands directly in the _Tcl Console_ which you can find in the lower tab area of the Vivado GUI as shown in the next image (the commands you have entered so far are also displayed there), this can be more practical. The commands are for example: _restart_ and _run 100 ns_. If you enter _run \<time\>_ several times, the simulation will continue accordingly with the time you entered. Only a _restart_ will reset the simulation.
 
 ![Simulation](images/viv_007.png)
@@ -88,6 +90,8 @@
 
 ![Elaboration](images/viv_008.png)
 
+* There is also a so-called _Linter_ avalaible, which can detect problems in your VHDL code. Just push `Run Linter` under _RTL Analysis_ to run the linter. Since the code is correct you should see no problems.
+
 ---
 ## Synthesis
 * The next step is _Synthesis_: It maps the VHDL design onto the components available in the FPGA (flip-flops, look-up tables, multiplexers, RAM). The synthesis can also reveal design errors that may not be visible in the simulation (e.g. incomplete sensitivity lists or incompletely coded IF conditions). It is therefore highly recommended to examine the messages (warnings) of the synthesis in depth.
@@ -96,8 +100,7 @@
 
 ![Synthesis](images/viv_009.png)
 
-* Any warnings or errors will be displayed in the `Messages` tab (bottom tab area). When you switch off the `Info` you will get a better overview over the warnings. There are warnings for every tool and when you select `Synthesis` you should see only one warning `[Synth 8-7080] Parallel synthesis criteria is not met
-`, which means that the design is to small for a parallel synthesis. 
+* Any warnings or errors will be displayed in the `Messages` tab (bottom tab area). When you switch off the `Info` you will get a better overview over the warnings. There are warnings for every tool and when you select `Synthesis` you should see no warning for the current design. 
 * When you later on write your own code then please check in the `Messages` tab that there are no incomplete sensitivity lists or latches caused by incomplete signal assignments. These are not errors, just warnings, i.e. your code will be implemented in hardware, but you may end up with hardware that does not work correctly.
 * In the _Flow Navigator_ under _Synthesis_ click on `Open Synthesized Design`. If you now click on `Schematic` in the _Flow Navigator_ under _Synthesis_, a window will appear with a schematic drawing of the implementation of your code in the target technology, as shown in the next image.
 
@@ -121,19 +124,19 @@
 
 ![Constraints](images/viv_013.png)
 
-* Skip all other dialog windows with `Skip to Finish` and close the last dialog with `Finish`. In the _Sources_ tab open the constraint file `constr.xdc`. You should see here the same constraints as shown in the next image (the order may be different). Check all lines and if there are differences to the image below, then you can correct this in this file. This constraints file is the basis for the following implementation.
+* Skip all other dialog windows with `Skip to Finish` and close the last dialog with `Finish`. In the _Sources_ tab under _Constraints_ open the constraint file `constr.xdc`. You should see here the same constraints as shown in the next image (the order may be different). Check all lines and if there are differences to the image below, then you can correct this in this file. This constraints file is the basis for the following implementation. You can find also a correct constraints file in the `reference_files`.
 
 ![Constraints](images/viv_014.png)
 
-* Finish defining constraints by clicking on the cross in the top right corner of the blue title bar of _Synthesized Design_.
-  * Note: Following this procedure, a synthesis run is first carried out without timing constraints. Global optimization goals are then specified during the synthesis (see synthesis settings). If a timing analysis is carried out after the synthesis (analogous to the procedure after implementation described below), it is reported that no constraints are present (entry _Check Timing_). However, after entering the timing constraints, a synthesis run can then be carried out again, in which case the timing constraints are then taken into account (and in all further synthesis runs). But since a timing analysis after synthesis is rather inaccurate it is better to move to the _implementation_.
+* Finish defining constraints by clicking on the cross in the top right corner of the title bar of _Synthesized Design_.
+* Note: Following this procedure, a synthesis run is first carried out without timing constraints. Global optimization goals are then specified during the synthesis (see synthesis settings). If a timing analysis is carried out after the synthesis (analogous to the procedure after implementation described below), it is reported that no constraints are present (entry _Check Timing_). However, after entering the timing constraints, a synthesis run can then be carried out again, in which case the timing constraints are then taken into account (and in all further synthesis runs). But since a timing analysis after synthesis is rather inaccurate it is better to move to the _implementation_.
 
 ---
 ## Implementation
 
 * In this section, the _implementation_ is run in order to place the components on the FPGA and then do the routing. This process is also called _Place & Route_.
 * In the _Flow Navigator_ under _Implementation_ click on `Run Implementation`. If you get a message saying that the synthesis is _out of date_, click on `Yes`. This will run the synthesis again. Basically, Vivado checks the time stamps of the source files (VHDL codes, constraints, etc.) and restarts the relevant tools that are affected and also runs all the previous steps again. That means if you have changed sources later, it is sufficient to simply click on the last step `Generate Bitstream` again, so that all the necessary previous steps, such as synthesis and implementation, are then run again.
-  * _Note_: When you start the implementation you will be asked for setting _Options_ for the synthesis run. The default is to launch runs on local host (your computer). You can set the number of jobs, which means that the synthesis run (and also the implementation run) will be tried to parallelize in order to use the multi-core architecture of your computer. 
+* _Note_: When you start the implementation you will be asked for setting _Options_ for the synthesis run. The default is to launch runs on local host (your computer). You can set the number of jobs, which means that the synthesis run (and also the implementation run) will be tried to parallelize in order to use the multi-core architecture of your computer. 
 * After completing the implementation, click on `View Reports` and check the messages in the _Messages_ tab. To check whether the _timing constraints_ you specified were met, you can search for _Route Design_ in the _Reports_ tab and open the _Timing Summary Report_ there. 
 * Now open the implemented design by clicking on `Open Implemented Design`. A further tab _Timing_ opens in the tab area at the bottom, in which you can find details about the timing . If you select `Intra Clock Paths` in the navigation window on the left , you can see the _Intra Clock Paths_ tab as shown in the next image. Select `clk` and you can get more detailed information about the critical paths. 
 
@@ -148,9 +151,9 @@
 * In the _Flow Navigator_ under _Program and Debug_ click on `Generate Bitstream` and wait until the bitstream generation is finished.
 * If you have a _Basys 3_ board available, connect it to the development computer with a USB cable and switch the board on.
 * When the bitstream generation is finished, you can click `Open Hardware Manager`. In the upper left corner of the _Hardware Manager_ window, click `Open Target > Auto Connect`. Make sure the board is turned on first!
-  * _Note_: If you can not connect to the board, check that the cable drivers for the board connections have been installed during installation of Vivado. You can find further information [here](https://docs.amd.com/r/en-US/ug973-vivado-release-notes-install-license/Installing-Cable-Drivers).
+* _Note_: If you can not connect to the board, check that the cable drivers for the board connections have been installed during installation of Vivado. You can find further information [here](https://docs.amd.com/r/en-US/ug973-vivado-release-notes-install-license/Installing-Cable-Drivers).
 * You should now see the view shown in the next image. If you now click on `Program Device` (marked in red), you can download the bitstream by clicking on `Program`. The FPGA will now be programmed. When this process is finished, the _DONE_ LED on the board should light up and your design is  ready for testing on the board!
-  * _Note_: If no bit file appears under _Program Device_, it is usually because you may have selected the wrong FPGA type when creating the Vivado project. When the Hardware Manager connects to the FPGA, the type designation is read out (window _Hardware Device Properties_). If this does not match the type designation in the bit file, the bit file is not automatically entered for download. If this has happened, you must go to _Settings_ in the Project Manager and correct the FPGA type (_xc7a35tcpg236-1_) and then go through all the steps again by simply clicking on _Generate Bitstream_.
+* _Note_: If no bit file appears under _Program Device_, it is usually because you may have selected the wrong FPGA type when creating the Vivado project. When the Hardware Manager connects to the FPGA, the type designation is read out (window _Hardware Device Properties_). If this does not match the type designation in the bit file, the bit file is not automatically entered for download. If this has happened, you must go to _Settings_ in the Project Manager and correct the FPGA type (_xc7a35tcpg236-1_) and then go through all the steps again by simply clicking on _Generate Bitstream_.
 
 ![HW Manager](images/viv_016.png)
 

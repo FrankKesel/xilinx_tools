@@ -1,0 +1,146 @@
+/* =========================================================
+   CSS Style Sheet für markdown-pdf
+   ========================================================= */
+
+   /* =========================================================
+   Grundlayout
+   ========================================================= */
+
+body {
+    font-family: "DejaVu Sans", Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.45;
+    color: #222;
+}
+
+/* =========================================================
+   Überschriften
+   ========================================================= */
+
+h1 {
+    font-size: 24pt;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 20pt;
+    page-break-before: always;
+    page-break-after: avoid;
+}
+
+h1:first-child {
+    page-break-before: avoid;
+}
+
+h2 {
+    font-size: 18pt;
+    line-height: 1.25;
+    margin-top: 24pt;
+    margin-bottom: 10pt;
+    page-break-after: avoid;
+    color: #333;
+}
+
+h3 {
+    font-size: 14pt;
+    line-height: 1.3;
+    margin-top: 18pt;
+    margin-bottom: 8pt;
+    page-break-after: avoid;
+    color: #444;
+}
+
+h4 {
+    font-size: 12pt;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    page-break-after: avoid;
+}
+
+/* =========================================================
+   Absätze
+   ========================================================= */
+
+p {
+    margin-top: 0;
+    margin-bottom: 8pt;
+    text-align: justify;
+}
+
+/* =========================================================
+   Links
+   ========================================================= */
+a {
+    color: #0066cc;
+}
+
+
+/* =========================================================
+   Hervorhebung
+   ========================================================= */
+
+strong {
+    color: #a00000;
+    font-weight: bold;
+}
+
+em {
+    color: #26736b;
+    font-style: italic;
+}
+
+/* =========================================================
+   Inline-Code: `reference_files`
+   ========================================================= */
+code {
+    color: #800080 !important;
+    background-color: #e8e8e8 !important;
+}
+
+/* =========================================================
+   Bilder
+   ========================================================= */
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+figure {
+    page-break-inside: avoid;
+}
+
+
+/* =========================================================
+   Horizontale Linie
+   ========================================================= */
+
+hr {
+    border: 0;
+    border-top: 1px solid #aaa;
+    margin: 20pt 0;
+}
+
+
+/* =========================================================
+   Seitenumbrüche
+   ========================================================= */
+
+h2,
+h3,
+h4 {
+    page-break-inside: avoid;
+}
+
+table,
+pre,
+blockquote {
+    page-break-inside: avoid;
+}
+
+/* =========================================================
+   Druckformat
+   ========================================================= */
+
+@page {
+    size: A4;
+    margin: 22mm 20mm 20mm 25mm;
+}

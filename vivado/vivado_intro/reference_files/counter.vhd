@@ -1,25 +1,24 @@
-library IEEE;
-use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.NUMERIC_STD.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
 entity counter is
-    Port ( clk : in STD_LOGIC;
-           reset : in STD_LOGIC;
-           count : in STD_LOGIC;
-           ctr_out : out STD_LOGIC_VECTOR (3 downto 0));
+    port ( clk : in std_logic;
+           reset : in std_logic;
+           count : in std_logic;
+           ctr_out : out std_logic_vector (3 downto 0));
 end counter;
 
-architecture Behavioral of counter is
+architecture behavioral of counter is
 signal counter : unsigned(3 downto 0);
 signal detect : unsigned(1 downto 0);
 signal detected : std_logic;
 begin
 
-ctr: process (clk) --Counter process
+ctr: process (clk) --counter process
 begin
    if clk='1' and clk'event then
       if reset='1' then 
-         --counter <= (others => '0');
          counter <= "0000";
       elsif detected='1' then
          counter <= counter + 1;
@@ -27,7 +26,7 @@ begin
    end if;
 end process; 
 
-edge: process (clk) --Synchronize input signal
+edge: process (clk) --synchronize input signal
 begin
    if clk='1' and clk'event then
       if reset='1' then 
@@ -39,7 +38,7 @@ begin
    end if; 
 end process;
 
-detected <= detect(0) and not detect(1); --Detect rising edge
+detected <= detect(0) and not detect(1); --detect rising edge
 ctr_out <= std_logic_vector(counter);
 
-end Behavioral;
+end behavioral;
