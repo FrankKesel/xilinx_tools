@@ -27,7 +27,7 @@ workspace_dir
 
 ---
 ## Starting Vitis
-* You can launch Vitis in a terminal on the command line by using the following command (replace `<Vitis_Installation_Directory>/` with the path to your Vitis installation which should normally be `/opt/xilinx/Vitis/2024.1/`), where `<workspace>` indicates the workspace mentioned in [Workspaces and components](#workspaces-and-components):
+* You can launch Vitis in a terminal on the command line by using the following command (replace `<Vitis_Installation_Directory>/` with the path to your Vitis installation which should normally be `/opt/xilinx/2026.1/Vitis/`), where `<workspace>` indicates the workspace mentioned in [Workspaces and components](#workspaces-and-components):
 
 ```
 source <Vitis_Installation_Directory>/settings64.sh
@@ -35,7 +35,7 @@ vitis  -w <workspace>
 ```
 
 * Or you can start the Vitis GUI without a workspace with the command `vitis` on the command line and select an existing workspace in the Vitis GUI.
-* For the tutorial make a folder with the file manager (for example in your home directory) to be used as a workspace and start the Vitis GUI as described above. You should see the Vitis GUI as shown in the following image (There are already some recent workspaces in the image which you will not see when you open your Vitis IDE).
+* For the tutorial make a folder with the file manager (for example in your home directory) to be used as a workspace and start the Vitis GUI as described above. You should see the Vitis GUI as shown in the following image.
 
 ![Vitis GUI](images/hls_01.png)
 
@@ -68,15 +68,14 @@ vitis  -w <workspace>
 ![Source page](images/hls_04.png)
 
 
-* The _Select Part_ page of the wizard is opened. It is mandatory to select the correct FPGA part for which the component should be used later on. For this tutorial we use the Artix-7 part as shown in the next image. Proceed with `Next`. 
+* The _Select Part_ page of the wizard is opened. It is mandatory to select the correct FPGA part for which the component should be used later on. For this tutorial we use the Artix-7 part (xc7a15tcpg236-1) as shown in the next image. Proceed with `Next`. 
 
 ![Select part page](images/hls_05.png)
 
 
 * You will now see the _Settings_ page of the wizard. 
-	* The _Settings_ page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%. In this case enter the default clock frequency of 10 ns but change the uncertainty to 2 ns as shown in the image below.
-	* The _Settings_ page also lets you specify the _flow_target_ for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw) in the Xilinx User Guide. The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default _flow_target_ is the Vivado IP flow. Keep these default settings for this tutorial.
-	* Below the _flow_target_ you can also specify the _package.output.format_ for the tool to generate when packaging the design. The default output format is the Vivado IP, which generates a zip-file to be added to your IP catalog, letting you use the HLS generated RTL design in other designs.
+	* The _Settings_ page lets you specify a clock period or frequency for the design, and a clock uncertainty. The default clock for the tool is a clock period of 10 ns (or 100 MHz), and a clock uncertainty of 27%. In this case enter the default clock frequency of 10 ns but set the uncertainty to 2 ns as shown in the image below.
+	* The _Settings_ page also lets you specify the _package.output.format_ for the HLS component build process as being either to generate a Vivado IP or a Vitis kernel as described in [Target Flow Overview](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/P4DbGaxyPEWYEJfsO7o1Dw) in the Xilinx User Guide. The interface requirements of the Vivado IP or a Vitis kernel are different as explained in [Interfaces of the HLS Design](https://docs.amd.com/r/4lwvWeCi9jb~DWzdfWuVQQ/wEdlxulOAT50bjDEn06U5Q). The default is the Vivado IP flow (_ip_catalog_). Keep these default settings for this tutorial.
 	* The data you entered here and above are all stored in the configuration file.
 	* Select `Next` to proceed to the Summary page.
 
@@ -112,7 +111,7 @@ workspace_dir
 * The first step in a HLS project is to verify the correct function of the C code of the component. In order to test the component a _test bench_ is needed, which generates input data for the component and compares the output data with reference data. This is the same approach as in VHDL/Verilog design, the difference is that everything is coded in C/C++. So what we basically do here is to compile the code for the testbench and component and run the compiled code as application. 
 * First open the C sources in Vitis with the _Component Explorer_ and study the code for the component (`fir.c`) and the testbench (`fir_test.c`). In the component code you can see a loop _Shift_Accum_Loop_ which codes the functionality of an FIR filter with a shift register `shift_reg[N]` where the coefficients (argument `c[N]`) are multiplied with the shifted data and accumulated in the variable `acc` and returned via the pointer `y`. It is good practice to label loops in order to be able to identify them during analysis of the HLS synthesis results.  
 * The testbench (`fir_test.c`) defines the coefficients for the FIR filter in the variable `taps[N]`. In line 18 the file `out.gold.dat` is opened which contains the input data and the expected output data for comparison. In the loop the input and reference data is read and the component top level function is called in line 26. Finally the output data generated by the component is compared and an error flag is set, if there are discrepancies. An HLS testbench, i.e. the main function, needs to return a value, which is 0 in case of success and 1 if the output data of the component is not correct. This is important because the C/RTL Co-Simulation uses the same testbench and also checks the output of the generated VHDL or Verilog code against the reference data. This means that an HLS testbench always must be written in such a way that it is self-checking and generates a final pass (0) or fail (1) value as return value.
-* Run the C Simulation by pushing the `Run` button in the _Flow Navigator_ under `C Simulation`. A window will pop up and ask you if you want to enable the _Code Analyzer_, you can disable this feature for this tutorial. After simulation is completed you will see the output of the simulation below the editor window in the console area.  
+* Run the C Simulation by pushing the `Run` button in the _Flow Navigator_ under `C Simulation`. A window will pop up and ask you for some options, insert nothing and push `Run`. After simulation is completed you will see the output of the simulation below the editor window in the console area. You should see the PASS-Message from the testbench.
 * If you write yourself code you may want to use a debugger by pushing the `Debug` button instead of `Run`. Vitis now starts the debugger as shown in the image below. Here you have the standard debugger functions like _Continue_, _Step Over_, _Step Into_ etc. (marked in red). You can also watch the variables (marked in red) or set break points in the source code editor. It is very similar in functionality to the debugger in Visual Studio Code. For more information on the debugger you can consult the [Xilinx User Guide](https://docs.amd.com/r/en-US/ug1399-vitis-hls/Debugging-the-HLS-Component).
 * If you want to stop the debugger then push the red square button (`Stop`). In order to come back to the normal Vitis view, which you had before you started debugging, you have to push (most left pane) the _Vitis Components_ symbol (marked in green) in the tool bar .
 
@@ -121,16 +120,16 @@ workspace_dir
 
 ---
 ## C Synthesis
-* The most important step is the _C Synthesis_, which is in fact the High Level Synthesis (HLS) of the component coded in C/C++. To start the HLS go to the _Flow Navigator_ and push the `Run` button under `C Synthesis`. It will take some seconds depending on the compute power of your machine, when it is finished you will see _Synthesis finished successfully_ in the output console.
+* The most important step is the _C Synthesis_, which is in fact the High Level Synthesis (HLS) of the component coded in C/C++. To start the HLS go to the _Flow Navigator_ and push the `Run` button under `C Synthesis`. In the pop-up window push again `Run`. It will take some seconds depending on the compute power of your machine, when HLS is finished you will see _Synthesis finished successfully_ in the output console.
 * Go to the _Flow Navigator_, expand _REPORTS_ in the _C Synthesis_ section and push `Synthesis`. You should now see the synthesis report as shown in the next image. The most interesting informations are the _Timing Estimate_ and the _Performance & Resource Estimate_. As you can see in the report our constraint was a clock cycle time of _10 ns_ and Vitits estimates the critical path of the component to _6.86 ns_, so we have a slack of _3.14 ns_ which is comfortable. But this is only a rough estimate since the component has not yet be implemented. 
-* In the _Performance & Resource Estimate_ you can see the latency and interval values (16 clock cycles and 11 clock cycles). The latency is the time for one operation of the component, which means one operation lasts _16 x 10 ns = 160 ns_. The _Interval_ (shorthand for _Initiation Interval_) is the number of clock cycles before new inputs can be applied. Since we have 11 cycles for the _Interval_ this means that we could apply new input values before the operation of the component has finished (which takes 16 cycles). 
+* In the _Performance & Resource Estimate_ you can see the latency and interval values (16 clock cycles and 14 clock cycles). The latency is the time for one operation of the component, which means one operation lasts _16 x 10 ns = 160 ns_. The _Interval_ (shorthand for _Initiation Interval_) is the number of clock cycles before new inputs can be applied. Since we have 14 cycles for the _Interval_ this means that we could apply new input values before the operation of the component has finished (which takes 16 cycles). 
 * The performance is mainly determined by the loop, which iterates 11 times (_TRIP COUNT_). Each loop iteration needs 5 clock cycles (_ITERATION LATENCY_). The loop is operated in a pipelined manner, which you can also see in the report in the column _PIPELINED_. This means that loop iterations can start earlier, otherwise we would need _5 x 11 cycles = 55 cycles_ for all iterations. Loop pipelining is always applied automatically, since it is very effective. We will come back on pipelining in another tutorial.  
 
 ![Synthesis report](images/hls_10.png)
 
 * There are some more reports, for example the _Function Call Graph_, which shows you the function hierarchy (not really important for this tutorial). Another important report for analysis of the generated component hardware is the _Schedule Viewer_. If you open it you should see the scheduling of the hardware operation as shown in the next image. 
 * In the first column you will see some cryptic names, these refer to identifiers in the generated VHDL or Verilog code and represent operations in the hardware. In the upper row (marked in red) you will see numbers beginning from 0. These are the so-called _control states_ of the finite state machine (FSM), which controls the operation of the component. One control state equals one clock cycle. You can easily identify the loop _Shift_Accum_Loop_ which takes 5 cycles for one iteration (this corresponds to the value in the synthesis report). With the _Focus_ field (marked in red) you can set the focus to the loop, such that you can only inspect the loop. On the right side you can activate a legend (i-symbol marked in red).
-* Although this view may appear cryptic at a first glance, this is the main tool if you want to understand how the component operates and what could possibly be optimized. From experience the loops and memory accesses determine mainly the performance in terms of clock cycles and with some practice the schedule viewer can be helpful in analyzing the bottlenecks of your design. If you push one of the operations with the left mouse button you will see some green lines which show you the dependencies of the operations, which can be also helpful.
+* Although this view may appear cryptic at a first glance, this is the main tool if you want to understand how the component operates and what could possibly be optimized. The loops and memory accesses determine mainly the performance in terms of clock cycles and with some practice the schedule viewer can be helpful in analyzing the bottlenecks of your design. If you push one of the operations with the left mouse button you will see some green lines which show you the dependencies of the operations, which can be also helpful.
 
 ![Schedule viewer 1](images/hls_11.png)
 
@@ -146,35 +145,21 @@ workspace_dir
 
 ![VHDL code](images/hls_13.png)
 
-* Push the `Run` button in the section _C/RTL COSIMULATION_ in the _Flow Navigator_. When co-simulation has finished you should see the message marked in red in the next image in the console. In the console window there is a navigation area (marked in red) where you can switch between the console outputs of the tools.
-* Under _REPORTS_ select _ Cosimulation_ and you will see the _Performance & Resource Estimates_. If you compare this with the values of the synthesis report you may notice that the initiation interval is 15 cycles and not 11 cycles. If you scroll up in the console output there is a warning related to this problem:
-
-```
-WARNING: [HLS 200-626] This design is unable to schedule all read ports in the first II cycle. The RTL testbench may treat the design as non-pipelined
- ```
-* This is a pipelining issue, which means that new data can only be applied after 15 clock cycles. We will come back on pipelining issues in a later tutorial. 
+* Push the `Run` button in the section _C/RTL COSIMULATION_ in the _Flow Navigator_. In the pop-up window you can select under _hls.cosim.rtl_ if you either would like to verify the Verilog code (default) or the VHDL code. Select _vhdl_ and push `Run`. 
+* When co-simulation has finished you should see the message marked in red in the next image in the console. In the console window there is a navigation area (marked in red) where you can switch between the console outputs of the tools.
 
 ![Cosimulation](images/hls_14.png)
 
-* When you push on _Timeline Trace_ under the reports the timeline trace report is opened as shown in the next image. In our testbench `fir_test.c` we call the `fir` function 26 times and you see there are 26 executions of the hardware component in this view. Each execution needs 15 cycles, and there is always an overlap of 1 cycle, where new data is applied. So the total execution time is 390 cycles for all 26 executions of the component, which gives an average execution time of 15 clock cycles.
-
-![Timeline](images/hls_15.png)
-
-* You can see that there is also an additional report called `Wave Viewer`. This is basically starting the Vivado wave viewer where you could watch the waveform traces of the VHDL/Verilog simulation. It is greyed out by default and would need some special settings in the configuration file. We will skip this here.
+* You can see that there is also an additional report called `Wave Viewer`. This is basically starting the Vivado wave viewer where you could watch the waveform traces of the VHDL/Verilog simulation. It is greyed out by default and would need some special settings in the configuration file or in the pop-up window. We will skip this here.
 
 ---
 ## Package and Implementation
-* The last important step is to export the component as _IP Core_ such that it can be used in Vivado. Go to the _PACKAGE_ section in the _Flow Navigator_ and push `Run` (see image below). After a while you will see the message in the console marked in red which says that a zip-file `fir.zip` was generated in the folder `fir`, where the path is relative to the component folder such that you can find it in `<workspace>/fir/fir/fir.zip`. 
-* In addition the files of the IP Core are also generated in the Output section in the `impl` folder in the _Vitis Component Navigator_ as you can see in the image below (the true file path to this folder is `<workspace>/fir/fir/hls/impl`).
-
-![Package](images/hls_16.png)
+* The last important step is to export the component as _IP Core_ such that it can be used in Vivado. Go to the _PACKAGE_ section in the _Flow Navigator_ and push `Run` (see image below). Skip the entries in the pop-up window and push `Run` again. After a while you will see the message in the console marked in red which says that a zip-file `fir.zip` was generated in the folder `fir`, where the path is relative to the component folder such that you can find it in `<workspace>/fir/fir/fir.zip`. 
+* In addition the files of the IP Core are also generated in the Output section in the `impl` folder in the _Vitis Component Navigator_.
 
 * In order to use the IP Core in Vivado you have to include the folder `<workspace>/fir/fir` as a _repository_ in Vivado. Then you can use the IP Core in an _IP Integrator_ block diagram as shown in the image below. There are some options for the export which can all be specified in the configuration file, for more details refer to the [Vitis HLS documentation](https://docs.amd.com/r/en-US/ug1399-vitis-hls/Packaging-the-RTL-Design).
 
 ![Vivado](images/hls_17.png)
 
-* The very last step in the _Flow Navigator_ is _IMPLEMENTATION_, which is optional. If you push `Run` then logic synthesis and implementation (place&route) is run by running the corresponding Vivado tools in the background. Although it is not necessary to run the implementation (and it can take some time) it gives you the real numbers on resource usage and the critical path of the component. In the following image you see the results (report _Place and Route_) of the implementation in terms of resource usage and timing. You can see that the critical path (_CP_) is 5.692 ns and that is below that what HLS estimated (6.86 ns), so the estimate was too pessimistic. Finally things can change again with respect to the critical path when the component is embedded into a larger design in Vivado, but the target clock cycle of 10 ns should be safely achievable.
-
-![Vivado](images/hls_18.png)
-
+* The very last step in the _Flow Navigator_ is _IMPLEMENTATION_, which is optional. If you push `Run` then logic synthesis and implementation (place&route) is run by running the corresponding Vivado tools in the background. Although it is not necessary to run the implementation (and it can take some time) it gives you the real numbers on resource usage and the critical path of the component. 
 

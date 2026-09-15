@@ -2,7 +2,7 @@
 
 Here you can find tutorials for the Xilinx Vitis HLS tool. For each tutorial you will find a documentation and the source codes and scripts (for each tutorial in a folder `reference_files`).
 
-The Vitis tool version used is 2024.1. We assume that you have an installation on a Linux computer running Ubuntu 22.04.
+The Vitis tool version used is 2026.1. We assume that you have an installation on a Linux computer running Ubuntu 24.04.
 
 ---
 ## Vitis HLS Tutorials

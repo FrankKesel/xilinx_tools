@@ -10,33 +10,31 @@
 ## Running the bash scripts
 * First download the complete folder `tutorial_01/reference_files` to your computer and rename the folder `reference_files` to `tutorial_01`. This folder will later on be your workspace which you will open in the Vitis GUI.
   * You can either download this whole Github repository or only the folder `reference_files` using a browser extension like [GitZip](https://gitzip.org).
-* We will first explain the folder structure of the workspace folder `tutorial_01`. In the workspace folder you find a bash script `run_demo.sh` which basically starts the two bash scripts `sol1.sh` and `sol2.sh` in the sub-folders `sol1` and `sol2`. These sub-folders hold the two variants or solutions (which are in the Vitis terminology two _components_ as explained above). What is also very important is the fact that all solutions use the same source code files in the folder `src`. This folder therefore must not be stored in a component folder but on the workspace level as shown below.
+* We will first explain the folder structure of the workspace folder `tutorial_01`. In the workspace folder you find two bash scripts `sol1.sh` and `sol2.sh`, which are used to run the two solutions. The solutions are stored in the folders `sol1` and `sol2`. In these folders the configuration files for the solutions are also stored.
+* All solutions use the same source code files in the folder `src`. This folder therefore must not be stored in a component folder but on the workspace level as shown below.
 
 ```
 tutorial_01
-    run_demo.sh
+    sol1.sh
+	sol2.sh
 	|-src
         ... (sources)
 	|-sol1
-		|-sol1_work
 		sol1_config.cfg
-        sol1.sh
 	|-sol2
-		|-sol2_work
 		sol2_config.cfg
-        sol2.sh
 ```
-* If you look into the bash script `sol1.sh` (`sol2.sh` is basically the same for `sol2`) you will find the following code. The first line says that this is a script to be executed as bash shell script. The second line sources the necessary settings from the Vitis installation. In the third line Vitis HLS is executed in script mode and with the `--config` switch we tell Vitis to use the configuration file, which can be found in the same folder. The last switch `--work_dir` specifies that this directory should be used for all output of Vitis. Do not confuse this directory with the Vitis workspace directory (which is in fact a bit confusing) which is the root directory `tutorial_01` in which we have the two components. 
+* If you look into the bash script `sol1.sh` (`sol2.sh` is basically the same for `sol2`) you will find the following code. The first line says that this is a script to be executed as bash shell script. The second line sources the necessary settings from the Vitis installation (check that this is the same path on your computer). In the third line Vitis HLS is executed in script mode and with the `--config` switch we tell Vitis to use the configuration file, which can be found in the solution folder. The last switch `--work_dir` specifies that this directory should be used for all output of Vitis. Do not confuse this directory with the Vitis workspace directory which is the root directory `tutorial_01` in which we have the two components. 
  
 ```
 #!/bin/bash
-source /opt/xilinx/Vitis/2024.1/settings64.sh
-v++ -c --mode hls --config ./sol1_config.cfg --work_dir sol1_work
+source /opt/xilinx/2026.1/Vitis/settings64.sh
+v++ -c --mode hls --config ./sol1/sol1_config.cfg --work_dir sol1
 ```
 
-* Before you can run the shell scripts you have to make them executable with `sudo chmod a+x run_demo.sh` (in a Linux terminal) and the same also for the two sub-scripts `sol1.sh` and `sol2.sh`.
-* Then go back to the workspace directory `tutorial_01` and execute the top-level script with `./run_demo.sh` (in a Linux terminal). You should now see the output of Vitis while it is executed. Basically the HLS step is executed for both variants.
-* When Vitis is finished open the Vitis GUI. On the Welcome page under _Get Started_ push the `Open Workspace` button. Navigate to the workspace folder `tutorial_01` and select it. Now you should see the opened workspace as in the following image. In the _Vitis Components Explorer_ you can see two components `sol1` and `sol2`, `sol1` is selected in the _Flow Navigator_. For both components `C SYNTHESIS` has already been executed. 
+* Before you can run the shell scripts you have to make them executable with `sudo chmod a+x sol1.sh` (in a Linux terminal) and the same also for `sol2.sh`. Then execute the scripts with `./sol1.sh` (and afterwards `./sol2.sh`) in a Linux terminal. You should now see the output of Vitis while it is executed. Basically the HLS step is executed for both variants.
+* When Vitis is finished open the Vitis GUI. On the Welcome page under _Get Started_ push the `Set Workspace` button. Navigate to the workspace folder `tutorial_01` and select it. Push `Update` in the next window.
+* Now you should see the opened workspace as in the following image. In the _Vitis Components Explorer_ you can see two components `sol1` and `sol2`, `sol1` is selected in the _Flow Navigator_. For both components `C SYNTHESIS` has already been executed. 
 
 ![Vitis GUI with opened workspace](images/hls_30.png)
  
@@ -61,7 +59,7 @@ v++ -c --mode hls --config ./sol1_config.cfg --work_dir sol1_work
 
 ![Vitis GUI sol 2](images/hls_34.png)
 
-* The difference to [tutorial 1](tutorial_01.md#c-synthesis) can be explained if you look into the configuration file as shown in the next image (shown in text mode). There is an option `syn.compile.enable_auto_rewind=0` which disables the so-called _rewind_ option for pipelined loops (see https://docs.amd.com/r/en-US/ug1399-vitis-hls/Rewinding-Pipelined-Loops-for-Performance). This was enabled by default in [tutorial 1](tutorial_01.md#c-synthesis) and enables overlapping of successive calls to the function or component, which means that new input values could be applied earlier to the component. But, as we discussed in [tutorial 1](tutorial_01.md#crtl-cosimulation), there may be problems in the interfacing leading in sub-optimal operation of the component and thus the _auto rewind_ option may be useless. If you switch this option off, then you might save some hardware resources.
+* The difference to [tutorial 1](tutorial_01.md#c-synthesis) can be explained if you look into the configuration file as shown in the next image (shown in text mode). There is an option `syn.compile.enable_auto_rewind=0` which disables the so-called _rewind_ option for pipelined loops (see https://docs.amd.com/r/en-US/ug1399-vitis-hls/Rewinding-Pipelined-Loops-for-Performance). This was enabled by default in [tutorial 1](tutorial_01.md#c-synthesis) and enables overlapping of successive calls to the function or component, which means that new input values could be applied earlier to the component. 
 
 ![Vitis GUI sol 2 config](images/hls_35.png)
 
@@ -75,11 +73,13 @@ v++ -c --mode hls --config ./sol1_config.cfg --work_dir sol1_work
 ---
 ## Adding solutions to an existing workspace in the Vitis GUI
 * If you have setup a project/workspace with scripts, as described above, you can add additional solutions also from the Vitis GUI. This can be done by either setting up a new component as described in [tutorial 1](tutorial_01.md#creating-a-hls-component) where the component location is the workspace which has been setup with the scripts and the component uses the same source code files as the other components in the workspace. A much faster way is by _cloning_ a component. In the following we will add an additional solution `sol3` to our workspace `tutorial_01` by cloning `sol2`.
-* Select component `sol2` in the _Vitis Components Explorer_ and push the right mouse button, there should be an entry `Clone Component`. When you push this entry you should see a dialog as shown in the next image. Enter the name `sol3`. This will create the component in the sub-folder `sol3` and copies basically the configuration file from `sol2`, which then has the same name. It will refer to the same source code files as `sol2`. 
+* Select component `sol2` in the _Vitis Components Explorer_ and push the right mouse button, there should be an entry `Clone Component`. When you push this entry you should see a dialog as shown in the next image. Enter the name `sol3`. This will create the component in the sub-folder `sol3` and copies basically the configuration file from `sol2`, which then has unfortunately the same name (`sol2_config.cfg`). It will refer to the same source code files as `sol2`. You can see in the dialog that the source files are not copied. Although the configuration file has the same name, it is a different one since it is stored in the `sol3` directory.
 
 ![Vitis GUI additional component](images/hls_37.png)
 
-* Edit the configuration file of `sol3` (in _Source Editor_ view) and delete the entry `syn.compile.enable_auto_rewind=0`. Then run _C Synthesis__ in the _Flow Navigator_ and finally compare all 3 solutions, as shown in the next image. Solution `sol3` uses the default optimizations _loop pipelining_ and _auto rewind_ as discussed above. When you compare `sol2` and `sol3` you can see that `sol3` needs considerably more flipflops and LUTs for the _auto rewind_ optimization, as we have already mentioned above. 
+* You can also generate a new solution by copying the configuration file to a new solution directory (where you should rename the configuration file it) and then copying the shell script from the previous solution. 
+
+* Edit the configuration file of `sol3` (in _Source Editor_ view) and delete the entry `syn.compile.enable_auto_rewind=0`. Then run _C Synthesis__ in the _Flow Navigator_ and finally compare all 3 solutions, as shown in the next image. Solution `sol3` uses the default optimizations _loop pipelining_ and _auto rewind_ as discussed above. When you compare `sol2` and `sol3` you can see that `sol3` needs considerably more flipflops and LUTs for the _auto rewind_ optimization. 
 
 ![Solution comparison](images/hls_38.png)
 
