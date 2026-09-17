@@ -51,7 +51,7 @@ v++ -c --mode hls --config ./sol1/sol1_config.cfg --work_dir sol1
 ![Vitis GUI config file](images/hls_32.png)
 
 * When you scroll down on the left side to the the entry _Compile_ you can see compilation options. Scroll down on the right side until you see the entry `compile.pipeline_loops`. This is set to `0` which means that the loop will not be pipelined. Normally loops are automatically pipelined, which has led to the optimized results in [tutorial 1](tutorial_01.md#c-synthesis). Although it absolutely makes sense to pipeline loops, by switching off this setting you can study what would be the result if loops are not pipelined and what you can gain when you pipeline the loops by setting this to `1` (which means that loops with a tripcount of more than 1 will be pipelined).
-* With the symbol marked in red in the next image you can switch between the _Source Editor_ view of the configuration file and the rendered graphical version (called _Settings Form_) from the previous image. You can see that the compile option discussed previously is stored as `syn.compile.pipeline_loops=0`. Every change you make in the _Settings Form_ view will be immediately stored in the configuration file `sol1_config.cfg`, which means that you can enter the options also in the source editor directly. The configuration file contains every option you entered and therefore is one of the most important file besides the C code files.  
+* With the symbol marked in red in the next image you can switch between the _Source Editor_ view of the configuration file and the rendered graphical version (called _Settings Form_) from the previous image. You can see that the compile option discussed previously is stored as `syn.compile.pipeline_loops=0`. Every change you make in the _Settings Form_ view will be immediately stored in the configuration file `sol1_config.cfg`, which means that you can enter the options also in the source editor directly. The configuration file contains every option you entered and therefore is one of the most important files besides the C code files.  
 
 ![Vitis GUI config file text](images/hls_33.png)
 
@@ -77,7 +77,7 @@ v++ -c --mode hls --config ./sol1/sol1_config.cfg --work_dir sol1
 
 ![Vitis GUI additional component](images/hls_37.png)
 
-* You can also generate a new solution by copying the configuration file to a new solution directory (where you should rename the configuration file it) and then copying the shell script from the previous solution. 
+* You can also generate a new solution by copying the configuration file to a new solution directory (where you should rename the configuration file) and then copying the shell script from the previous solution. 
 
 * Edit the configuration file of `sol3` (in _Source Editor_ view) and delete the entry `syn.compile.enable_auto_rewind=0`. Then run _C Synthesis__ in the _Flow Navigator_ and finally compare all 3 solutions, as shown in the next image. Solution `sol3` uses the default optimizations _loop pipelining_ and _auto rewind_ as discussed above. When you compare `sol2` and `sol3` you can see that `sol3` needs considerably more flipflops and LUTs for the _auto rewind_ optimization. 
 

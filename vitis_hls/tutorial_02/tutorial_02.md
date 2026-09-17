@@ -10,7 +10,7 @@
 
 ## Setting up the component and applying loop pipelining
 * Download the folder `tutorial_02/reference_files` and rename this folder to `tutorial_02`. You will now have a similar folder structure as in [tutorial 1b](../tutorial_01/tutorial_01_b.md) but now we have only one solution or component which we will modify in the Vitis GUI. 
-* Open a Linux terminal, go to the folder `tutorial_02` and execute the bash script `run_demo.sh`. Then start the Vitis GUI and open the workspace `tutorial_02`. Since synthesis has already been run you can open the synthesis report as it is shown in the following image.
+* Open a Linux terminal, go to the folder `tutorial_02` and execute the bash script `sol1.sh`. Then start the Vitis GUI and open the workspace `tutorial_02` (Push `Update` in the dialog). Since synthesis has already been run you can open the synthesis report as it is shown in the following image.
 
 ![Vitis GUI with opened workspace](images/hls_50.png)
 
