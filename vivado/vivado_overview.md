@@ -2,7 +2,7 @@
 
 Here you can find tutorials for the Xilinx Vivado tool. For each tutorial you will find a documentation and the source codes and scripts (for each tutorial in a folder `reference_files`).
 
-The Vivado/Vitis tool version used is 2024.1. We assume that you have an installation on Windows or on a Linux computer running Ubuntu 22.04.
+The Vivado/Vitis tool version used is 2026.1. We assume that you have an installation on Windows or on a Linux computer running Ubuntu 24.04.
 
 ---
 ## Vivado Tutorials
