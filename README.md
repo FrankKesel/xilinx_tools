@@ -9,8 +9,12 @@ It is assumed that the Vitis Core Development Kit is installed on a Linux comput
 The Linux machine should run Ubuntu 24.04. The Vitis version used in the tutorials is 2026.1. It is assumed that Vitis was installed to the path `/opt/xilinx/`. If you installed the software to another path you may have to change paths in some of the scripts accordingly.
 
 
+
 [Vitis HLS Tutorials](vitis_hls/hls_overview.md)
 
 [Kria KV260 Tutorials](kria/kria_overview.md)
 
 [Vivado Tutorials](vivado/vivado_overview.md)
+
+
+Updated: 01.10.2026
