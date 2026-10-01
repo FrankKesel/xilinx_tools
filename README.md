@@ -17,4 +17,4 @@ The Linux machine should run Ubuntu 24.04. The Vitis version used in the tutoria
 [Vivado Tutorials](vivado/vivado_overview.md)
 
 
-Updated: 01.10.2026
+Updated: 01.10.2026, 14:00
